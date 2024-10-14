@@ -49,10 +49,11 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
-        // console.log(action.payload)
+        console.log(action.payload)
+        state.role = action.payload.role;
         state.isAuth = true;
         storeUser(action.payload);
-        // console.log(state.role)
+        console.log(state.role)
 
       })
       .addCase(login.rejected, (state, action) => {

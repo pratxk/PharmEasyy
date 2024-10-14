@@ -46,7 +46,7 @@ const SingleOrder = () => {
     }
 
     return (
-        <section className="max-w-2xl m-10 mx-auto p-10 bg-white rounded-2xl shadow-md">
+        <section className="max-w-2xl m-10 mx-auto p-10 bg-white rounded-2xl shadow-md h-[100vh]">
             <header className="text-left mb-6">
                 <h1 className="text-3xl font-bold text-gray-800">Order ID: {singleOrderItem._id}</h1>
                 <div className="mt-2">

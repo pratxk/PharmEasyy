@@ -38,6 +38,24 @@ medicineRouter.get('/', async (req, res) => {
     }
 });
 
+medicineRouter.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const medicine = await medicineModel.findById(id);
+        if (!medicine) {
+            return res.status(404).json({ message: 'Medicine not found' });
+        }
+        res.json(medicine);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error fetching medicine',
+            error: error.message
+        });
+    }
+});
+
+
 
 medicineRouter.post('/add-medicine', [auth, checkAdmin], async (req, res) => {
   const { name, developedBy, maxMonthsExpiry, category, imageUrl, stock, price } = req.body;
