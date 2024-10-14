@@ -3,7 +3,9 @@ const medicineRouter = express.Router();
 const medicineModel = require('../models/medicine.model');
 const auth = require('../middlewares/auth.middleware'); 
 const checkAdmin = require('../middlewares/checkAdmin.middleware'); 
+
 const medicineController = require('../controllers/medicine.controller');
+
 
 // GET: Fetch all medicines
 medicineRouter.get('/', medicineController.getAllMedicines);
@@ -20,4 +22,6 @@ medicineRouter.patch('/update-medicine/:id', [auth, checkAdmin], medicineControl
 // DELETE: Remove a medicine by ID
 medicineRouter.delete('/delete-medicine/:id', [auth, checkAdmin], medicineController.deleteMedicine);
 
+
 module.exports = medicineRouter;
+

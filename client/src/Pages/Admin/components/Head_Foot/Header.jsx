@@ -39,7 +39,9 @@ const AdminHeader = () => {
                     <Link to="/admin/orders">
                         <Text _hover={{ color: "red" }}>Orders</Text>
                     </Link>
+
                     <Link to="/admin/users">
+
                         <Text _hover={{ color: "red" }}>Users</Text>
                     </Link>
                     <Link to="/admin/add-medicine">
@@ -51,7 +53,9 @@ const AdminHeader = () => {
                                 bg='green'
                                 name={user.email}
                                 cursor="pointer"
+
                                 onClick={() => navigate("/admin/profile")}
+
                             />
                             <Button colorScheme="red" onClick={handleLogout}>Log Out</Button>
 
@@ -66,6 +70,7 @@ const AdminHeader = () => {
 
             {/* Collapse component for the menu */}
             <Collapse in={isOpen} animateOpacity>
+
                 <Box alignItems="center" display={{ base: 'flex', lg: "none" }} gap={4} flexWrap='wrap'>
                 <Link to="/admin">
                         <Text _hover={{ color: "red" }}>Dashboard</Text>
@@ -95,6 +100,7 @@ const AdminHeader = () => {
                             Login/Sign Up
                         </Button>
                     )}
+
                 </Box>
             </Collapse>
         </Box>

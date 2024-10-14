@@ -8,6 +8,7 @@ const CartSummary = ({ cart, handleCheckout, checkout }) => {
 
     return (
         <div className="flex flex-col bg-white shadow-md rounded-lg p-4  w-[30em] ml-5   ">
+
             <h2 className="text-xl font-bold mb-2">Cart Summary</h2>
             <table className="w-full mb-4">
                 <thead>

@@ -10,10 +10,13 @@ const OrdersTable = ({ data }) => {
     };
 
     const handleUpdateClick = (orderId) => {
+
+
         navigate(`/admin/orders/${orderId}`); // Adjust the path to match your routing
     };
 
     return (
+
         <div className="overflow-x-auto">
             <table className="min-w-full border-collapse border border-gray-200">
                 <thead>
@@ -82,6 +85,7 @@ const OrdersTable = ({ data }) => {
                 </tbody>
             </table>
         </div>
+
     );
 };
 
