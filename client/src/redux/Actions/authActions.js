@@ -51,3 +51,50 @@ export const logout = createAsyncThunk(
     }
   );
   
+
+  //  fetching current user
+export const fetchCurrentUser = createAsyncThunk('auth/fetchCurrentUser', async (_, { rejectWithValue }) => {
+  try {
+      const token = JSON.parse(localStorage.getItem('token'));
+      const config = {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      };
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/me`, config);
+      return response.data;
+  } catch (error) {
+      return rejectWithValue(error.message); 
+  }
+});
+
+// New action for fetching all users
+export const fetchAllUsers = createAsyncThunk('auth/fetchAllUsers', async (_, { rejectWithValue }) => {
+  try {
+      const token = JSON.parse(localStorage.getItem('token'));
+      const config = {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      };
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/get-all-users`, config);
+      return response.data;
+  } catch (error) {
+      return rejectWithValue(error.message); 
+  }
+});
+
+export const deleteUser = createAsyncThunk('auth/deleteUser', async(id,{rejectWithValue})=>{
+  try {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    }
+    const response = await axios.delete(`${import.meta.env.VITE_BACKEND_API}/auth/delete-user/${id}`,config);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+})

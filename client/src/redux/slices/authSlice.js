@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, register } from "../Actions/authActions";
+import { login, logout, register, fetchCurrentUser, fetchAllUsers, deleteUser } from "../Actions/authActions";
 
 // Helper functions for localStorage handling
 function getStoredUser() {
@@ -21,17 +21,20 @@ function removeUser() {
 // Initial state
 const initialState = {
   user: getStoredUser(),
+  singleUser: {},
+  allUsers: [],
   isAuth: !!getStoredUser(),
-  role:'',
+
+  role: '',
+
   error: null,
-  isRegistered:false
+  isRegistered: false,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state) => {
@@ -43,7 +46,6 @@ const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.error = action.payload;
       })
-
       .addCase(login.pending, (state) => {
         state.error = null;
       })
@@ -59,7 +61,6 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.error = action.payload;
       })
-
       .addCase(logout.pending, (state) => {
         state.error = null;
       })
@@ -71,7 +72,38 @@ const authSlice = createSlice({
       })
       .addCase(logout.rejected, (state, action) => {
         state.error = action.payload;
-      });
+      })
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.singleUser = action.payload;
+      })
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(fetchAllUsers.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        state.allUsers = action.payload;
+      })
+      .addCase(fetchAllUsers.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      
+      .addCase(deleteUser.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        if (state.allUsers) {
+          state.allUsers = state.allUsers.filter((item) => item._id !== action.payload.deletedItem._id);
+        }
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      
   }
 });
 

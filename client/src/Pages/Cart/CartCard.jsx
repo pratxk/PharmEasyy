@@ -25,7 +25,7 @@ const CartCard = ({ cartItem }) => {
   };
 
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
       <Link to={`/medicine/${_id}`} className="block">
         <img
           className="p-5 rounded-t-lg w-[50%] mx-auto"

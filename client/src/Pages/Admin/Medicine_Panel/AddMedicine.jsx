@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+
 import { useDispatch } from 'react-redux';
 import { addMedicine } from '../../../redux/Actions/medicineActions';
 import { useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const AddMedicine = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const toast = useToast();
     const [formData, setFormData] = useState({
         name: '',
@@ -17,32 +20,86 @@ const AddMedicine = () => {
         price: ''
     });
 
+    const [errors, setErrors] = useState({}); // State for validation errors
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value
         }));
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: '' // Clear error on change
+        }));
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        const { name, developedBy, category, imageUrl, maxMonthsExpiry, stock, price } = formData;
+
+        // Validate name
+        if (!/^[A-Za-z\s]+$/.test(name)) {
+            newErrors.name = 'Medicine name must be a valid word.';
+        }
+
+        // Validate developedBy
+        if (!/^[A-Za-z\s]+$/.test(developedBy)) {
+            newErrors.developedBy = 'Company name must be a valid word.';
+        }
+
+        // Validate category
+        if (!/^[A-Za-z\s]+$/.test(category)) {
+            newErrors.category = 'Category must be a valid word.';
+        }
+
+        // Validate imageUrl
+        if (!/^https?:\/\/.+\..+/.test(imageUrl)) {
+            newErrors.imageUrl = 'Image URL must be a valid URL.';
+        }
+
+        // Validate maxMonthsExpiry, stock, and price to be numbers
+        if (!/^\d+$/.test(maxMonthsExpiry)) {
+            newErrors.maxMonthsExpiry = 'Max Months Expiry must be a number.';
+        }
+
+        if (!/^\d+$/.test(stock)) {
+            newErrors.stock = 'Stock must be a number.';
+        }
+
+        if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+            newErrors.price = 'Price must be a valid number.';
+        }
+
+        return newErrors;
+
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return; // Stop submission if errors exist
+        }
+
         try {
-            dispatch(addMedicine(formData))
-            .then((result) => {
-                if (result.meta.requestStatus === 'fulfilled') {
-                    toast({ description: 'Item added to Database', status: 'success' });
-                }
-            });
-            setFormData({
-                name: '',
-                developedBy: '',
-                maxMonthsExpiry: '',
-                category: '',
-                imageUrl: '',
-                stock: '',
-                price: ''
-            });
+            const result = await dispatch(addMedicine(formData));
+            if (result.meta.requestStatus === 'fulfilled') {
+                toast({ description: 'Item added to Database', status: 'success' });
+                setFormData({
+                    name: '',
+                    developedBy: '',
+                    maxMonthsExpiry: '',
+                    category: '',
+                    imageUrl: '',
+                    stock: '',
+                    price: ''
+                });
+            }
+
         } catch (error) {
             console.error('Error adding medicine:', error);
         }
@@ -69,6 +126,9 @@ const AddMedicine = () => {
                                 placeholder="Aspirin"
                                 required
                             />
+
+                            {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="developedBy" className="text-sm font-medium text-gray-900 block mb-2">Developed By</label>
@@ -82,6 +142,9 @@ const AddMedicine = () => {
                                 placeholder="Company Name"
                                 required
                             />
+
+                            {errors.developedBy && <p className="text-red-500 text-xs">{errors.developedBy}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="maxMonthsExpiry" className="text-sm font-medium text-gray-900 block mb-2">Max Months Expiry</label>
@@ -95,6 +158,9 @@ const AddMedicine = () => {
                                 placeholder="12"
                                 required
                             />
+
+                            {errors.maxMonthsExpiry && <p className="text-red-500 text-xs">{errors.maxMonthsExpiry}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="category" className="text-sm font-medium text-gray-900 block mb-2">Category</label>
@@ -108,6 +174,9 @@ const AddMedicine = () => {
                                 placeholder="Pain Reliever"
                                 required
                             />
+
+                            {errors.category && <p className="text-red-500 text-xs">{errors.category}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="imageUrl" className="text-sm font-medium text-gray-900 block mb-2">Image URL</label>
@@ -121,6 +190,9 @@ const AddMedicine = () => {
                                 placeholder="https://example.com/image.jpg"
                                 required
                             />
+
+                            {errors.imageUrl && <p className="text-red-500 text-xs">{errors.imageUrl}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="stock" className="text-sm font-medium text-gray-900 block mb-2">Stock</label>
@@ -134,6 +206,9 @@ const AddMedicine = () => {
                                 placeholder="100"
                                 required
                             />
+
+                            {errors.stock && <p className="text-red-500 text-xs">{errors.stock}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="price" className="text-sm font-medium text-gray-900 block mb-2">Price</label>
@@ -147,10 +222,13 @@ const AddMedicine = () => {
                                 placeholder="$20"
                                 required
                             />
+
+                            {errors.price && <p className="text-red-500 text-xs">{errors.price}</p>}
                         </div>
                     </div>
-                    <div className="p-6 border-t border-gray-200 rounded-b">
+                    <div className="p-6 border-t border-gray-200 flex gap-3 rounded-b">
                         <button className="text-white bg-gray-950 hover:bg-gray-900 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="submit">Add Medicine</button>
+                        <button className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" onClick={() => navigate('/admin')}>Cancel</button>
                     </div>
                 </form>
             </div>

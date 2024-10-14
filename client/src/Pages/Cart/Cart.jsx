@@ -40,7 +40,7 @@ export default function Cart() {
   }
 
   return (
-    <div className="overflow-hidden p-4">
+    <div className="overflow-hidden p-4 h-[100vh]">
       <Heading
         text="Cart"
         textColor="primary"
@@ -51,7 +51,7 @@ export default function Cart() {
       <button className='bg-red-500 text-white font-bold rounded-lg shadow-lg p-4 my-3' onClick={handleDeleteCart}>Delete Cart</button>) : ''}
       <div className="flex justify-between items-start mb-4">
         {cart?.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             {cart.map((cartItem) => (
               <CartCard key={cartItem._id} cartItem={cartItem} />
             ))}

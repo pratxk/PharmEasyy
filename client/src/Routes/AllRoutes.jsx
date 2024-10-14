@@ -20,6 +20,10 @@ import SingleOrder from '../Pages/Admin/Orders/SingleOrder'
 import AddMedicine from '../Pages/Admin/Medicine_Panel/AddMedicine'
 import UpdateMedicine from '../Pages/Admin/Medicine_Panel/UpdateMedicine'
 
+import User from '../Pages/Admin/Users/User'
+import AdminProfile from '../Pages/Admin/Profile/AdminProfile'
+
+
 const router = createBrowserRouter([
     {
         path: '/',
@@ -118,6 +122,15 @@ const router = createBrowserRouter([
                 element: <UpdateMedicine />,
             },
             {
+                path: '/admin/profile',
+                element: <AdminProfile />,
+            },
+            {
+                path: '/admin/users',
+                element:<User/>
+            },
+            {
+
                 path: '/admin/orders',
                 element: <Orders />,
             },

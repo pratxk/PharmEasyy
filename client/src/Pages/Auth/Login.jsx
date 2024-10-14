@@ -6,13 +6,17 @@ import { login } from '../../redux/Actions/authActions';
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuth, error,user } = useSelector((state) => state.auth); // Added error to state
+
+  const { isAuth, error, user } = useSelector((state) => state.auth);
+
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    remember: false, // Initialize remember
+    remember: false,
   });
+
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
@@ -22,15 +26,38 @@ function Login() {
     }));
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required.';
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Invalid email format.';
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required.';
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({}); 
     dispatch(login(formData));
   };
 
-  // Redirect if authenticated
   useEffect(() => {
     if (isAuth) {
-      if(user.role === 'admin'){
+      if (user.role === 'admin') {
+
         navigate('/admin');
         return;
       }
@@ -42,7 +69,7 @@ function Login() {
     <div className="w-full mx-auto overflow-hidden my-24 max-w-sm p-4 bg-white border  border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
       <form className="space-y-6" onSubmit={handleSubmit}>
         <h5 className="text-xl font-medium text-gray-900 dark:text-white">Log in to our platform</h5>
-        {error && <p className="text-red-500">{error}</p>} {/* Error handling */}
+        {error && <p className="text-red-500">{error}</p>}
 
         <div>
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
@@ -56,6 +83,7 @@ function Login() {
             placeholder="name@company.com"
             required
           />
+          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
         </div>
         <div>
           <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
@@ -69,6 +97,7 @@ function Login() {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
           />
+          {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
         </div>
         <div className="flex items-start">
           <div className="flex items-start">

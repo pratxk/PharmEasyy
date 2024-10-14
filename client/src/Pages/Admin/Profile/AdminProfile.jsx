@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrentUser } from '../../redux/Actions/authActions';
+import { fetchCurrentUser } from '../../../redux/Actions/authActions';
 
-const Profile = () => {
+const AdminProfile = () => {
     const dispatch = useDispatch();
     const { singleUser, error, isAuth } = useSelector((state) => state.auth);
 
@@ -17,9 +17,9 @@ const Profile = () => {
     }
 
     return (
-        <div className="w-[100vw] h-[100vh] bg-white shadow-md rounded-lg overflow-hidden m-10">
-            <div className="p-6">
-                <h2 className="text-2xl font-semibold text-gray-800">User Profile</h2>
+        <div className="h-[100vh] w-[99vw] m-10 bg-white shadow-md rounded-lg overflow-hidden ">
+            <div className="p-10 ">
+                <h2 className="text-2xl font-semibold text-gray-800">Admin Profile</h2>
                 <div className="mt-4">
                     <p className="text-gray-600"><strong>First Name:</strong> {singleUser.first_name}</p>
                     <p className="text-gray-600"><strong>Last Name:</strong> {singleUser.last_name}</p>
@@ -33,4 +33,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default AdminProfile;

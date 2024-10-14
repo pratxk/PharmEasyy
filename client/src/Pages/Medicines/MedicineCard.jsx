@@ -45,7 +45,7 @@ const MedicineCard = ({ item, inCart, quantity }) => {
     };
 
     return (
-        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
             <Link to={`/medicine/${item._id}`}>
                 <img className="p-5 rounded-t-lg w-[50%]" src={item.imageUrl} alt={item.name} />
             </Link>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'; // Import the Redux hook
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/Actions/authActions';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function SignUp() {
   const dispatch = useDispatch();
-  const {isRegistered} = useSelector((state) => state.auth);
+  const { isRegistered } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -16,6 +16,8 @@ function SignUp() {
     ph_no: '',
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,13 +26,41 @@ function SignUp() {
     }));
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!formData.first_name) newErrors.first_name = 'First name is required.';
+    if (!formData.last_name) newErrors.last_name = 'Last name is required.';
+    if (!formData.email) {
+      newErrors.email = 'Email is required.';
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Invalid email format.';
+    }
+    if (!formData.password) {
+      newErrors.password = 'Password is required.';
+    } else if (!passwordRegex.test(formData.password)) {
+      newErrors.password = 'Password must be at least 8 characters long and include at least one letter, one number, and one special character.';
+    }
+    if (!formData.ph_no) newErrors.ph_no = 'Phone number is required.';
+
+    return newErrors;
+  };
+
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    console.log(formData)
+    e.preventDefault();
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    
+    setErrors({}); // Clear previous errors
     dispatch(register(formData));
   };
 
-  if(isRegistered){
+  if (isRegistered) {
     navigate('/login');
   }
 
@@ -52,6 +82,7 @@ function SignUp() {
               placeholder="First name"
               required
             />
+            {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>}
           </div>
           <div>
             <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
@@ -65,6 +96,7 @@ function SignUp() {
               placeholder="Last name"
               required
             />
+            {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>}
           </div>
         </div>
         <div>
@@ -79,6 +111,7 @@ function SignUp() {
             placeholder="email..."
             required
           />
+          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
         </div>
         <div>
           <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Password</label>
@@ -92,6 +125,7 @@ function SignUp() {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
           />
+          {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
         </div>
         <div>
           <label htmlFor="ph_no" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
@@ -105,10 +139,13 @@ function SignUp() {
             placeholder="9728XXXXXX"
             required
           />
+          {errors.ph_no && <p className="text-red-500 text-xs mt-1">{errors.ph_no}</p>}
         </div>
-        <button onClick={handleSubmit} type="submit" className="w-full text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-black dark:hover:bg-gray-800 dark:focus:ring-black">Sign Up</button>
+        <button type="submit" className="w-full text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-black dark:hover:bg-gray-800 dark:focus:ring-black">Sign Up</button>
         <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-          Already have an account? <a href="#" className="text-black hover:underline dark:text-blue-500">Log in</a>
+          Already have an account? <Link to="/login" className="text-black hover:underline dark:text-blue-500">
+            Log in
+            </Link>
         </div>
       </form>
     </div>
