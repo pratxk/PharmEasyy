@@ -10,7 +10,7 @@ cartRouter.get('/', auth, async (req, res) => {
         const cartItems = await cartModel.find({ userId });
         
         if (!cartItems.length) {
-            return res.status(404).json({ message: 'Cart is empty' });
+            return res.status(299).json({ message: 'Cart is empty' });
         }
         
         res.json(cartItems);
@@ -24,20 +24,18 @@ cartRouter.get('/', auth, async (req, res) => {
 
 // POST: Add medicine to cart
 cartRouter.post('/add', auth, async (req, res) => {
-    const { name, developedBy, maxMonthsExpiry, category, imageUrl, price } = req.body;
+    const { name, developedBy,medicineId, maxMonthsExpiry, category, imageUrl, price } = req.body;
     const userId = req.user._id;
 
     try {
-        // Check if the item already exists in the user's cart
         const existingCartItem = await cartModel.findOne({ userId, name });
 
         if (existingCartItem) {
-            // If it exists, update the quantity
             return res.status(200).json({ message: 'Medicine already in cart. Quantity updated.' });
         } else {
-            // If it does not exist, create a new cart item
             const newCartItem = new cartModel({
                 userId,
+                medicineId,
                 name,
                 developedBy,
                 maxMonthsExpiry,
@@ -60,14 +58,12 @@ cartRouter.post('/add', auth, async (req, res) => {
 
 // POST: Remove medicine from cart
 cartRouter.delete('/remove/:cartItemId', auth, async (req, res) => {
-    const { cartItemId } = req.params; // Get cartItemId from URL parameters
-
+    const { cartItemId } = req.params; 
     try {
         const deletedItem = await cartModel.findByIdAndDelete(cartItemId);
         if (!deletedItem) {
             return res.status(404).json({ message: 'Cart item not found' });
         }
-
         res.status(200).json({ message: 'Medicine removed from cart', deletedItem });
     } catch (error) {
         res.status(500).json({
@@ -80,20 +76,18 @@ cartRouter.delete('/remove/:cartItemId', auth, async (req, res) => {
 // PATCH: Update medicine details in the cart (e.g., price)
 cartRouter.patch('/update/:id', auth, async (req, res) => {
     const cartItemId = req.params.id;
-    const { operation } = req.body; // "increment" or "decrement"
-
+    const { operation } = req.body; 
     try {
         const cartItem = await cartModel.findById(cartItemId);
         if (!cartItem) {
             return res.status(404).json({ message: 'Cart item not found' });
         }
 
-        // Adjust the quantity based on the operation
         if (operation === 'increment') {
-            cartItem.qty += 1; // Increment quantity by 1
+            cartItem.qty += 1; 
         } else if (operation === 'decrement') {
             if (cartItem.qty > 1) {
-                cartItem.qty -= 1; // Decrement quantity by 1, but not below 1
+                cartItem.qty -= 1; 
             } else {
                 return res.status(400).json({ message: 'Quantity cannot be less than 1' });
             }
@@ -101,7 +95,7 @@ cartRouter.patch('/update/:id', auth, async (req, res) => {
             return res.status(400).json({ message: 'Invalid operation. Use "increment" or "decrement"' });
         }
 
-        const updatedItem = await cartItem.save(); // Save the updated cart item
+        const updatedItem = await cartItem.save(); 
 
         res.status(200).json({ message: 'Cart item updated', updatedItem });
     } catch (error) {
@@ -112,10 +106,8 @@ cartRouter.patch('/update/:id', auth, async (req, res) => {
     }
 });
 
-// DELETE: Clear the user's entire cart
 cartRouter.delete('/clear', auth, async (req, res) => {
     const userId = req.user._id;
-
     try {
         await cartModel.deleteMany({ userId });
         res.status(200).json({ message: 'Cart cleared successfully' });

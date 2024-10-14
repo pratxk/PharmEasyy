@@ -1,7 +1,7 @@
 const express = require('express');
 const userModel = require('../models/user.model');
 const auth = require('../middlewares/auth.middleware');
-const checkAdmin = require('../middlewares/checkAdmin.Middleware');
+const checkAdmin = require('../middlewares/checkAdmin.middleware');
 const adminRouter = express.Router();
 
 //all-admin only paths

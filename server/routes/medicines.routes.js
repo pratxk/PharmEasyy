@@ -2,7 +2,7 @@ const express = require('express');
 const medicineRouter = express.Router();
 const medicineModel = require('../models/medicine.model');
 const auth = require('../middlewares/auth.middleware'); 
-const checkAdmin = require('../middlewares/checkAdmin.Middleware'); 
+const checkAdmin = require('../middlewares/checkAdmin.middleware'); 
 
 // GET: Fetch all medicines, with optional filters for category, price, and stock
 medicineRouter.get('/', async (req, res) => {

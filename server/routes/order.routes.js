@@ -1,10 +1,9 @@
 const express = require('express');
 const auth = require('../middlewares/auth.middleware');
 const orderRouter = express.Router();
-const checkAdmin = require('../middlewares/checkAdmin.Middleware');
+const checkAdmin = require('../middlewares/checkAdmin.middleware');
 const orderModel = require('../models/order.model');
 const cartModel = require('../models/cart.model');
-
 
 orderRouter.get('/', [auth, checkAdmin], async (req, res) => {
     try {
@@ -14,34 +13,60 @@ orderRouter.get('/', [auth, checkAdmin], async (req, res) => {
         res.status(500).json({
             message: 'Error Fetching the orders',
             error: error.message
-        })
+        });
     }
 });
 
+orderRouter.get('/single-product/:id', [auth, checkAdmin], async (req, res) => {
+    try {
+        const id = req.params.id;
+        const order = await orderModel.findById(id)
+            .populate('items.medicineId')
+            .populate('userId');
+
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.status(200).json({ order }); 
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error Fetching the order',
+            error: error.message
+        });
+    }
+});
 
 orderRouter.post('/add-order', auth, async (req, res) => {
     const userId = req.user._id;
     try {
-        const cart = await cartModel.findOne({ userId }).populate('items.medicineId');
-        if (!cart || cart.items.length === 0) {
+        
+        const cartItems = await cartModel.find({ userId });
+
+        if (!cartItems || cartItems.length === 0) {
             return res.status(400).json({ message: 'Cart is empty' });
         }
 
+ 
+        const items = cartItems.map(item => ({
+            medicineId: item.medicineId,
+            quantity: item.qty,
+            price: item.price
+        }));
+
+        const totalPrice = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
+
         const newOrder = new orderModel({
             userId,
-            items: cart.items,
-            totalPrice: cart.totalPrice,
+            items,
+            totalPrice,
             status: 'Pending',
-            paymentStatus: 'Paid'  // Assuming payment successfull
+            paymentStatus: 'Paid'  // Assuming payment successful
         });
 
         await newOrder.save();
 
-        // Clear the user's cart 
-        await cartModel.findOneAndUpdate(
-            { userId },
-            { items: [], totalPrice: 0 }
-        );
+       
+        await cartModel.deleteMany({ userId }); // Clear all items in the cart
         res.status(201).json({ message: 'Order placed successfully', order: newOrder });
     } catch (error) {
         res.status(500).json({
@@ -51,7 +76,6 @@ orderRouter.post('/add-order', auth, async (req, res) => {
     }
 });
 
-
 orderRouter.patch('/update-order/:id', [auth, checkAdmin], async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;  
@@ -60,7 +84,7 @@ orderRouter.patch('/update-order/:id', [auth, checkAdmin], async (req, res) => {
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
-        // Update the status from req.body
+
         order.status = status;
         await order.save();
         res.status(200).json({ message: 'Order status updated', order });
@@ -72,4 +96,4 @@ orderRouter.patch('/update-order/:id', [auth, checkAdmin], async (req, res) => {
     }
 });
 
-module.exports = orderRouter
+module.exports = orderRouter;

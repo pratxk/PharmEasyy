@@ -22,6 +22,7 @@ function removeUser() {
 const initialState = {
   user: getStoredUser(),
   isAuth: !!getStoredUser(),
+  role:'',
   error: null,
   isRegistered:false
 };
@@ -48,8 +49,11 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
+        // console.log(action.payload)
         state.isAuth = true;
         storeUser(action.payload);
+        // console.log(state.role)
+
       })
       .addCase(login.rejected, (state, action) => {
         state.error = action.payload;

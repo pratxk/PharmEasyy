@@ -6,6 +6,11 @@ const cartSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
+    medicineId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Medicine',
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -30,15 +35,13 @@ const cartSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    qty: { // Add this line
+    qty: {
         type: Number,
         required: true,
         default: 1
     }
 }, { versionKey: false, timestamps: true });
 
-
 const cartModel = mongoose.model("Cart", cartSchema);
-
 
 module.exports = cartModel;

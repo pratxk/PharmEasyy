@@ -36,7 +36,7 @@ export const addMedicine = createAsyncThunk(
                     Authorization: `Bearer ${token}`
                 }
             };
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/medicine/add-medicine`, medicineData, config);
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/medicines/add-medicine`, medicineData, config);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
