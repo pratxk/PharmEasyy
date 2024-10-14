@@ -1,0 +1,182 @@
+[
+  {
+      "name": "Ibuprofen",
+      "developedBy": "Pfizer Inc.",
+      "maxMonthsExpiry": 24,
+      "category": "Pain Reliever",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 3,
+      "price": 299.99
+  },
+  {
+      "name": "Aspirin",
+      "developedBy": "Bayer Pharmaceuticals",
+      "maxMonthsExpiry": 18,
+      "category": "Blood Thinner",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 2,
+      "price": 159.99
+  },
+  {
+      "name": "Simvastatin",
+      "developedBy": "Merck & Co.",
+      "maxMonthsExpiry": 36,
+      "category": "Cholesterol Management",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 5,
+      "price": 459.49
+  },
+  {
+      "name": "Omeprazole",
+      "developedBy": "AstraZeneca",
+      "maxMonthsExpiry": 28,
+      "category": "Acid Reflux",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 0,
+      "price": 320.75
+  },
+  {
+      "name": "Amlodipine",
+      "developedBy": "Pfizer Inc.",
+      "maxMonthsExpiry": 45,
+      "category": "Blood Pressure",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 1,
+      "price": 495.00
+  },
+  {
+      "name": "Metoprolol",
+      "developedBy": "Novartis",
+      "maxMonthsExpiry": 22,
+      "category": "Heart Health",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 4,
+      "price": 329.99
+  },
+  {
+      "name": "Levothyroxine",
+      "developedBy": "Abbott Laboratories",
+      "maxMonthsExpiry": 33,
+      "category": "Thyroid Hormone Replacement",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 2,
+      "price": 275.99
+  },
+  {
+      "name": "Clopidogrel",
+      "developedBy": "Sanofi-Aventis",
+      "maxMonthsExpiry": 12,
+      "category": "Cardiovascular",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 1,
+      "price": 195.45
+  },
+  {
+      "name": "Doxycycline",
+      "developedBy": "Pfizer Inc.",
+      "maxMonthsExpiry": 40,
+      "category": "Antibiotic",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 3,
+      "price": 550.89
+  },
+  {
+      "name": "Ciprofloxacin",
+      "developedBy": "Bayer Pharmaceuticals",
+      "maxMonthsExpiry": 30,
+      "category": "Antibiotic",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 0,
+      "price": 489.25
+  },
+  {
+      "name": "Cetirizine",
+      "developedBy": "UCB Pharma",
+      "maxMonthsExpiry": 15,
+      "category": "Allergy Relief",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 4,
+      "price": 145.99
+  },
+  {
+      "name": "Furosemide",
+      "developedBy": "Sanofi-Aventis",
+      "maxMonthsExpiry": 18,
+      "category": "Diuretic",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 1,
+      "price": 125.00
+  },
+  {
+      "name": "Ranitidine",
+      "developedBy": "GlaxoSmithKline",
+      "maxMonthsExpiry": 29,
+      "category": "Acid Reducer",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 0,
+      "price": 305.49
+  },
+  {
+      "name": "Warfarin",
+      "developedBy": "Bristol-Myers Squibb",
+      "maxMonthsExpiry": 50,
+      "category": "Blood Thinner",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 2,
+      "price": 410.85
+  },
+  {
+      "name": "Diazepam",
+      "developedBy": "Roche Pharmaceuticals",
+      "maxMonthsExpiry": 16,
+      "category": "Anxiety",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 3,
+      "price": 199.75
+  },
+  {
+      "name": "Prednisone",
+      "developedBy": "Pfizer Inc.",
+      "maxMonthsExpiry": 27,
+      "category": "Steroid",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 1,
+      "price": 345.49
+  },
+  {
+      "name": "Loratadine",
+      "developedBy": "Bayer Pharmaceuticals",
+      "maxMonthsExpiry": 37,
+      "category": "Allergy Relief",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 5,
+      "price": 105.99
+  },
+  {
+      "name": "Insulin Glargine",
+      "developedBy": "Sanofi",
+      "maxMonthsExpiry": 14,
+      "category": "Diabetes",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 0,
+      "price": 850.25
+  },
+  {
+      "name": "Tamsulosin",
+      "developedBy": "Boehringer Ingelheim",
+      "maxMonthsExpiry": 25,
+      "category": "Prostate Health",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 2,
+      "price": 235.99
+  },
+  {
+      "name": "Zolpidem",
+      "developedBy": "Sanofi-Aventis",
+      "maxMonthsExpiry": 31,
+      "category": "Sleep Aid",
+      "imageUrl": "https://placehold.co/300x300",
+      "stock": 1,
+      "price": 375.99
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Amoxicillin",
+    "developedBy": "Yundt, Lind and Upton",
+    "maxMonthsExpiry": 50,
+    "category": "Antibiotic",
+    "imageUrl": "https://loremflickr.com/3968/697?lock=4728011296352266",
+    "stock": 1,
+    "price": 435.95
+  },
+  {
+    "name": "Metformin",
+    "developedBy": "Bradtke - Orn",
+    "maxMonthsExpiry": 33,
+    "category": "Diabetes Medicine",
+    "imageUrl": "https://picsum.photos/seed/fwvGj/759/942",
+    "stock": 0,
+    "price": 518.05
+  },
+  {
+    "name": "Paracetamol",
+    "developedBy": "Gutmann, Aufderhar and Parker",
+    "maxMonthsExpiry": 12,
+    "category": "Fever Medicine",
+    "imageUrl": "https://picsum.photos/seed/Ddm4GNJatC/3821/3362",
+    "stock": 2,
+    "price": 537.49
+  },
+  {
+    "name": "Paracetamol",
+    "developedBy": "Harris - Baumbach",
+    "maxMonthsExpiry": 22,
+    "category": "Fever Medicine",
+    "imageUrl": "https://loremflickr.com/1839/1350?lock=7935783142418397",
+    "stock": 0,
+    "price": 720.55
+  },
+  {
+    "name": "Lisinopril",
+    "developedBy": "Volkman, Becker and Ratke",
+    "maxMonthsExpiry": 26,
+    "category": "Blood Pressure Medicine",
+    "imageUrl": "https://loremflickr.com/1458/3732?lock=7408912984978808",
+    "stock": 0,
+    "price": 2.99
+  },
+  {
+    "name": "Atorvastatin",
+    "developedBy": "Leannon - Miller",
+    "maxMonthsExpiry": 53,
+    "category": "Cholesterol Medicine",
+    "imageUrl": "https://picsum.photos/seed/jvrMRcb/3455/1253",
+    "stock": 2,
+    "price": 169.57
+  },
+  {
+    "name": "Losartan",
+    "developedBy": "Pagac LLC",
+    "maxMonthsExpiry": 57,
+    "category": "Heart Medicine",
+    "imageUrl": "https://loremflickr.com/1723/462?lock=7480960683532681",
+    "stock": 1,
+    "price": 890.69
+  },
+  {
+    "name": "Ibuprofen",
+    "developedBy": "Terry - Medhurst",
+    "maxMonthsExpiry": 20,
+    "category": "Pain Relief",
+    "imageUrl": "https://picsum.photos/seed/9hYAOH/1944/871",
+    "stock": 0,
+    "price": 362.49
+  },
+  {
+    "name": "Amoxicillin",
+    "developedBy": "Terry - Block",
+    "maxMonthsExpiry": 56,
+    "category": "Antibiotic",
+    "imageUrl": "https://loremflickr.com/3695/136?lock=592500578484277",
+    "stock": 1,
+    "price": 38.65
+  },
+  {
+    "name": "Sertraline",
+    "developedBy": "Nikolaus, Friesen and Satterfield",
+    "maxMonthsExpiry": 39,
+    "category": "Mental Health Medicine",
+    "imageUrl": "https://picsum.photos/seed/hdeo7/790/2102",
+    "stock": 1,
+    "price": 401.89
+  },
+  {
+    "name": "Amoxicillin",
+    "developedBy": "Brakus, Dooley and Willms",
+    "maxMonthsExpiry": 32,
+    "category": "Antibiotic",
+    "imageUrl": "https://loremflickr.com/3469/1891?lock=2951938971351269",
+    "stock": 0,
+    "price": 489.45
+  },
+  {
+    "name": "Lisinopril",
+    "developedBy": "Sporer Group",
+    "maxMonthsExpiry": 34,
+    "category": "Blood Pressure Medicine",
+    "imageUrl": "https://loremflickr.com/986/2983?lock=2901144328159047",
+    "stock": 1,
+    "price": 660.1
+  },
+  {
+    "name": "Amoxicillin",
+    "developedBy": "Reilly - Abbott",
+    "maxMonthsExpiry": 39,
+    "category": "Antibiotic",
+    "imageUrl": "https://loremflickr.com/3477/2669?lock=7195391883065810",
+    "stock": 1,
+    "price": 28.25
+  },
+  {
+    "name": "Losartan",
+    "developedBy": "Dibbert Inc",
+    "maxMonthsExpiry": 13,
+    "category": "Heart Medicine",
+    "imageUrl": "https://loremflickr.com/199/2940?lock=1498533878963769",
+    "stock": 1,
+    "price": 847.99
+  },
+  {
+    "name": "Lisinopril",
+    "developedBy": "Johnson LLC",
+    "maxMonthsExpiry": 20,
+    "category": "Blood Pressure Medicine",
+    "imageUrl": "https://loremflickr.com/3746/2324?lock=3279371162693444",
+    "stock": 0,
+    "price": 199.99
+  },
+  {
+    "name": "Metformin",
+    "developedBy": "Reinger, Tillman and Connelly",
+    "maxMonthsExpiry": 44,
+    "category": "Diabetes Medicine",
+    "imageUrl": "https://picsum.photos/seed/hWxHaM16s/3916/3848",
+    "stock": 2,
+    "price": 115.72
+  },
+  {
+    "name": "Levothyroxine",
+    "developedBy": "Hauck, Jenkins and Grant",
+    "maxMonthsExpiry": 40,
+    "category": "Thyroid Medicine",
+    "imageUrl": "https://loremflickr.com/1437/677?lock=3796456077440800",
+    "stock": 1,
+    "price": 341.99
+  },
+  {
+    "name": "Metformin",
+    "developedBy": "Hegmann - Ankunding",
+    "maxMonthsExpiry": 35,
+    "category": "Diabetes Medicine",
+    "imageUrl": "https://picsum.photos/seed/YWWCkiM/2343/3796",
+    "stock": 0,
+    "price": 790.2
+  },
+  {
+    "name": "Sertraline",
+    "developedBy": "Windler - Cruickshank",
+    "maxMonthsExpiry": 48,
+    "category": "Mental Health Medicine",
+    "imageUrl": "https://picsum.photos/seed/43Ch6l/291/497",
+    "stock": 2,
+    "price": 101.5
+  },
+  {
+    "name": "Paracetamol",
+    "developedBy": "Gibson - Funk",
+    "maxMonthsExpiry": 59,
+    "category": "Fever Medicine",
+    "imageUrl": "https://picsum.photos/seed/nAC7X/847/2801",
+    "stock": 0,
+    "price": 834.55
+  }
+]
