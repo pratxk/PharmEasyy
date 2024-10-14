@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 
-
+// Fetch Medicines
 export const fetchMedicines = createAsyncThunk(
     'medicine/fetchMedicines',
     async (filters = {}, { rejectWithValue }) => {
@@ -17,7 +17,6 @@ export const fetchMedicines = createAsyncThunk(
                     ...(limit && { limit })
                 }
             });
-            console.log(response.data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -25,7 +24,20 @@ export const fetchMedicines = createAsyncThunk(
     }
 );
 
+// Fetch Single Medicine
+export const fetchSingleMedicine = createAsyncThunk(
+    'medicine/fetchSingleMedicine',
+    async (id, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/medicines/${id}`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
+// Add Medicine
 export const addMedicine = createAsyncThunk(
     'medicine/addMedicine',
     async (medicineData, { rejectWithValue }) => {
@@ -36,7 +48,7 @@ export const addMedicine = createAsyncThunk(
                     Authorization: `Bearer ${token}`
                 }
             };
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/medicine/add-medicine`, medicineData, config);
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/medicines/add-medicine`, medicineData, config);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -44,6 +56,7 @@ export const addMedicine = createAsyncThunk(
     }
 );
 
+// Update Medicine
 export const updateMedicine = createAsyncThunk(
     'medicine/updateMedicine',
     async ({ id, updates }, { rejectWithValue }) => {
@@ -54,7 +67,7 @@ export const updateMedicine = createAsyncThunk(
                     Authorization: `Bearer ${token}`
                 }
             };
-            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_API}/medicine/update-medicine/${id}`, updates, config);
+            const response = await axios.patch(`${import.meta.env.VITE_BACKEND_API}/medicines/update-medicine/${id}`, updates, config);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -62,6 +75,7 @@ export const updateMedicine = createAsyncThunk(
     }
 );
 
+// Delete Medicine
 export const deleteMedicine = createAsyncThunk(
     'medicine/deleteMedicine',
     async (id, { rejectWithValue }) => {
@@ -72,7 +86,7 @@ export const deleteMedicine = createAsyncThunk(
                     Authorization: `Bearer ${token}`
                 }
             };
-            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_API}/medicine/delete-medicine/${id}`, config);
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_API}/medicines/delete-medicine/${id}`, config);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);

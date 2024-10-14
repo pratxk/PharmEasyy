@@ -9,7 +9,6 @@ const cartModel = require('./models/cart.model');
 const medicineModel = require('./models/medicine.model');
 const medicineRouter = require('./routes/medicines.routes');
 const cartRouter = require('./routes/cart.routes');
-const adminRouter = require('./routes/admin.routes');
 const orderRouter = require('./routes/order.routes');
 
 
@@ -31,7 +30,6 @@ app.use("/auth", userRouter);
 app.use("/orders", orderRouter);
 app.use('/cart',cartRouter);
 app.use('/medicines',medicineRouter);
-app.use('/admin',adminRouter);
 
 
 

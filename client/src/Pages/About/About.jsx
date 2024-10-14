@@ -4,7 +4,7 @@ import Heading from '../../components/Skeleton/Heading'
 function About() {
   return (
     <>
-      <div className='overflow-hidden p-4'>
+      <div className='overflow-hidden p-10'>
         <Heading
           text={"About Us"}
           textColor={"primary"}

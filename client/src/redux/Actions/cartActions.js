@@ -106,7 +106,7 @@ export const clearCart = createAsyncThunk(
         },
       };
       const response = await axios.delete(`${import.meta.env.VITE_BACKEND_API}/cart/clear`, config);
-      return response.data; // Return success message or null
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }

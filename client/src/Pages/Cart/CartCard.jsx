@@ -25,7 +25,7 @@ const CartCard = ({ cartItem }) => {
   };
 
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
       <Link to={`/medicine/${_id}`} className="block">
         <img
           className="p-5 rounded-t-lg w-[50%] mx-auto"
@@ -58,7 +58,7 @@ const CartCard = ({ cartItem }) => {
             >
               -
             </button>
-            <span className="px-4">{qty}</span> {/* Updated to display qty */}
+            <span className="px-4 text-white font-bold">{qty}</span> {/* Updated to display qty */}
             <button
               onClick={handleIncrement}
               className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded-r"
