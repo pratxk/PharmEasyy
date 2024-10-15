@@ -67,7 +67,7 @@ const Checkout = () => {
     } 
 
     return (
-        <div className='overflow-hidden p-4 m-32'>
+        <div className='overflow-hidden p-4 h-[100vh] m-32'>
             <div className="font-sans bg-white p-8 shadow-xl">
                 <div className="md:max-w-5xl max-w-xl mx-auto">
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -144,7 +144,7 @@ const Checkout = () => {
                             </form>
                         </div>
 
-                        <div className="bg-gray-100 p-6 rounded-md shadow-lg max-w-lg">
+                        <div className="bg-gray-100 p-6 rounded-md shadow-lg max-w-md">
                             {cart?.length > 0 && (
                                 <CartSummary cart={cart} handleCheckout={null} />
                             )}
