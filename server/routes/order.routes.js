@@ -14,6 +14,9 @@ orderRouter.get('/single-product/:id', [auth, checkAdmin], orderController.getSi
 // POST: Add a new order
 orderRouter.post('/add-order', auth, orderController.addOrder);
 
+//get Orders by a single User
+orderRouter.get('/my-orders', auth, orderController.getOrdersByUser); 
+
 // PATCH: Update order status (Admin only)
 orderRouter.patch('/update-order/:id', [auth, checkAdmin], orderController.updateOrderStatus);
 

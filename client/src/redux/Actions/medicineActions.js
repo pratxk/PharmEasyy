@@ -4,9 +4,9 @@ import axios from 'axios';
 // Fetch Medicines
 export const fetchMedicines = createAsyncThunk(
     'medicine/fetchMedicines',
-    async (filters = {}, { rejectWithValue }) => {
+    async (filters = { limit: 5, page: 1 }, { rejectWithValue }) => {
         try {
-            const { category, minPrice, maxPrice, inStock, sort, limit } = filters;
+            const { category, minPrice, maxPrice, inStock, sort, limit, page } = filters;
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/medicines`, {
                 params: {
                     ...(category && { category }),
@@ -14,10 +14,11 @@ export const fetchMedicines = createAsyncThunk(
                     ...(maxPrice && { maxPrice }),
                     ...(inStock && { inStock }),
                     ...(sort && { sort }),
-                    ...(limit && { limit })
+                    ...(limit && { limit }),
+                    ...(page && { page }), // Added page parameter
                 }
             });
-            return response.data;
+            return response.data; // Adjusted to match updated API response
         } catch (error) {
             return rejectWithValue(error.message);
         }

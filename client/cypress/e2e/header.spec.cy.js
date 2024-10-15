@@ -26,16 +26,16 @@ describe('Header Component', () => {
 
         // Open the mobile menu
         cy.get('#userHeader').find('button[aria-label="Toggle Menu"]').click();
-        cy.get('#userHeader').within(() => {
+        cy.get('#userHeader2').within(() => {
             cy.contains('Medicines').should('be.visible');
             cy.contains('Cart').should('be.visible');
+            cy.contains('Contact').should('be.visible');
+            cy.contains('About').should('be.visible');
         });
 
         // Close the mobile menu
         cy.get('#userHeader').find('button[aria-label="Toggle Menu"]').click();
-        cy.get('#userHeader').within(() => {
-            cy.contains('Medicines').should('not.exist');
-        });
+        cy.get('#userHeader2').should('not.exist'); // Ensure the menu is closed
     });
 
     it('should navigate to the login page when the Login/Sign Up button is clicked', () => {

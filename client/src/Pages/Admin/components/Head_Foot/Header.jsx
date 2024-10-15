@@ -12,9 +12,12 @@ const AdminHeader = () => {
     const { isAuth, user } = useSelector((state) => state.auth);
 
     const handleLogout = () => {
-        dispatch(logout()).then(() => {
-            navigate('/login');
-        });
+        dispatch(logout())
+        .then((result)=>{
+            if (result.meta.requestStatus === 'fulfilled') {
+                toast({ description: 'Sucessfull LoggedOut', status: 'success' });
+                navigate('/');
+            }})
     };
 
     return (

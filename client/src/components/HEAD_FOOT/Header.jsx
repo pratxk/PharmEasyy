@@ -73,6 +73,9 @@ const Header = () => {
                     <Link to="/contact">
                         <Text _hover={{ color: "red" }} >Contact</Text>
                     </Link>
+                    <Link to="/orders">
+                        <Text _hover={{ color: "red" }} >Orders</Text>
+                    </Link>
                     <Link to="/about">
                         <Text _hover={{ color: "red" }} >About</Text>
                     </Link>
@@ -101,7 +104,7 @@ const Header = () => {
 
             {/* Collapse component for the menu */}
             <Collapse in={isOpen} animateOpacity>
-                <Box alignItems="center" id="userHeader" gap={4} display={{ base: 'flex', lg: "none" }} flexWrap='wrap' color={isSticky ? 'black' : 'white'} >
+                <Box alignItems="center" id="userHeader2" gap={4} display={{ base: 'flex', lg: "none" }} flexWrap='wrap' color={isSticky ? 'black' : 'white'} >
                     <Link to="/medicines">
                         <Text _hover={{ color: "red" }} >Medicines</Text>
                     </Link>
@@ -110,6 +113,9 @@ const Header = () => {
                     </Link>
                     <Link to="/contact">
                         <Text _hover={{ color: "red" }} >Contact</Text>
+                    </Link>
+                    <Link to="/orders">
+                        <Text _hover={{ color: "red" }} >Orders</Text>
                     </Link>
                     <Link to="/about">
                         <Text _hover={{ color: "red" }} >About</Text>
@@ -123,8 +129,13 @@ const Header = () => {
                                 onClick={() => navigate("/profile")}
                             />
                             <Button colorScheme="red" onClick={() => {
-                                dispatch(logout());
-                                navigate('/login');
+                                dispatch(logout())
+                                .then((result)=>{
+                                    if (result.meta.requestStatus === 'fulfilled') {
+                                        toast({ description: 'Sucessfull LoggedOut', status: 'success' });
+                                        navigate('/');
+                                    }
+                                })
                             }}>Log Out</Button>
                         </>
                     ) : (

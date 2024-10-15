@@ -58,6 +58,26 @@ export const fetchSingleOrder = createAsyncThunk(
     }
   );
 
+// Fetch Orders by User
+export const fetchOrdersByUser = createAsyncThunk(
+    "orders/fetchOrdersByUser",
+    async (_, { rejectWithValue }) => {
+      try {
+        const token = JSON.parse(localStorage.getItem("token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/orders/my-orders`, config);
+        return response.data.orders; // Return orders data
+      } catch (error) {
+        return rejectWithValue(error.message);
+      }
+    }
+  );
+  
+
 // Update Order Status
 export const updateOrderStatus = createAsyncThunk(
   "orders/updateOrderStatus",

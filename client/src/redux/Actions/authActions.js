@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 export const register = createAsyncThunk('auth/register',
      async (credentials, { rejectWithValue }) => {
@@ -38,11 +39,10 @@ export const logout = createAsyncThunk(
           },
         };
         await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/logout`, config);
-  
- 
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('user');
+        // navigate('/')
         
         return true; 
       } catch (error) {

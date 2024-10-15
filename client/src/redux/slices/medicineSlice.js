@@ -8,31 +8,42 @@ import {
 } from "../Actions/medicineActions";
 
 const initialState = {
-    medicines: [],
-    isLoading: false,
-    singleMedicine: {},
-    error: null,
+  medicines: [],
+  isLoading: false,
+  singleMedicine: {},
+  error: null,
+  total: 0, // New field to store total number of medicines
+  currentPage: 1, // Track the current page
+  limit: 5, // Default limit
 };
 
 const medicineSlice = createSlice({
-    name: 'medicine',
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            // Fetch Medicines
-            .addCase(fetchMedicines.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
-            .addCase(fetchMedicines.fulfilled, (state, action) => {
-                state.medicines = action.payload;
-                state.isLoading = false;
-            })
-            .addCase(fetchMedicines.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload;
-            })
+  name: 'medicine',
+  initialState,
+  reducers: {
+      setCurrentPage(state, action) {
+          state.currentPage = action.payload;
+      },
+      setLimit(state, action) {
+          state.limit = action.payload;
+      }
+  },
+  extraReducers: (builder) => {
+      builder
+          // Fetch Medicines
+          .addCase(fetchMedicines.pending, (state) => {
+              state.isLoading = true;
+              state.error = null;
+          })
+          .addCase(fetchMedicines.fulfilled, (state, action) => {
+              state.medicines = action.payload.medicines; // Updated response structure
+              state.total = action.payload.total; // Total medicines count
+              state.isLoading = false;
+          })
+          .addCase(fetchMedicines.rejected, (state, action) => {
+              state.isLoading = false;
+              state.error = action.payload;
+          })
 
             // Fetch Single Medicine
             .addCase(fetchSingleMedicine.pending, (state) => {
@@ -94,5 +105,7 @@ const medicineSlice = createSlice({
             });
     }
 });
+
+export const {setCurrentPage, setLimit} = medicineSlice.actions;
 
 export default medicineSlice.reducer;

@@ -66,7 +66,7 @@ function Login() {
   }, [isAuth, navigate]);
 
   return (
-    <div className="w-full mx-auto overflow-hidden my-24 max-w-sm p-4 bg-white border  border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full mx-auto overflow-hidden my-32 max-w-sm p-4 bg-white border  border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
       <form className="space-y-6" onSubmit={handleSubmit}>
         <h5 className="text-xl font-medium text-gray-900 dark:text-white">Log in to our platform</h5>
         {error && <p className="text-red-500">{error}</p>}

@@ -34,6 +34,23 @@ const getSingleOrder = async (req, res) => {
     }
 };
 
+const getOrdersByUser = async (req, res) => {
+    const userId = req.user._id; // Assuming the user ID is stored in req.user
+    try {
+        const orders = await orderModel.find({ userId }).populate('items.medicineId');
+
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({ message: 'No orders found for this user' });
+        }
+        res.status(200).json({ orders });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error fetching orders for the user',
+            error: error.message
+        });
+    }
+};
+
 // POST: Add a new order
 const addOrder = async (req, res) => {
     const userId = req.user._id;
@@ -97,4 +114,5 @@ module.exports = {
     getSingleOrder,
     addOrder,
     updateOrderStatus,
+    getOrdersByUser
 };

@@ -3,13 +3,12 @@ import { useToast } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function RoleBasedRoute({ allowedRoles, children }) {
 
-    const role = useSelector((state) => state.auth.user.role);
+    const role = useSelector((state) => state.auth.user.role) ;
     const toast = useToast();
-    
     useEffect(() => {
         if (!allowedRoles.includes(role)) {
             toast({

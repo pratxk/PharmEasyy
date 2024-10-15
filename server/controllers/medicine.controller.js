@@ -4,7 +4,7 @@ const medicineModel = require('../models/medicine.model');
 
 // GET: Fetch all medicines, with optional filters for category, price, and stock
 const getAllMedicines = async (req, res) => {
-    const { category, minPrice, maxPrice, inStock, limit, sort } = req.query;
+    const { category, minPrice, maxPrice, inStock, limit, sort, page } = req.query;
 
     let filter = {};
 
@@ -25,6 +25,7 @@ const getAllMedicines = async (req, res) => {
     try {
         let medicinesQuery = medicineModel.find(filter);
 
+        // Sorting logic
         if (sort) {
             if (sort === 'inStock') {
                 medicinesQuery = medicinesQuery.sort({ stock: -1 });
@@ -35,8 +36,20 @@ const getAllMedicines = async (req, res) => {
             }
         }
 
-        const medicines = await medicinesQuery.limit(parseInt(limit) || 0);
-        res.json(medicines);
+        // Pagination logic
+        const limitValue = parseInt(limit) || 10; // Default to 10 if limit is not provided
+        const pageValue = parseInt(page) || 1; // Default to 1 if page is not provided
+        const skipValue = (pageValue - 1) * limitValue;
+
+        const medicines = await medicinesQuery.skip(skipValue).limit(limitValue);
+        const totalMedicines = await medicineModel.countDocuments(filter); // Count total documents matching the filter
+
+        res.json({
+            medicines,
+            total: totalMedicines,
+            page: pageValue,
+            limit: limitValue,
+        });
     } catch (error) {
         res.status(500).json({
             message: 'Error fetching medicines',

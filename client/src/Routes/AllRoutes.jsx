@@ -7,6 +7,7 @@ import Medicine from '../Pages/Medicines/Medicine'
 import Cart from '../Pages/Cart/Cart'
 import About from '../Pages/About/About'
 import Login from '../Pages/Auth/Login'
+
 import SignUp from '../Pages/Auth/SignUp'
 import PrivateRoute from '../components/PrivateRoute/PrivateRoute'
 import Profile from '../Pages/Profile/Profile'
@@ -22,6 +23,7 @@ import UpdateMedicine from '../Pages/Admin/Medicine_Panel/UpdateMedicine'
 
 import User from '../Pages/Admin/Users/User'
 import AdminProfile from '../Pages/Admin/Profile/AdminProfile'
+import Orders_User from '../Pages/Orders(user)/Orders_User'
 
 
 const router = createBrowserRouter([
@@ -46,6 +48,10 @@ const router = createBrowserRouter([
             {
                 path: '/cart',
                 element: <PrivateRoute><Cart /></PrivateRoute>
+            },
+            {
+                path: '/orders',
+                element: <PrivateRoute><Orders_User/></PrivateRoute>
             },
             {
                 path: '/checkout',
@@ -73,7 +79,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <Login />
+                        element: <Login/>
                     }
                 ]
             },
