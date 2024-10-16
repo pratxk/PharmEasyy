@@ -27,15 +27,16 @@ describe('User Authentication Tests', () => {
     let adminToken;
 
     beforeAll(async () => {
-        await mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        const hashedPassword = await bcrypt.hash(adminUser.password, 10);
-        const createdAdmin = await User.create({ ...adminUser, password: hashedPassword });
-        console.log('Admin User Created:', createdAdmin);
+    await mongoose.connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
     });
-    
+
+    const hashedPassword = await bcrypt.hash(adminUser.password, 10);
+    const createdAdmin = await User.create({ ...adminUser, password: hashedPassword });
+    console.log('Admin User Created:', createdAdmin);
+});
+
     
 
     afterAll(async () => {
