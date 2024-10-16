@@ -140,7 +140,7 @@ const Checkout = () => {
                                     </div>
                                 </div>
 
-                                <button type="submit" className="mt-8 w-40 py-3.5 text-sm bg-black text-white font-bold rounded-md hover:bg-gray-900 tracking-wide">Pay</button>
+                                <button type="submit" className="mt-8 mb-8 w-40 py-3.5 text-sm bg-black text-white font-bold rounded-md hover:bg-gray-900 tracking-wide">Pay</button>
                             </form>
                         </div>
 

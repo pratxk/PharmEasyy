@@ -1,5 +1,6 @@
 // controllers/orderController.js
 
+const { body, param, validationResult } = require('express-validator');
 const orderModel = require('../models/order.model');
 const cartModel = require('../models/cart.model');
 
@@ -34,6 +35,7 @@ const getSingleOrder = async (req, res) => {
     }
 };
 
+// GET: Fetch orders by user ID
 const getOrdersByUser = async (req, res) => {
     const userId = req.user._id; // Assuming the user ID is stored in req.user
     try {
@@ -51,7 +53,8 @@ const getOrdersByUser = async (req, res) => {
     }
 };
 
-// POST: Add a new order
+
+
 const addOrder = async (req, res) => {
     const userId = req.user._id;
     try {
@@ -88,26 +91,41 @@ const addOrder = async (req, res) => {
     }
 };
 
+
+
+
 // PATCH: Update order status (Admin only)
-const updateOrderStatus = async (req, res) => {
-    const { id } = req.params;
-    const { status } = req.body;  
-    try {
-        const order = await orderModel.findById(id);
-        if (!order) {
-            return res.status(404).json({ message: 'Order not found' });
+const updateOrderStatus = [
+    // Validation middleware
+    param('id').isMongoId().withMessage('Valid order ID is required'),
+    body('status').isIn(['Accepted', 'Dispatched', 'Canceled', 'Pending']).withMessage('Invalid status'),
+
+    // Handler
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
 
-        order.status = status;
-        await order.save();
-        res.status(200).json({ message: 'Order status updated', order });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Error updating order status',
-            error: error.message
-        });
+        const { id } = req.params;
+        const { status } = req.body;  
+        try {
+            const order = await orderModel.findById(id);
+            if (!order) {
+                return res.status(404).json({ message: 'Order not found' });
+            }
+
+            order.status = status;
+            await order.save();
+            res.status(200).json({ message: 'Order status updated', order });
+        } catch (error) {
+            res.status(500).json({
+                message: 'Error updating order status',
+                error: error.message
+            });
+        }
     }
-};
+];
 
 module.exports = {
     getAllOrders,

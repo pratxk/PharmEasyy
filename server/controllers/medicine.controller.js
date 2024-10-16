@@ -1,5 +1,6 @@
 // controllers/medicineController.js
 
+const { body, param, validationResult } = require('express-validator');
 const medicineModel = require('../models/medicine.model');
 
 // GET: Fetch all medicines, with optional filters for category, price, and stock
@@ -77,66 +78,112 @@ const getMedicineById = async (req, res) => {
 };
 
 // POST: Add a new medicine
-const addMedicine = async (req, res) => {
-    const { name, developedBy, maxMonthsExpiry, category, imageUrl, stock, price } = req.body;
+const addMedicine = [
+    // Validation middleware
+    body('name').isString().withMessage('Name is required'),
+    body('developedBy').isString().withMessage('Developed by is required'),
+    body('maxMonthsExpiry').isInt({ min: 0 }).withMessage('Max months expiry must be a non-negative integer'),
+    body('category').isString().withMessage('Category is required'),
+    body('imageUrl').isURL().withMessage('Valid image URL is required'),
+    body('stock').isInt({ min: 0 }).withMessage('Stock must be a non-negative integer'),
+    body('price').isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
 
-    try {
-        const newMedicine = new medicineModel({
-            name,
-            developedBy,
-            maxMonthsExpiry,
-            category,
-            imageUrl,
-            stock,
-            price,
-        });
+    // Handler
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
-        await newMedicine.save();
-        res.status(201).json({ message: 'Medicine created successfully', newMedicine });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Error creating medicine',
-            error: error.message,
-        });
-    }
-};
+        const { name, developedBy, maxMonthsExpiry, category, imageUrl, stock, price } = req.body;
+
+        try {
+            const newMedicine = new medicineModel({
+                name,
+                developedBy,
+                maxMonthsExpiry,
+                category,
+                imageUrl,
+                stock,
+                price,
+            });
+
+            await newMedicine.save();
+            res.status(201).json({ message: 'Medicine created successfully', newMedicine });
+        } catch (error) {
+            res.status(500).json({
+                message: 'Error creating medicine',
+                error: error.message,
+            });
+        }
+    },
+];
 
 // PATCH: Update an existing medicine
-const updateMedicine = async (req, res) => {
-    const { id } = req.params;
-    const updates = req.body;
+const updateMedicine = [
+    // Validation middleware
+    param('id').isMongoId().withMessage('Valid medicine ID is required'),
+    body('name').optional().isString().withMessage('Name must be a string'),
+    body('developedBy').optional().isString().withMessage('Developed by must be a string'),
+    body('maxMonthsExpiry').optional().isInt({ min: 0 }).withMessage('Max months expiry must be a non-negative integer'),
+    body('category').optional().isString().withMessage('Category must be a string'),
+    body('imageUrl').optional().isURL().withMessage('Valid image URL is required'),
+    body('stock').optional().isInt({ min: 0 }).withMessage('Stock must be a non-negative integer'),
+    body('price').optional().isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
 
-    try {
-        const updatedMedicine = await medicineModel.findByIdAndUpdate(id, updates, { new: true });
-        if (!updatedMedicine) {
-            return res.status(404).json({ message: 'Medicine not found' });
+    // Handler
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
-        res.json({ message: 'Medicine updated successfully', updatedMedicine });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Error updating medicine',
-            error: error.message,
-        });
-    }
-};
+
+        const { id } = req.params;
+        const updates = req.body;
+
+        try {
+            const updatedMedicine = await medicineModel.findByIdAndUpdate(id, updates, { new: true });
+            if (!updatedMedicine) {
+                return res.status(404).json({ message: 'Medicine not found' });
+            }
+            res.json({ message: 'Medicine updated successfully', updatedMedicine });
+        } catch (error) {
+            res.status(500).json({
+                message: 'Error updating medicine',
+                error: error.message,
+            });
+        }
+    },
+];
 
 // DELETE: Remove a medicine by ID
-const deleteMedicine = async (req, res) => {
-    const { id } = req.params;
+const deleteMedicine = [
+    // Validation middleware
+    param('id').isMongoId().withMessage('Valid medicine ID is required'),
 
-    try {
-        const deletedMedicine = await medicineModel.findByIdAndDelete(id);
-        if (!deletedMedicine) {
-            return res.status(404).json({ message: 'Medicine not found' });
+    // Handler
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
-        res.json({ message: 'Medicine deleted successfully', deletedMedicine });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Error deleting medicine',
-            error: error.message,
-        });
-    }
-};
+
+        const { id } = req.params;
+
+        try {
+            const deletedMedicine = await medicineModel.findByIdAndDelete(id);
+            if (!deletedMedicine) {
+                return res.status(404).json({ message: 'Medicine not found' });
+            }
+            res.json({ message: 'Medicine deleted successfully', deletedMedicine });
+        } catch (error) {
+            res.status(500).json({
+                message: 'Error deleting medicine',
+                error: error.message,
+            });
+        }
+    },
+];
 
 module.exports = {
     getAllMedicines,

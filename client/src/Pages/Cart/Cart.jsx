@@ -40,15 +40,14 @@ export default function Cart() {
   }
 
   return (
-    <div className="overflow-hidden p-4 h-[100vh]">
+    <div className="overflow-hidden p-4 h-[100vh] bg-white ">
       <Heading
         text="Cart"
         textColor="primary"
         fromGradient="secondary"
         toGradient="primary"
-      />{
-        cart?.length === 0 ? (
-      <button className='bg-red-500 text-white font-bold rounded-lg shadow-lg p-4 my-3' onClick={handleDeleteCart}>Delete Cart</button>) : ''}
+      />
+      <button className={`bg-red-500 text-white font-bold rounded-lg ${cart?.length > 0 ? 'block' : 'hidden'}  shadow-lg p-4 my-3`} onClick={handleDeleteCart}>Delete Cart</button> 
       <div className="flex justify-between items-start mb-4">
         {cart?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">

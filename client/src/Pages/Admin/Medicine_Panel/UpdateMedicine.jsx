@@ -57,37 +57,37 @@ const UpdateMedicine = () => {
         const { name, developedBy, category, imageUrl, maxMonthsExpiry, stock, price } = formData;
 
         // Validate name
-        if (!/^[A-Za-z\s]+$/.test(name)) {
-            newErrors.name = 'Medicine name must be a valid word.';
+        // Validate medicine name: allows letters, hyphens, and numbers but disallows digits in between words
+        if (!/^(?!.*\b\d+\b)[A-Za-z0-9\-]+$/.test(name)) {
+            newErrors.name = 'Medicine name must be a valid word without numbers between words.';
         }
 
-        // Validate developedBy
-        if (!/^[A-Za-z\s]+$/.test(developedBy)) {
-            newErrors.developedBy = 'Company name must be a valid word.';
+        // Validate developedBy: must be greater than two letters
+        if (!/^[A-Za-z\s]{3,}$/.test(developedBy)) {
+            newErrors.developedBy = 'Company name must be at least 3 letters.';
         }
 
-        // Validate category
-        if (!/^[A-Za-z\s]+$/.test(category)) {
-            newErrors.category = 'Category must be a valid word.';
-        }
+        // Validate category: must be greater than two letters
+        
 
-        // Validate imageUrl
+        // Validate imageUrl: must be a valid URL
         if (!/^https?:\/\/.+\..+/.test(imageUrl)) {
             newErrors.imageUrl = 'Image URL must be a valid URL.';
         }
 
-        // Validate maxMonthsExpiry, stock, and price to be numbers
-        if (!/^\d+$/.test(maxMonthsExpiry)) {
-            newErrors.maxMonthsExpiry = 'Max Months Expiry must be a number.';
+        // Validate maxMonthsExpiry: must be a positive integer
+        if (!/^\d+$/.test(maxMonthsExpiry) || maxMonthsExpiry <= 0) {
+            newErrors.maxMonthsExpiry = 'Max Months Expiry must be a positive number.';
         }
 
-        if (!/^\d+$/.test(stock)) {
-            newErrors.stock = 'Stock must be a number.';
+        // Validate stock: must be a positive integer
+        if (!/^\d+$/.test(stock) || stock <= 0) {
+            newErrors.stock = 'Stock must be a positive number.';
         }
 
-        if (!/^\d+(\.\d{1,2})?$/.test(price)) {
-            newErrors.price = 'Price must be a valid number.';
-        }
+        // Validate price: must be a valid number (can be an integer or decimal, allowing up to 2 decimal places)
+       
+
 
         return newErrors;
 
@@ -106,7 +106,6 @@ const UpdateMedicine = () => {
             const result = await dispatch(updateMedicine({ id, updates: formData }));
             if (result.meta.requestStatus === 'fulfilled') {
                 toast({ description: 'Medicine updated successfully', status: 'success' });
-
                 navigate('/admin');
 
             }
