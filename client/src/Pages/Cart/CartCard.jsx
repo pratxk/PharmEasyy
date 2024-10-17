@@ -18,6 +18,7 @@ const CartCard = ({ cartItem }) => {
       dispatch(updateCartQuantity({ cartItemId: _id, operation: 'decrement' })); // Use operation
     }
   };
+  
 
   // Handle remove item from cart
   const handleRemoveFromCart = () => {
@@ -26,13 +27,13 @@ const CartCard = ({ cartItem }) => {
 
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
-      <Link to={`/medicine/${_id}`} className="block">
-        <img
-          className="p-5 rounded-t-lg w-[50%] mx-auto"
-          src={imageUrl}
-          alt={name}
-        />
-      </Link>
+
+      <img
+        className="pb-4 rounded-t-lg w-[100%] mx-auto"
+        src={imageUrl}
+        alt={name}
+      />
+
       <div className="px-5 pb-5">
         <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">
           {name}

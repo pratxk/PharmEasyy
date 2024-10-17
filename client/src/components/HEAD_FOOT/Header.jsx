@@ -12,7 +12,7 @@ const Header = () => {
     const { isAuth, user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // console.log(isAuth)
+    // console.log(user)
 
     const randomColor = () => {
         const colors = ["red", "green", "blue", "orange", "purple", "teal"];
@@ -84,7 +84,10 @@ const Header = () => {
                         <>
                             <Avatar
                                 bg={randomColor()}
-                                name={user.email}
+                                name={user.user.email}
+                                color={'white'}
+
+                                fontWeight='600'
                                 cursor="pointer"
                                 onClick={() => navigate("/profile")}
                             />
@@ -124,7 +127,7 @@ const Header = () => {
                         <>
                             <Avatar
                                 bg={randomColor()}
-                                name={user.email}
+                                name={user.user.email}
                                 cursor="pointer"
                                 onClick={() => navigate("/profile")}
                             />

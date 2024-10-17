@@ -54,15 +54,15 @@ const MedicineCard = ({ item, inCart, quantity }) => {
 
         return (
             <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
-                <Link to={`/medicine/${item._id}`}>
-                    <img className="p-5 rounded-t-lg w-[50%]" src={item.imageUrl} alt={item.name} />
-                </Link>
+                
+                    <img className=" pb-4 rounded-t-lg w-[100%]" src={item.imageUrl} alt={item.name} />
+                
                 <div className="px-5 pb-5">
                     <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-black">{item.name}</h5>
                     <p className="text-sm text-gray-900 ">Developed By: {item.developedBy}</p>
                     <p className="text-sm text-gray-900 "><b>Category</b>: {item.category}</p>
                     <p className="text-sm text-gray-900"><b>Max Expiry</b>: {item.maxMonthsExpiry} months</p>
-                    <span className="text-3xl font-bold text-gray-900 ">${item.price}</span>
+                    <span className="text-2xl font-bold text-gray-900 "><b>Price: </b>${item.price}</span>
                     <div className="flex items-center justify-between mt-2">
                         {
                             +item.stock > 0 ? (

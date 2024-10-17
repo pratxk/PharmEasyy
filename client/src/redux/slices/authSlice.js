@@ -97,7 +97,7 @@ const authSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         if (state.allUsers) {
-          state.allUsers = state.allUsers.filter((item) => item._id !== action.payload.deletedItem._id);
+          state.allUsers = state.allUsers.filter((item) => item._id !== action.payload.user._id);
         }
       })
       .addCase(deleteUser.rejected, (state, action) => {

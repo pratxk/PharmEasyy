@@ -1,0 +1,203 @@
+[
+    {
+      "name": "Amoxicillin",
+      "developedBy": "Yundt, Lind and Upton",
+      "maxMonthsExpiry": 50,
+      "category": "Antibiotic",
+      "imageUrl": "https://images.unsplash.com/photo-1624224508488-c31c8af0e642?q=80&w=20",
+      "stock": 1,
+      "price": 435.95,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Metformin",
+      "developedBy": "Bradtke - Orn",
+      "maxMonthsExpiry": 33,
+      "category": "Diabetes Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1626870884221-5d1f44f61bbd?q=80&w=20",
+      "stock": 0,
+      "price": 518.05,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Paracetamol",
+      "developedBy": "Gutmann, Aufderhar and Parker",
+      "maxMonthsExpiry": 12,
+      "category": "Fever Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1549477752-31cd7327aed0?q=80&w=20",
+      "stock": 2,
+      "price": 537.49,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Paracetamol",
+      "developedBy": "Harris - Baumbach",
+      "maxMonthsExpiry": 22,
+      "category": "Fever Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1549477752-31cd7327aed0?q=80&w=20",
+      "stock": 0,
+      "price": 720.55,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Lisinopril",
+      "developedBy": "Volkman, Becker and Ratke",
+      "maxMonthsExpiry": 26,
+      "category": "Blood Pressure Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=20",
+      "stock": 0,
+      "price": 2.99,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Atorvastatin",
+      "developedBy": "Leannon - Miller",
+      "maxMonthsExpiry": 53,
+      "category": "Cholesterol Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1573497491208-6b1acb260507?q=80&w=20",
+      "stock": 2,
+      "price": 169.57,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Losartan",
+      "developedBy": "Pagac LLC",
+      "maxMonthsExpiry": 57,
+      "category": "Heart Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=20",
+      "stock": 1,
+      "price": 890.69,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Ibuprofen",
+      "developedBy": "Terry - Medhurst",
+      "maxMonthsExpiry": 20,
+      "category": "Pain Relief",
+      "imageUrl": "https://images.unsplash.com/photo-1549477754-350cf45a1772?q=80&w=20",
+      "stock": 0,
+      "price": 362.49,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Amoxicillin",
+      "developedBy": "Terry - Block",
+      "maxMonthsExpiry": 56,
+      "category": "Antibiotic",
+      "imageUrl": "https://images.unsplash.com/photo-1624224508488-c31c8af0e642?q=80&w=20",
+      "stock": 1,
+      "price": 38.65,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Sertraline",
+      "developedBy": "Nikolaus, Friesen and Satterfield",
+      "maxMonthsExpiry": 39,
+      "category": "Mental Health Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1577401132921-cb39bb0adcff?q=80&w=20",
+      "stock": 1,
+      "price": 401.89,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Amoxicillin",
+      "developedBy": "Brakus, Dooley and Willms",
+      "maxMonthsExpiry": 32,
+      "category": "Antibiotic",
+      "imageUrl": "https://images.unsplash.com/photo-1624224508488-c31c8af0e642?q=80&w=20",
+      "stock": 0,
+      "price": 489.45,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Lisinopril",
+      "developedBy": "Sporer Group",
+      "maxMonthsExpiry": 34,
+      "category": "Blood Pressure Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=20",
+      "stock": 1,
+      "price": 660.1,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Amoxicillin",
+      "developedBy": "Reilly - Abbott",
+      "maxMonthsExpiry": 39,
+      "category": "Antibiotic",
+      "imageUrl": "https://images.unsplash.com/photo-1624224508488-c31c8af0e642?q=80&w=20",
+      "stock": 1,
+      "price": 28.25,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Losartan",
+      "developedBy": "Dibbert Inc",
+      "maxMonthsExpiry": 13,
+      "category": "Heart Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1573497491208-6b1acb260507?q=80&w=20",
+      "stock": 1,
+      "price": 847.99,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Lisinopril",
+      "developedBy": "Johnson LLC",
+      "maxMonthsExpiry": 20,
+      "category": "Blood Pressure Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=20",
+      "stock": 0,
+      "price": 199.99,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Metformin",
+      "developedBy": "Reinger, Tillman and Connelly",
+      "maxMonthsExpiry": 44,
+      "category": "Diabetes Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1626870884221-5d1f44f61bbd?q=80&w=20",
+      "stock": 2,
+      "price": 115.72,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Levothyroxine",
+      "developedBy": "Hauck, Jenkins and Grant",
+      "maxMonthsExpiry": 40,
+      "category": "Thyroid Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1670981099586-55fc3921cfd4?q=80&w=20",
+      "stock": 1,
+      "price": 341.99,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Metformin",
+      "developedBy": "Hegmann - Ankunding",
+      "maxMonthsExpiry": 35,
+      "category": "Diabetes Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1626870884221-5d1f44f61bbd?q=80&w=20",
+      "stock": 0,
+      "price": 790.2,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Sertraline",
+      "developedBy": "Windler - Cruickshank",
+      "maxMonthsExpiry": 48,
+      "category": "Mental Health Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1577401132921-cb39bb0adcff?q=80&w=20",
+      "stock": 2,
+      "price": 101.5,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    },
+    {
+      "name": "Paracetamol",
+      "developedBy": "Gibson - Funk",
+      "maxMonthsExpiry": 59,
+      "category": "Fever Medicine",
+      "imageUrl": "https://images.unsplash.com/photo-1549477752-31cd7327aed0?q=80&w=20",
+      "stock": 0,
+      "price": 834.55,
+      "created_at": "2024-10-17T00:00:00.000Z"
+    }
+  ]
+  

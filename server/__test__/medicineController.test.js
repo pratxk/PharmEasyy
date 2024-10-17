@@ -2,7 +2,7 @@ const request = require('supertest');
 const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const app = require('../index');
+const { startServer, stopServer } = require('../index'); // Adjust path as necessary
 const User = require('../models/user.model');
 const Medicine = require('../models/medicine.model');
 
@@ -12,7 +12,7 @@ const adminUser = {
     email: 'admin@example.com',
     password: 'adminpassword',
     ph_no: '0987654321',
-    role: 'admin', // Ensure your User model can handle this role
+    role: 'admin',
 };
 
 const testMedicine = {
@@ -25,38 +25,40 @@ const testMedicine = {
     price: 9.99,
 };
 
-describe('Medicine Management Tests', () => {
-    let adminToken;
+let server;
+let adminToken;
 
-    beforeAll(async () => {
-        await mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+beforeAll(async () => {
+    server = await startServer();
+
+    await mongoose.connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+
+    const hashedPassword = await bcrypt.hash(adminUser.password, 10);
+    await User.create({ ...adminUser, password: hashedPassword });
+
+    // Log in to get admin token
+    const res = await request(server)
+        .post('/auth/login')
+        .send({
+            email: adminUser.email,
+            password: adminUser.password,
         });
+    adminToken = res.body.token; // Store the admin token
+});
 
-        const hashedPassword = await bcrypt.hash(adminUser.password, 10);
-        await User.create({ ...adminUser, password: hashedPassword });
-    });
+afterAll(async () => {
+    await User.deleteMany({ email: adminUser.email });
+    await Medicine.deleteMany({ developedBy: 'Test Company' });
+    await mongoose.connection.close();
+    await stopServer(); // Stop the server after all tests
+});
 
-    afterAll(async () => {
-        await User.deleteMany({ email: adminUser.email });
-        await Medicine.deleteMany({});
-        await mongoose.connection.close();
-    });
-
-    beforeEach(async () => {
-        const res = await request(app)
-            .post('/auth/login')
-            .send({
-                email: adminUser.email,
-                password: adminUser.password,
-            });
-
-        adminToken = res.body.token; // Store the admin token
-    });
-
+describe('Medicine Management Tests', () => {
     test('Add a new medicine', async () => {
-        const res = await request(app)
+        const res = await request(server)
             .post('/medicines/add-medicine')
             .set('Authorization', `Bearer ${adminToken}`)
             .send(testMedicine);
@@ -67,12 +69,12 @@ describe('Medicine Management Tests', () => {
     });
 
     test('Fetch all medicines', async () => {
-        await request(app)
+        await request(server)
             .post('/medicines/add-medicine')
             .set('Authorization', `Bearer ${adminToken}`)
             .send(testMedicine);
 
-        const res = await request(app)
+        const res = await request(server)
             .get('/medicines/')
             .set('Authorization', `Bearer ${adminToken}`);
 
@@ -81,14 +83,14 @@ describe('Medicine Management Tests', () => {
     });
 
     test('Fetch a single medicine by ID', async () => {
-        const addRes = await request(app)
+        const addRes = await request(server)
             .post('/medicines/add-medicine')
             .set('Authorization', `Bearer ${adminToken}`)
             .send(testMedicine);
 
         const medicineId = addRes.body.newMedicine._id;
 
-        const res = await request(app)
+        const res = await request(server)
             .get(`/medicines/${medicineId}`)
             .set('Authorization', `Bearer ${adminToken}`);
 
@@ -97,7 +99,7 @@ describe('Medicine Management Tests', () => {
     });
 
     test('Update an existing medicine', async () => {
-        const addRes = await request(app)
+        const addRes = await request(server)
             .post('/medicines/add-medicine')
             .set('Authorization', `Bearer ${adminToken}`)
             .send(testMedicine);
@@ -105,7 +107,7 @@ describe('Medicine Management Tests', () => {
         const medicineId = addRes.body.newMedicine._id;
         const updatedMedicine = { ...testMedicine, name: 'Updated Medicine' };
 
-        const res = await request(app)
+        const res = await request(server)
             .patch(`/medicines/update-medicine/${medicineId}`)
             .set('Authorization', `Bearer ${adminToken}`)
             .send(updatedMedicine);
@@ -116,14 +118,14 @@ describe('Medicine Management Tests', () => {
     });
 
     test('Delete a medicine by ID', async () => {
-        const addRes = await request(app)
+        const addRes = await request(server)
             .post('/medicines/add-medicine')
             .set('Authorization', `Bearer ${adminToken}`)
             .send(testMedicine);
 
         const medicineId = addRes.body.newMedicine._id;
 
-        const res = await request(app)
+        const res = await request(server)
             .delete(`/medicines/delete-medicine/${medicineId}`)
             .set('Authorization', `Bearer ${adminToken}`);
 

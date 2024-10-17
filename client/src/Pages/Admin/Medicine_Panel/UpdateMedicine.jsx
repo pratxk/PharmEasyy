@@ -62,10 +62,7 @@ const UpdateMedicine = () => {
             newErrors.name = 'Medicine name must be a valid word without numbers between words.';
         }
 
-        // Validate developedBy: must be greater than two letters
-        if (!/^[A-Za-z\s]{3,}$/.test(developedBy)) {
-            newErrors.developedBy = 'Company name must be at least 3 letters.';
-        }
+        
 
         // Validate category: must be greater than two letters
         

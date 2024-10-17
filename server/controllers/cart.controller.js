@@ -134,6 +134,7 @@ const updateCartItem = [
             }
 
             const updatedItem = await cartItem.save();
+            const updatedCart = await cartModel.find();
             res.status(200).json({ message: 'Cart item updated', updatedItem });
         } catch (error) {
             res.status(500).json({

@@ -86,7 +86,7 @@ export const updateCartQuantity = createAsyncThunk(
         { operation }, // Send the operation instead of quantity
         config
       );
-      return response.data; // Return updated cart data
+      return response.data.updatedItem; // Return updated cart data
     } catch (error) {
       return rejectWithValue(error.message);
     }
