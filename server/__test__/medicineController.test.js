@@ -52,6 +52,7 @@ beforeAll(async () => {
 afterAll(async () => {
     await User.deleteMany({ email: adminUser.email });
     await Medicine.deleteMany({ developedBy: 'Test Company' });
+    
     await mongoose.connection.close();
     await stopServer(); // Stop the server after all tests
 });

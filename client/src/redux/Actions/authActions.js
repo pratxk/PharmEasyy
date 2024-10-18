@@ -16,9 +16,8 @@ export const register = createAsyncThunk('auth/register',
 export const login = createAsyncThunk('auth/login',
      async (credentials, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/auth/login`, credentials);
-        alert('Login Successfully');
-        localStorage.setItem('token', JSON.stringify(response.data.token));
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/auth/login`, credentials, {withCredentials:true});
+        // alert('Login Successfully');
         localStorage.setItem('role', JSON.stringify(response.data.role));
         return response.data;
     } catch (error) {
@@ -32,18 +31,9 @@ export const logout = createAsyncThunk(
     'auth/logout',
     async (_, { rejectWithValue }) => {
       try {
-        const token = JSON.parse(localStorage.getItem('token'));
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/logout`, config);
-        localStorage.removeItem('token');
+        await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/logout`, {withCredentials:true});
         localStorage.removeItem('role');
         localStorage.removeItem('user');
-        // navigate('/')
-        
         return true; 
       } catch (error) {
         return rejectWithValue(error.message); 
@@ -55,14 +45,11 @@ export const logout = createAsyncThunk(
   //  fetching current user
 export const fetchCurrentUser = createAsyncThunk('auth/fetchCurrentUser', async (_, { rejectWithValue }) => {
   try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      const config = {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      };
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/me`, config);
+      
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/me`, {withCredentials:true});
+      console.log(response.data)
       return response.data;
+
   } catch (error) {
       return rejectWithValue(error.message); 
   }
@@ -71,13 +58,8 @@ export const fetchCurrentUser = createAsyncThunk('auth/fetchCurrentUser', async 
 // New action for fetching all users
 export const fetchAllUsers = createAsyncThunk('auth/fetchAllUsers', async (_, { rejectWithValue }) => {
   try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      const config = {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      };
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/get-all-users`, config);
+      
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/auth/get-all-users`, {withCredentials:true});
       return response.data;
   } catch (error) {
       return rejectWithValue(error.message); 
@@ -86,13 +68,8 @@ export const fetchAllUsers = createAsyncThunk('auth/fetchAllUsers', async (_, { 
 
 export const deleteUser = createAsyncThunk('auth/deleteUser', async(id,{rejectWithValue})=>{
   try {
-    const token = JSON.parse(localStorage.getItem('token'));
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    }
-    const response = await axios.delete(`${import.meta.env.VITE_BACKEND_API}/auth/delete-user/${id}`,config);
+    
+    const response = await axios.delete(`${import.meta.env.VITE_BACKEND_API}/auth/delete-user/${id}`,{withCredentials:true});
     return response.data;
   } catch (error) {
     return rejectWithValue(error.message);

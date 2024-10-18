@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/Actions/authActions';
+import { useToast } from '@chakra-ui/react';
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const { isAuth, error, user } = useSelector((state) => state.auth);
 
@@ -51,7 +53,17 @@ function Login() {
       return;
     }
     setErrors({}); 
-    dispatch(login(formData));
+    dispatch(login(formData))
+    .then((result) => {
+      if (result.meta.requestStatus === 'fulfilled') {
+        toast({ description: 'Logged-in successfully', status: 'success' });
+      } else {
+        toast({ description: 'Login failed', status: 'error' });
+      }
+    })
+    .catch((err) => {
+      toast({ description: 'An error occurred', status: 'error' });
+    });
   };
 
   useEffect(() => {
@@ -69,7 +81,7 @@ function Login() {
     <div className="w-full mx-auto overflow-hidden my-32 max-w-sm p-4 bg-white border  border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
       <form className="space-y-6" onSubmit={handleSubmit}>
         <h5 className="text-xl font-medium text-gray-900 dark:text-white">Log in to our platform</h5>
-        {error && <p className="text-red-500">{error}</p>}
+        {/* {error && <p className="text-red-500">{error}</p>} */}
 
         <div>
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
