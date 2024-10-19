@@ -37,6 +37,7 @@ const Header = () => {
     return (
         <Box
             as="nav"
+            id="userHeader"
             bg={isSticky ? "rgba(255, 255, 255, 0.1)" : 'black'}
             backdropFilter="blur(10px)"
             position={isSticky ? "fixed" : "relative"}
@@ -100,7 +101,7 @@ const Header = () => {
 
             {/* Collapse component for the menu */}
             <Collapse in={isOpen} animateOpacity>
-                <Box alignItems="center" gap={4} display={{ base: 'flex', lg: "none" }} flexWrap='wrap' color={isSticky ? 'black' : 'white'} >
+                <Box alignItems="center" id="userHeader" gap={4} display={{ base: 'flex', lg: "none" }} flexWrap='wrap' color={isSticky ? 'black' : 'white'} >
                     <Link to="/medicines">
                         <Text _hover={{ color: "red" }} >Medicines</Text>
                     </Link>

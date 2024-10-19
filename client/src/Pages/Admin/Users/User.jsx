@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Heading from '../../../components/Skeleton/Heading';
@@ -69,3 +70,4 @@ function User() {
 }
 
 export default User;
+

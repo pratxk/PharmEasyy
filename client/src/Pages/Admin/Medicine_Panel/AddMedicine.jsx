@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { useDispatch } from 'react-redux';
 import { addMedicine } from '../../../redux/Actions/medicineActions';
 import { useToast } from '@chakra-ui/react';
@@ -7,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const AddMedicine = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const toast = useToast();
     const [formData, setFormData] = useState({
         name: '',
@@ -20,12 +22,14 @@ const AddMedicine = () => {
 
     const [errors, setErrors] = useState({}); // State for validation errors
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value
         }));
+
         setErrors((prevErrors) => ({
             ...prevErrors,
             [name]: '' // Clear error on change
@@ -70,6 +74,7 @@ const AddMedicine = () => {
         }
 
         return newErrors;
+
     };
 
     const handleSubmit = async (e) => {
@@ -94,6 +99,7 @@ const AddMedicine = () => {
                     price: ''
                 });
             }
+
         } catch (error) {
             console.error('Error adding medicine:', error);
         }
@@ -120,7 +126,9 @@ const AddMedicine = () => {
                                 placeholder="Aspirin"
                                 required
                             />
+
                             {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="developedBy" className="text-sm font-medium text-gray-900 block mb-2">Developed By</label>
@@ -134,7 +142,9 @@ const AddMedicine = () => {
                                 placeholder="Company Name"
                                 required
                             />
+
                             {errors.developedBy && <p className="text-red-500 text-xs">{errors.developedBy}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="maxMonthsExpiry" className="text-sm font-medium text-gray-900 block mb-2">Max Months Expiry</label>
@@ -148,7 +158,9 @@ const AddMedicine = () => {
                                 placeholder="12"
                                 required
                             />
+
                             {errors.maxMonthsExpiry && <p className="text-red-500 text-xs">{errors.maxMonthsExpiry}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="category" className="text-sm font-medium text-gray-900 block mb-2">Category</label>
@@ -162,7 +174,9 @@ const AddMedicine = () => {
                                 placeholder="Pain Reliever"
                                 required
                             />
+
                             {errors.category && <p className="text-red-500 text-xs">{errors.category}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="imageUrl" className="text-sm font-medium text-gray-900 block mb-2">Image URL</label>
@@ -176,7 +190,9 @@ const AddMedicine = () => {
                                 placeholder="https://example.com/image.jpg"
                                 required
                             />
+
                             {errors.imageUrl && <p className="text-red-500 text-xs">{errors.imageUrl}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="stock" className="text-sm font-medium text-gray-900 block mb-2">Stock</label>
@@ -190,7 +206,9 @@ const AddMedicine = () => {
                                 placeholder="100"
                                 required
                             />
+
                             {errors.stock && <p className="text-red-500 text-xs">{errors.stock}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="price" className="text-sm font-medium text-gray-900 block mb-2">Price</label>
@@ -204,6 +222,7 @@ const AddMedicine = () => {
                                 placeholder="$20"
                                 required
                             />
+
                             {errors.price && <p className="text-red-500 text-xs">{errors.price}</p>}
                         </div>
                     </div>

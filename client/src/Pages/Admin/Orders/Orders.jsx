@@ -16,14 +16,19 @@ function Orders() {
 
     return (
         <>
+
             <div className='overflow-hidden p-5 h-[100vh]'>
+
                 <Heading
                     text={"All Orders"}
                     textColor={"primary"}
                     fromGradient={"secondary"}
                     toGradient={"primary"}
                 />
+
                 {orders && orders?.length > 0 ? (
+               
+
                     <OrdersTable data={orders} />
                 ) : (
                     <p>No orders available.</p>

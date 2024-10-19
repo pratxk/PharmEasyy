@@ -18,3 +18,4 @@ orderRouter.post('/add-order', auth, orderController.addOrder);
 orderRouter.patch('/update-order/:id', [auth, checkAdmin], orderController.updateOrderStatus);
 
 module.exports = orderRouter;
+

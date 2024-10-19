@@ -58,7 +58,7 @@ const CartCard = ({ cartItem }) => {
             >
               -
             </button>
-            <span className="px-4 text-white font-bold">{qty}</span> {/* Updated to display qty */}
+            <span className="px-4 text-black font-bold">{qty}</span> {/* Updated to display qty */}
             <button
               onClick={handleIncrement}
               className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded-r"

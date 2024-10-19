@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSingleMedicine, updateMedicine } from '../../../redux/Actions/medicineActions';
 import { useToast } from '@chakra-ui/react';
+
 import { useNavigate, useParams } from 'react-router-dom';
 
 const UpdateMedicine = () => {
     const { id } = useParams();
+
     const dispatch = useDispatch();
     const toast = useToast();
     const navigate = useNavigate();
@@ -22,6 +24,7 @@ const UpdateMedicine = () => {
         price: ''
     });
     const [errors, setErrors] = useState({}); // State for validation errors
+
 
     useEffect(() => {
         const fetchMedicine = async () => {
@@ -42,6 +45,7 @@ const UpdateMedicine = () => {
             ...prevData,
             [name]: value
         }));
+
         setErrors((prevErrors) => ({
             ...prevErrors,
             [name]: '' // Clear error on change
@@ -86,6 +90,7 @@ const UpdateMedicine = () => {
         }
 
         return newErrors;
+
     };
 
     const handleSubmit = async (e) => {
@@ -96,11 +101,14 @@ const UpdateMedicine = () => {
             return; // Stop submission if errors exist
         }
 
+
         try {
             const result = await dispatch(updateMedicine({ id, updates: formData }));
             if (result.meta.requestStatus === 'fulfilled') {
                 toast({ description: 'Medicine updated successfully', status: 'success' });
+
                 navigate('/admin');
+
             }
         } catch (error) {
             console.error('Error updating medicine:', error);
@@ -132,7 +140,9 @@ const UpdateMedicine = () => {
                                 placeholder="Aspirin"
                                 required
                             />
+
                             {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="developedBy" className="text-sm font-medium text-gray-900 block mb-2">Developed By</label>
@@ -146,7 +156,9 @@ const UpdateMedicine = () => {
                                 placeholder="Company Name"
                                 required
                             />
+
                             {errors.developedBy && <p className="text-red-500 text-xs">{errors.developedBy}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="maxMonthsExpiry" className="text-sm font-medium text-gray-900 block mb-2">Max Months Expiry</label>
@@ -160,7 +172,9 @@ const UpdateMedicine = () => {
                                 placeholder="12"
                                 required
                             />
+
                             {errors.maxMonthsExpiry && <p className="text-red-500 text-xs">{errors.maxMonthsExpiry}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="category" className="text-sm font-medium text-gray-900 block mb-2">Category</label>
@@ -174,7 +188,9 @@ const UpdateMedicine = () => {
                                 placeholder="Pain Reliever"
                                 required
                             />
+
                             {errors.category && <p className="text-red-500 text-xs">{errors.category}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="imageUrl" className="text-sm font-medium text-gray-900 block mb-2">Image URL</label>
@@ -188,7 +204,9 @@ const UpdateMedicine = () => {
                                 placeholder="https://example.com/image.jpg"
                                 required
                             />
+
                             {errors.imageUrl && <p className="text-red-500 text-xs">{errors.imageUrl}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="stock" className="text-sm font-medium text-gray-900 block mb-2">Stock</label>
@@ -202,7 +220,9 @@ const UpdateMedicine = () => {
                                 placeholder="100"
                                 required
                             />
+
                             {errors.stock && <p className="text-red-500 text-xs">{errors.stock}</p>}
+
                         </div>
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="price" className="text-sm font-medium text-gray-900 block mb-2">Price</label>
@@ -216,12 +236,14 @@ const UpdateMedicine = () => {
                                 placeholder="$20"
                                 required
                             />
+
                             {errors.price && <p className="text-red-500 text-xs">{errors.price}</p>}
                         </div>
                     </div>
                     <div className="p-6 border-t border-gray-200 flex gap-3 rounded-b">
                         <button className="text-white bg-gray-950 hover:bg-gray-900 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="submit">Update Medicine</button>
                         <button className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center" onClick={() => navigate('/admin')}>Cancel</button>
+
                     </div>
                 </form>
             </div>
