@@ -25,4 +25,3 @@ function RoleBasedRoute({ allowedRoles, children }) {
 }
 
 export default RoleBasedRoute;
-

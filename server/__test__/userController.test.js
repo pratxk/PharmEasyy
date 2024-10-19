@@ -9,14 +9,19 @@ const blacklistModel = require('../models/blacklist.model');
 let server;
 
 beforeAll(async () => {
-    server = await startServer();
+    // Check if server is already running
+    try {
+        server = await startServer();
+    } catch (error) {
+        console.error("Server could not start:", error);
+        process.exit(1);
+    }
 });
 
 afterAll(async () => {
     await User.deleteMany({ email: { $in: ['john@example.com', 'admin@example.com'] } });
     await blacklistModel.deleteMany({});
-    await mongoose.connection.close(); // Ensure the connection is properly closed
-    await stopServer(); // Stop the server after all tests
+    await stopServer(); // Ensure server is stopped properly
 });
 
 const testUser = {
@@ -54,7 +59,7 @@ describe('User Authentication Tests', () => {
                 password: adminUser.password,
             });
 
-        adminToken = res.body.token; // Store the admin token
+        adminToken = res.cookies.token; // Store the admin token
     });
 
     test('Register a new user', async () => {
@@ -149,7 +154,7 @@ describe('User Authentication Tests', () => {
         // Attempt to delete the user with the admin token
         const res = await request(server)
             .delete(`/auth/delete-user/${userToDelete._id}`)
-            .set('Authorization', `Bearer ${adminToken}`);
+            .set('withCredentials', true);
 
         expect(res.statusCode).toBe(200);
         expect(res.body.message).toBe('User deleted successfully');

@@ -6,13 +6,13 @@ export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
   async (_, { rejectWithValue }) => {
     try {
-      const token = JSON.parse(localStorage.getItem("token"));
+      const token = JSON.parse(localStorage.getItem('token'));
       const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
       };
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/cart`, config);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/cart`,config);
       return response.data; // Return cart data
     } catch (error) {
       return rejectWithValue(error.message);
@@ -24,22 +24,22 @@ export const fetchCart = createAsyncThunk(
 export const addMedicineToCart = createAsyncThunk(
   "cart/addMedicineToCart",
   async ({ medicineId, quantity, name, developedBy, maxMonthsExpiry, category, imageUrl, price }, { rejectWithValue }) => {
-      try {
-          const token = JSON.parse(localStorage.getItem("token"));
-          const config = {
-              headers: {
-                  Authorization: `Bearer ${token}`,
-              },
-          };
-          const response = await axios.post(
-              `${import.meta.env.VITE_BACKEND_API}/cart/add`,
-              { medicineId, quantity, name, developedBy, maxMonthsExpiry, category, imageUrl, price },
-              config
-          );
-          return response.data; // Return updated cart data
-      } catch (error) {
-          return rejectWithValue(error.message);
-      }
+    try {
+      const token = JSON.parse(localStorage.getItem('token'));
+      const config = {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      };
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_API}/cart/add`,
+        { medicineId, quantity, name, developedBy, maxMonthsExpiry, category, imageUrl, price },
+       config
+      );
+      return response.data; // Return updated cart data
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -62,7 +62,7 @@ export const removeMedicineFromCart = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_API}/cart/remove/${cartItemId}`, // Send ID in the URL
         config
       );
-      return response.data; 
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }

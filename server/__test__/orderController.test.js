@@ -81,7 +81,7 @@ afterAll(async () => {
     }
 
     // Remove any cart items related to the test user
-    await Cart.deleteMany({ userId: testUser.email }); // Assuming 'userId' references the email
+    await Cart.deleteMany({ email: testUser.email }); // Assuming 'userId' references the email
 
     // Remove the test medicine
     if (medicineId) {

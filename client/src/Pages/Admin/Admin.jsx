@@ -6,6 +6,7 @@ import MedicineCardSkeleton from '../../components/Skeleton/MedicineCardSkeleton
 import { fetchMedicines } from '../../redux/Actions/medicineActions';
 import PharmacyCard from './components/Pharmacy_Comps/PharmacyCard';
 import Pagination from '../../components/Pagination';
+import { fetchCurrentUser } from '../../redux/Actions/authActions';
 
 function Admin() {
     const dispatch = useDispatch();
@@ -40,6 +41,11 @@ function Admin() {
             page: newPage,
         }));
     };
+
+    useEffect(() => {
+        // Fetch current user when the app loads
+        dispatch(fetchCurrentUser());
+    }, [dispatch]);
 
     const totalPages = Math.ceil(total / filters.limit); // Calculate total pages
 

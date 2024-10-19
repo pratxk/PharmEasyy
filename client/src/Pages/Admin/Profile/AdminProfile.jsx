@@ -20,7 +20,7 @@ const AdminProfile = () => {
     return (
         <div className="h-[100vh] m-10 bg-white shadow-md rounded-lg overflow-hidden relative">
             <div className="flex items-center justify-center h-full relative z-10">
-                <img src={adminProfile} alt="Admin Profile" className="absolute left-100 z-0 h-full w-full object-cover opacity-100 bg-transparent  p-3 ml-11" />
+                <img src={adminProfile} alt="Admin Profile" className="absolute left-100 z-0 h-full w-full object-cover opacity-100 bg-transparent  p-3 ml-11 drop-shadow-custom-drop" />
                 <div className="p-10 z-20 absolute top-2 left-2">
                     <h2 className="text-4xl font-semibold text-white text-center p-4 rounded-3xl bg-gray-900">Admin Profile</h2>
                     <div className="mt-4 ml-4">
@@ -38,3 +38,12 @@ const AdminProfile = () => {
 };
 
 export default AdminProfile;
+
+
+
+//Routes , course controller , 
+
+//Routes - multer, controller - cloudinary
+
+
+//define content type in front end while esending post req

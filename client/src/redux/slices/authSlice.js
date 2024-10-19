@@ -9,7 +9,6 @@ function getStoredUser() {
   }
   return null;
 }
-
 function storeUser(user) {
   localStorage.setItem("user", JSON.stringify(user));
 }
@@ -51,11 +50,10 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
-        console.log(action.payload)
         state.role = action.payload.role;
         state.isAuth = true;
         storeUser(action.payload);
-        console.log(state.role)
+        // console.log(state.role)
 
       })
       .addCase(login.rejected, (state, action) => {
@@ -77,7 +75,11 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.role = action.payload.role;
+        state.isAuth = true;
+        state.user = action.payload;
         state.singleUser = action.payload;
+
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.error = action.payload;

@@ -70,10 +70,11 @@ const loginUser = [
             const result = await bcrypt.compare(password, user.password);
             if (result) {
                 const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SecretKEY, { expiresIn: '1d' });
+                // res.cookie('token',token,{httpOnly:true, maxAge: 24*60*60*1000})
                 res.status(201).json({
                     message: 'User logged in successfully',
-                    user,
                     token,
+                    user,
                     role: user.role
                 });
             } else {
@@ -90,9 +91,11 @@ const loginUser = [
 
 // GET: Logout a user
 const logoutUser = async (req, res) => {
+    // const token = req.cookies.token;
     const token = req.headers.authorization.split(' ')[1];
     const BlackListed_Token = new blacklistModel({ token });
     await BlackListed_Token.save();
+    res.clearCookie('token');
     res.send('Logout Successful');
 };
 // GET: Fetch current user's data

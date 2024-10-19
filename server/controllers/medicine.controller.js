@@ -1,4 +1,14 @@
 // controllers/medicineController.js
+const cloudinary=require("cloudinary")
+const multer=require("multer")
+
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 
 const { body, param, validationResult } = require('express-validator');
 const medicineModel = require('../models/medicine.model');
@@ -78,15 +88,26 @@ const getMedicineById = async (req, res) => {
 };
 
 // POST: Add a new medicine
+// POST: Add a new medicine
 const addMedicine = [
     // Validation middleware
     body('name').isString().withMessage('Name is required'),
     body('developedBy').isString().withMessage('Developed by is required'),
     body('maxMonthsExpiry').isInt({ min: 0 }).withMessage('Max months expiry must be a non-negative integer'),
     body('category').isString().withMessage('Category is required'),
-    body('imageUrl').isURL().withMessage('Valid image URL is required'),
     body('stock').isInt({ min: 0 }).withMessage('Stock must be a non-negative integer'),
     body('price').isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
+    
+    // Custom validation for imageUrl and file
+    body('imageUrl').custom((value, { req }) => {
+        if (!req.file && !value) {
+            throw new Error('Either image file or image URL must be provided');
+        }
+        if (req.file && value) {
+            throw new Error('Provide either an image file or an image URL, not both');
+        }
+        return true;
+    }),
 
     // Handler
     async (req, res) => {
@@ -95,7 +116,26 @@ const addMedicine = [
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { name, developedBy, maxMonthsExpiry, category, imageUrl, stock, price } = req.body;
+        const { name, developedBy, maxMonthsExpiry, category, stock, price } = req.body;
+        let imageUrl = '';
+
+        // Handle file upload to Cloudinary if a file is provided
+        if (req.file) {
+            try {
+                const result = await cloudinary.uploader.upload(req.file.path, {
+                    folder: "medicine_imgs",
+                });
+                imageUrl = result.secure_url;
+            } catch (error) {
+                return res.status(500).json({
+                    message: 'Error uploading image to Cloudinary',
+                    error: error.message,
+                });
+            }
+        } else if (req.body.imageUrl) {
+            // Use the provided image URL if no file was uploaded
+            imageUrl = req.body.imageUrl;
+        }
 
         try {
             const newMedicine = new medicineModel({
@@ -119,6 +159,7 @@ const addMedicine = [
     },
 ];
 
+
 // PATCH: Update an existing medicine
 const updateMedicine = [
     // Validation middleware
@@ -127,9 +168,19 @@ const updateMedicine = [
     body('developedBy').optional().isString().withMessage('Developed by must be a string'),
     body('maxMonthsExpiry').optional().isInt({ min: 0 }).withMessage('Max months expiry must be a non-negative integer'),
     body('category').optional().isString().withMessage('Category must be a string'),
-    body('imageUrl').optional().isURL().withMessage('Valid image URL is required'),
     body('stock').optional().isInt({ min: 0 }).withMessage('Stock must be a non-negative integer'),
     body('price').optional().isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
+    
+    // Custom validation for imageUrl and file
+    body('imageUrl').optional().custom((value, { req }) => {
+        if (!req.file && !value) {
+            throw new Error('Either an image file or an image URL must be provided');
+        }
+        if (req.file && value) {
+            throw new Error('Provide either an image file or an image URL, not both');
+        }
+        return true;
+    }),
 
     // Handler
     async (req, res) => {
@@ -139,7 +190,22 @@ const updateMedicine = [
         }
 
         const { id } = req.params;
-        const updates = req.body;
+        const updates = { ...req.body }; // Get updates from the body
+
+        // Handle file upload to Cloudinary if a file is provided
+        if (req.file) {
+            try {
+                const result = await cloudinary.uploader.upload(req.file.path, {
+                    folder: "medicine_imgs",
+                });
+                updates.imageUrl = result.secure_url; // Use the new image URL
+            } catch (error) {
+                return res.status(500).json({
+                    message: 'Error uploading image to Cloudinary',
+                    error: error.message,
+                });
+            }
+        }
 
         try {
             const updatedMedicine = await medicineModel.findByIdAndUpdate(id, updates, { new: true });
@@ -155,7 +221,6 @@ const updateMedicine = [
         }
     },
 ];
-
 // DELETE: Remove a medicine by ID
 const deleteMedicine = [
     // Validation middleware

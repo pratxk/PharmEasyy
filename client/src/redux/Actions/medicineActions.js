@@ -43,11 +43,12 @@ export const addMedicine = createAsyncThunk(
     'medicine/addMedicine',
     async (medicineData, { rejectWithValue }) => {
         try {
-            const token = JSON.parse(localStorage.getItem('token'));
+
             const config = {
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                    "Content-Type": "multipart/form-data"
+                },
+                withCredentials: true
             };
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/medicines/add-medicine`, medicineData, config);
             return response.data;
@@ -58,23 +59,25 @@ export const addMedicine = createAsyncThunk(
 );
 
 // Update Medicine
+
 export const updateMedicine = createAsyncThunk(
     'medicine/updateMedicine',
     async ({ id, updates }, { rejectWithValue }) => {
         try {
-            const token = JSON.parse(localStorage.getItem('token'));
             const config = {
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                    "Content-Type": "multipart/form-data"
+                },
+                withCredentials: true
             };
             const response = await axios.patch(`${import.meta.env.VITE_BACKEND_API}/medicines/update-medicine/${id}`, updates, config);
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.response ? error.response.data : error.message);
         }
     }
 );
+
 
 // Delete Medicine
 export const deleteMedicine = createAsyncThunk(
@@ -84,8 +87,8 @@ export const deleteMedicine = createAsyncThunk(
             const token = JSON.parse(localStorage.getItem('token'));
             const config = {
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             };
             const response = await axios.delete(`${import.meta.env.VITE_BACKEND_API}/medicines/delete-medicine/${id}`, config);
             return response.data;

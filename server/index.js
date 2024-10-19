@@ -4,6 +4,7 @@ const cors = require('cors');
 const connection = require('./config/db');
 const userRouter = require('./routes/user.routes');
 const cartRouter = require('./routes/cart.routes');
+// const cookies = require('cookie-parser')
 const medicineRouter = require('./routes/medicines.routes');
 const orderRouter = require('./routes/order.routes');
 
@@ -13,13 +14,13 @@ const PORT = process.env.PORT || 4000 + Math.floor(Math.random() * 1000);
 app.use(express.json());
 
 const corsOptions = {
-    origin: '*', // Replace with your frontend's origin
+    origin: 'http://localhost:5173', // Replace with your frontend's origin
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allowed HTTP methods
     credentials: true, // Allow cookies and authentication headers
 };
 
 app.use(cors(corsOptions));
-
+// app.use(cookies());
 app.get('/', (req, res) => {
     return res.status(200).send('Server is running fine');
 });
@@ -29,9 +30,14 @@ app.use("/orders", orderRouter);
 app.use('/cart', cartRouter);
 app.use('/medicines', medicineRouter);
 
-let server;
+let server; // Keep track of the server instance
 
 const startServer = async () => {
+    // Check if server is already running
+    if (server) {
+        return server; // Return the existing server if it's already running
+    }
+
     try {
         await connection;
         server = app.listen(PORT, () => {
@@ -43,12 +49,15 @@ const startServer = async () => {
     }
     return server;
 };
-startServer();
+
+startServer()
 
 const stopServer = () => {
     if (server) {
         server.close();
         console.log(`Server stopped.`);
+    } else {
+        console.log('Server not found');
     }
 };
 

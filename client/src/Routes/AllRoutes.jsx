@@ -24,6 +24,8 @@ import UpdateMedicine from '../Pages/Admin/Medicine_Panel/UpdateMedicine'
 import User from '../Pages/Admin/Users/User'
 import AdminProfile from '../Pages/Admin/Profile/AdminProfile'
 import Orders_User from '../Pages/Orders(user)/Orders_User'
+import store from '../redux/store'
+
 
 
 const router = createBrowserRouter([
@@ -121,7 +123,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Admin />
+                element: <Admin />,
             },
             {
                 path: '/admin/:id',

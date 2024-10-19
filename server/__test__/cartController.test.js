@@ -60,9 +60,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     // Remove specific cart items related to the test
-    if (cartItemId) {
-        await Cart.deleteMany({ _id: cartItemId });
-    }
+  
     
     // Remove the test medicine
     if (medicineId) {

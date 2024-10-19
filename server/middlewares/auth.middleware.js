@@ -8,6 +8,7 @@ const auth = async (req, res, next) => {
             return res.status(401).json({ message: 'Unauthorized Access...Please Login First' });
         }
         const token = authHeader.split(' ')[1];
+        // const token = req.cookies.token;
         const blacklistedToken = await blacklistModel.findOne({ token });
         if (blacklistedToken) {
             return res.status(401).json({ message: 'Unauthorized Access...Please Login First' });

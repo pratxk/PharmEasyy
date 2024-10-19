@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text, Button, Avatar, Select, IconButton, Collapse } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Button, Avatar, Select, IconButton, Collapse, useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
@@ -12,6 +12,7 @@ const Header = () => {
     const { isAuth, user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const toast = useToast();
     // console.log(user)
 
     const randomColor = () => {
@@ -84,7 +85,7 @@ const Header = () => {
                         <>
                             <Avatar
                                 bg={randomColor()}
-                                name={user.user.email}
+                                name={user?.user?.email}
                                 color={'white'}
 
                                 fontWeight='600'
@@ -127,7 +128,8 @@ const Header = () => {
                         <>
                             <Avatar
                                 bg={randomColor()}
-                                name={user.user.email}
+                                name={user?.user?.email}
+                                color={'white'}
                                 cursor="pointer"
                                 onClick={() => navigate("/profile")}
                             />

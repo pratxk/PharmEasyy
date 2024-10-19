@@ -20,7 +20,7 @@ const Orders_User = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Show error message
+    return <div className='h-[100vh] flex justify-center items-center'>{error === "No orders found" ? 'Error : ' : ''} {error}</div>; // Show error message
   }
 
   return (
@@ -28,6 +28,7 @@ const Orders_User = () => {
       <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse border border-gray-200">
+
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2">Sr. No.</th>

@@ -23,7 +23,7 @@ const PharmacyCard = ({ item }) => {
     };
 
     return (
-        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform">
             <img className="w-full h-48 object-cover" src={item.imageUrl} alt={item.name} />
             <div className="p-5">
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{item.name}</h5>
