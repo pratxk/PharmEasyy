@@ -20,7 +20,7 @@ export default function Cart() {
 
 
   const handleCheckout = () => {
-    toast({ description: 'Proceeding to checkout...', status: 'info' });
+    toast({ description: 'Proceeding to checkout...', status: 'info', duration:1500 });
     // Add your checkout logic here
     setTimeout(() => {
       navigate('/checkout')

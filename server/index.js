@@ -4,7 +4,7 @@ const cors = require('cors');
 const connection = require('./config/db');
 const userRouter = require('./routes/user.routes');
 const cartRouter = require('./routes/cart.routes');
-const cookies = require('cookie-parser')
+// const cookies = require('cookie-parser')
 const medicineRouter = require('./routes/medicines.routes');
 const orderRouter = require('./routes/order.routes');
 
@@ -20,7 +20,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(cookies());
+// app.use(cookies());
 app.get('/', (req, res) => {
     return res.status(200).send('Server is running fine');
 });

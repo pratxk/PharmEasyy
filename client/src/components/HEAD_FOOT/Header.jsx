@@ -85,7 +85,7 @@ const Header = () => {
                         <>
                             <Avatar
                                 bg={randomColor()}
-                                name={user.email}
+                                name={user?.user?.email}
                                 color={'white'}
 
                                 fontWeight='600'
@@ -128,7 +128,8 @@ const Header = () => {
                         <>
                             <Avatar
                                 bg={randomColor()}
-                                name={user.email}
+                                name={user?.user?.email}
+                                color={'white'}
                                 cursor="pointer"
                                 onClick={() => navigate("/profile")}
                             />
