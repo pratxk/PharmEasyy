@@ -50,7 +50,7 @@ const Header = () => {
             transition="0.3s ease-in-out"
         >
             <Flex justify="space-between" align="center" maxW="7xl" mx="auto">
-                <Heading size="lg" fontWeight={550} letterSpacing="tight" color={isSticky ? 'black' : 'white'}>
+                <Heading size="lg" fontWeight={550} letterSpacing="tight" fontFamily='mono' color={isSticky ? 'black' : 'white'}>
                     <Link to="/" style={{ textDecoration: "none" }} >
                         PharmEasy
                     </Link>

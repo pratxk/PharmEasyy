@@ -17,7 +17,7 @@ const OrdersTable = ({ data }) => {
 
     return (
 
-        <div className="overflow-x-auto">
+        <div className="overflow-scroll h-[100vh]">
             <table className="min-w-full border-collapse border border-gray-200">
                 <thead>
                     <tr className="bg-gray-100">
