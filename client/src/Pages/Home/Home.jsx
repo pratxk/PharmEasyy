@@ -59,7 +59,7 @@ function Home() {
                     </div>
                 </div>
 
-                <Heading textAlign='center' color='black'>
+                <Heading textAlign='center' fontFamily='monospace' color='black'>
                     Top Sellers
                 </Heading>
 

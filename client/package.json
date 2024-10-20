@@ -16,6 +16,7 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@reduxjs/toolkit": "^2.2.8",
+    "@testing-library/react": "^16.0.1",
     "axios": "^1.7.7",
     "express-validator": "^7.2.0",
     "framer-motion": "^11.11.8",
