@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/Actions/authActions';
+import { useToast } from '@chakra-ui/react';
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const toast = useToast();
+
   const { isAuth, error, user } = useSelector((state) => state.auth);
+
 
   const [formData, setFormData] = useState({
     email: '',
@@ -49,12 +53,23 @@ function Login() {
       return;
     }
     setErrors({}); 
-    dispatch(login(formData));
+    dispatch(login(formData))
+    .then((result) => {
+      if (result.meta.requestStatus === 'fulfilled') {
+        toast({ description: 'Logged-in successfully', status: 'success' , duration:10000});
+      } else {
+        toast({ description: 'Login failed', status: 'error' });
+      }
+    })
+    .catch((err) => {
+      toast({ description: 'An error occurred', status: 'error' });
+    });
   };
 
   useEffect(() => {
     if (isAuth) {
       if (user.role === 'admin') {
+
         navigate('/admin');
         return;
       }
@@ -63,22 +78,22 @@ function Login() {
   }, [isAuth, navigate]);
 
   return (
-    <div className="w-full mx-auto overflow-hidden my-24 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full mx-auto overflow-hidden my-32 max-w-sm p-4 bg-white border  border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
       <form className="space-y-6" onSubmit={handleSubmit}>
         <h5 className="text-xl font-medium text-gray-900 dark:text-white">Log in to our platform</h5>
-        {error && <p className="text-red-500">{error}</p>}
+        {/* {error && <p className="text-red-500">{error}</p>} */}
 
         <div>
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
           <input
-            type="email"
+            type="text"
             name="email"
             id="email"
             value={formData.email}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             placeholder="name@company.com"
-            required
+       
           />
           {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
         </div>
@@ -92,7 +107,7 @@ function Login() {
             onChange={handleChange}
             placeholder="••••••••"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-            required
+      
           />
           {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
         </div>

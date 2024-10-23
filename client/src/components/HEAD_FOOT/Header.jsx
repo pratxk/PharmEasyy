@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text, Button, Avatar, Select, IconButton, Collapse } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Button, Avatar, Select, IconButton, Collapse, useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
@@ -12,7 +12,8 @@ const Header = () => {
     const { isAuth, user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // console.log(isAuth)
+    const toast = useToast();
+    // console.log(user)
 
     const randomColor = () => {
         const colors = ["red", "green", "blue", "orange", "purple", "teal"];
@@ -37,6 +38,7 @@ const Header = () => {
     return (
         <Box
             as="nav"
+            id="userHeader"
             bg={isSticky ? "rgba(255, 255, 255, 0.1)" : 'black'}
             backdropFilter="blur(10px)"
             position={isSticky ? "fixed" : "relative"}
@@ -48,7 +50,7 @@ const Header = () => {
             transition="0.3s ease-in-out"
         >
             <Flex justify="space-between" align="center" maxW="7xl" mx="auto">
-                <Heading size="lg" fontWeight={550} letterSpacing="tight" color={isSticky ? 'black' : 'white'}>
+                <Heading size="lg" fontWeight={550} letterSpacing="tight" fontFamily='mono' color={isSticky ? 'black' : 'white'}>
                     <Link to="/" style={{ textDecoration: "none" }} >
                         PharmEasy
                     </Link>
@@ -72,6 +74,9 @@ const Header = () => {
                     <Link to="/contact">
                         <Text _hover={{ color: "red" }} >Contact</Text>
                     </Link>
+                    <Link to="/orders">
+                        <Text _hover={{ color: "red" }} >Orders</Text>
+                    </Link>
                     <Link to="/about">
                         <Text _hover={{ color: "red" }} >About</Text>
                     </Link>
@@ -80,7 +85,10 @@ const Header = () => {
                         <>
                             <Avatar
                                 bg={randomColor()}
-                                name={user.email}
+                                name={user?.user?.email}
+                                color={'white'}
+
+                                fontWeight='600'
                                 cursor="pointer"
                                 onClick={() => navigate("/profile")}
                             />
@@ -100,7 +108,7 @@ const Header = () => {
 
             {/* Collapse component for the menu */}
             <Collapse in={isOpen} animateOpacity>
-                <Box alignItems="center" gap={4} display={{ base: 'flex', lg: "none" }} flexWrap='wrap' color={isSticky ? 'black' : 'white'} >
+                <Box alignItems="center" id="userHeader2" gap={4} display={{ base: 'flex', lg: "none" }} flexWrap='wrap' color={isSticky ? 'black' : 'white'} >
                     <Link to="/medicines">
                         <Text _hover={{ color: "red" }} >Medicines</Text>
                     </Link>
@@ -110,6 +118,9 @@ const Header = () => {
                     <Link to="/contact">
                         <Text _hover={{ color: "red" }} >Contact</Text>
                     </Link>
+                    <Link to="/orders">
+                        <Text _hover={{ color: "red" }} >Orders</Text>
+                    </Link>
                     <Link to="/about">
                         <Text _hover={{ color: "red" }} >About</Text>
                     </Link>
@@ -117,13 +128,19 @@ const Header = () => {
                         <>
                             <Avatar
                                 bg={randomColor()}
-                                name={user.email}
+                                name={user?.user?.email}
+                                color={'white'}
                                 cursor="pointer"
                                 onClick={() => navigate("/profile")}
                             />
                             <Button colorScheme="red" onClick={() => {
-                                dispatch(logout());
-                                navigate('/login');
+                                dispatch(logout())
+                                .then((result)=>{
+                                    if (result.meta.requestStatus === 'fulfilled') {
+                                        toast({ description: 'Sucessfull LoggedOut', status: 'success' });
+                                        navigate('/');
+                                    }
+                                })
                             }}>Log Out</Button>
                         </>
                     ) : (

@@ -6,11 +6,11 @@ export const fetchOrders = createAsyncThunk(
   "orders/fetchOrders",
   async (_, { rejectWithValue }) => {
     try {
-      const token = JSON.parse(localStorage.getItem("token"));
+      const token = JSON.parse(localStorage.getItem('token'));
       const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
       };
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/orders`, config);
       return response.data.orders; // Return orders data
@@ -25,11 +25,11 @@ export const addOrder = createAsyncThunk(
   "orders/addOrder",
   async (orderData, { rejectWithValue }) => {
     try {
-      const token = JSON.parse(localStorage.getItem("token"));
+      const token = JSON.parse(localStorage.getItem('token'));
       const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
       };
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/orders/add-order`, orderData, config);
       return response.data.order; // Return the new order
@@ -41,29 +41,50 @@ export const addOrder = createAsyncThunk(
 
 
 export const fetchSingleOrder = createAsyncThunk(
-    "orders/fetchSingleOrder",
-    async (orderId, { rejectWithValue }) => {
-      try {
-        const token = JSON.parse(localStorage.getItem("token"));
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/orders/single-product/${orderId}`, config);
-        return response.data.order; 
-      } catch (error) {
-        return rejectWithValue(error.message);
-      }
+  "orders/fetchSingleOrder",
+  async (orderId, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem('token'));
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/orders/single-product/${orderId}`, config);
+      return response.data.order;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
-  );
+  }
+);
+
+// Fetch Orders by User
+export const fetchOrdersByUser = createAsyncThunk(
+  "orders/fetchOrdersByUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem('token'));
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/orders/my-orders`, config);
+      return response.data.orders; // Return orders data
+    } catch (error) {
+      console.log(error)
+      return rejectWithValue(error.response.data.message === "No orders found " ? "No orders found " : error.message);
+    }
+  }
+);
+
 
 // Update Order Status
 export const updateOrderStatus = createAsyncThunk(
   "orders/updateOrderStatus",
   async ({ id, status }, { rejectWithValue }) => {
     try {
-      const token = JSON.parse(localStorage.getItem("token"));
+      const token = JSON.parse(localStorage.getItem('token'));
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

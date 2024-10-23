@@ -5,9 +5,11 @@ const CartSummary = ({ cart, handleCheckout, checkout }) => {
     const calculateTotal = () => {
         return cart.reduce((total, item) => total + item.price * item.qty, 0).toFixed(2);
     };
+    console.log(calculateTotal())
 
     return (
-        <div className="flex flex-col bg-white shadow-md rounded-lg p-4  w-[30em] ml-5   ">
+        <div className="flex flex-col bg-white shadow-md rounded-lg p-4  w-[20em] ml-5   ">
+
             <h2 className="text-xl font-bold mb-2">Cart Summary</h2>
             <table className="w-full mb-4">
                 <thead>
@@ -28,7 +30,7 @@ const CartSummary = ({ cart, handleCheckout, checkout }) => {
                     <tr className="font-bold">
                         <td>Total</td>
                         <td></td>
-                        <td className="text-right">${calculateTotal()}</td>
+                        <td className="text-right text-black">${calculateTotal()}</td>
                     </tr>
                 </tbody>
             </table>

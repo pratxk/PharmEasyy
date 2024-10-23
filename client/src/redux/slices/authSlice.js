@@ -9,7 +9,6 @@ function getStoredUser() {
   }
   return null;
 }
-
 function storeUser(user) {
   localStorage.setItem("user", JSON.stringify(user));
 }
@@ -24,7 +23,9 @@ const initialState = {
   singleUser: {},
   allUsers: [],
   isAuth: !!getStoredUser(),
+
   role: '',
+
   error: null,
   isRegistered: false,
 };
@@ -49,8 +50,11 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.role = action.payload.role;
         state.isAuth = true;
         storeUser(action.payload);
+        // console.log(state.role)
+
       })
       .addCase(login.rejected, (state, action) => {
         state.error = action.payload;
@@ -71,7 +75,11 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.role = action.payload.role;
+        state.isAuth = true;
+        state.user = action.payload;
         state.singleUser = action.payload;
+
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.error = action.payload;
@@ -91,7 +99,7 @@ const authSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         if (state.allUsers) {
-          state.allUsers = state.allUsers.filter((item) => item._id !== action.payload.deletedItem._id);
+          state.allUsers = state.allUsers.filter((item) => item._id !== action.payload.user._id);
         }
       })
       .addCase(deleteUser.rejected, (state, action) => {

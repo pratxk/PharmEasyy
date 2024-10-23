@@ -66,19 +66,14 @@ const cartSlice = createSlice({
 
       // Update Medicine Quantity
       .addCase(updateCartQuantity.pending, (state) => {
-        state.isLoading = true;
+        // state.isLoading = true;
         state.error = null;
       })
       .addCase(updateCartQuantity.fulfilled, (state, action) => {
-        state.isLoading = false;
-        if (state.cart) {
-          // Update the quantity of the item that was updated
-          const updatedItem = action.payload.updatedItem; // Assuming your API returns the updated item
-          const itemIndex = state.cart.findIndex((item) => item._id === updatedItem._id);
-          if (itemIndex !== -1) {
-            state.cart[itemIndex].qty = updatedItem.qty; // Update quantity
-          }
-        }
+        // state.isLoading = false;
+        state.cart = state.cart.map((item) =>
+          item._id === action.payload._id ? action.payload : item
+      )
       })
       .addCase(updateCartQuantity.rejected, (state, action) => {
         state.isLoading = false;

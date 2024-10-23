@@ -18,6 +18,7 @@ const CartCard = ({ cartItem }) => {
       dispatch(updateCartQuantity({ cartItemId: _id, operation: 'decrement' })); // Use operation
     }
   };
+  
 
   // Handle remove item from cart
   const handleRemoveFromCart = () => {
@@ -26,28 +27,28 @@ const CartCard = ({ cartItem }) => {
 
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
-      <Link to={`/medicine/${_id}`} className="block">
-        <img
-          className="p-5 rounded-t-lg w-[50%] mx-auto"
-          src={imageUrl}
-          alt={name}
-        />
-      </Link>
+
+      <img
+        className="pb-4 rounded-t-lg w-[100%] mx-auto"
+        src={imageUrl}
+        alt={name}
+      />
+
       <div className="px-5 pb-5">
-        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">
           {name}
         </h5>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-gray-900 ">
           Developed By: {developedBy || 'N/A'}
         </p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-gray-900">
           <strong>Category</strong>: {category || 'N/A'}
         </p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-gray-900 ">
           <strong>Max Expiry</strong>: {maxMonthsExpiry || 'N/A'} months
         </p>
         <div className="flex items-center justify-between flex-wrap mt-2">
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">
+          <span className="text-3xl font-bold text-gray-900 ">
             ${price.toFixed(2)}
           </span>
           <div className="flex items-center my-1 gap-2 flex-wrap">
@@ -58,7 +59,7 @@ const CartCard = ({ cartItem }) => {
             >
               -
             </button>
-            <span className="px-4 text-white font-bold">{qty}</span> {/* Updated to display qty */}
+            <span className="px-4 text-black font-bold">{qty}</span> {/* Updated to display qty */}
             <button
               onClick={handleIncrement}
               className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded-r"

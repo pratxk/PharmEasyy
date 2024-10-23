@@ -13,59 +13,74 @@ const AddMedicine = () => {
         developedBy: '',
         maxMonthsExpiry: '',
         category: '',
-        imageUrl: '',
         stock: '',
-        price: ''
+        price: '',
+        imageUrl: '',
     });
-
-    const [errors, setErrors] = useState({}); // State for validation errors
+    const [errors, setErrors] = useState({});
+    const [uploadMethod, setUploadMethod] = useState('file'); // Track upload method
+    const [selectedFile, setSelectedFile] = useState(null); // State for selected file
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value
+            [name]: value,
         }));
         setErrors((prevErrors) => ({
             ...prevErrors,
-            [name]: '' // Clear error on change
+            [name]: '', // Clear error on change
         }));
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFile(file); // Store the selected file
+            setFormData((prevData) => ({
+                ...prevData,
+                imageUrl: '', // Clear imageUrl if a file is selected
+            }));
+        }
+    };
+
+    const handleUploadMethodChange = (method) => {
+        setUploadMethod(method);
+        setFormData((prevData) => ({
+            ...prevData,
+            imageUrl: '', // Reset imageUrl when changing method
+        }));
+        setSelectedFile(null); // Clear selected file if changing to URL input
     };
 
     const validateForm = () => {
         const newErrors = {};
-        const { name, developedBy, category, imageUrl, maxMonthsExpiry, stock, price } = formData;
+        const { name, developedBy, category, maxMonthsExpiry, stock, price } = formData;
 
-        // Validate name
-        if (!/^[A-Za-z\s]+$/.test(name)) {
-            newErrors.name = 'Medicine name must be a valid word.';
+        // Ensure only one of imageUrl or file is filled
+        if (uploadMethod === 'file' && !selectedFile) {
+            newErrors.imageUrl = 'Please upload an image file.';
+        } else if (uploadMethod === 'url' && !/^https?:\/\/.+\..+/.test(formData.imageUrl)) {
+            newErrors.imageUrl = 'Please enter a valid URL.';
         }
 
-        // Validate developedBy
-        if (!/^[A-Za-z\s]+$/.test(developedBy)) {
-            newErrors.developedBy = 'Company name must be a valid word.';
+        // Validate other fields...
+        if (!/^(?!.*\b\d+\b)[A-Za-z0-9\-]+$/.test(name)) {
+            newErrors.name = 'Medicine name must be a valid word without numbers between words.';
         }
-
-        // Validate category
-        if (!/^[A-Za-z\s]+$/.test(category)) {
-            newErrors.category = 'Category must be a valid word.';
+        if (!/^[A-Za-z\s]{3,}$/.test(developedBy)) {
+            newErrors.developedBy = 'Company name must be at least 3 letters.';
         }
-
-        // Validate imageUrl
-        if (!/^https?:\/\/.+\..+/.test(imageUrl)) {
-            newErrors.imageUrl = 'Image URL must be a valid URL.';
+        if (!/^[A-Za-z\s]{3,}$/.test(category)) {
+            newErrors.category = 'Category must be at least 3 letters.';
         }
-
-        // Validate maxMonthsExpiry, stock, and price to be numbers
-        if (!/^\d+$/.test(maxMonthsExpiry)) {
-            newErrors.maxMonthsExpiry = 'Max Months Expiry must be a number.';
+        if (!/^\d+$/.test(maxMonthsExpiry) || maxMonthsExpiry <= 0) {
+            newErrors.maxMonthsExpiry = 'Max Months Expiry must be a positive number.';
         }
-
-        if (!/^\d+$/.test(stock)) {
-            newErrors.stock = 'Stock must be a number.';
+        if (!/^\d+$/.test(stock) || stock <= 0) {
+            newErrors.stock = 'Stock must be a positive number.';
         }
-
-        if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+        if (!/^\d+(\.\d{1,2})?$/.test(price) || price <= 0) {
             newErrors.price = 'Price must be a valid number.';
         }
 
@@ -80,8 +95,22 @@ const AddMedicine = () => {
             return; // Stop submission if errors exist
         }
 
+        const formDataToSend = new FormData();
+        formDataToSend.append('name', formData.name);
+        formDataToSend.append('developedBy', formData.developedBy);
+        formDataToSend.append('maxMonthsExpiry', formData.maxMonthsExpiry);
+        formDataToSend.append('category', formData.category);
+        formDataToSend.append('stock', formData.stock);
+        formDataToSend.append('price', formData.price);
+        
+        if (uploadMethod === 'file' && selectedFile) {
+            formDataToSend.append('medicine_img', selectedFile);
+        } else if (uploadMethod === 'url') {
+            formDataToSend.append('imageUrl', formData.imageUrl);
+        }
+
         try {
-            const result = await dispatch(addMedicine(formData));
+            const result = await dispatch(addMedicine(formDataToSend));
             if (result.meta.requestStatus === 'fulfilled') {
                 toast({ description: 'Item added to Database', status: 'success' });
                 setFormData({
@@ -93,6 +122,7 @@ const AddMedicine = () => {
                     stock: '',
                     price: ''
                 });
+                setSelectedFile(null); // Clear selected file
             }
         } catch (error) {
             console.error('Error adding medicine:', error);
@@ -164,20 +194,61 @@ const AddMedicine = () => {
                             />
                             {errors.category && <p className="text-red-500 text-xs">{errors.category}</p>}
                         </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label htmlFor="imageUrl" className="text-sm font-medium text-gray-900 block mb-2">Image URL</label>
-                            <input
-                                type="text"
-                                name="imageUrl"
-                                id="imageUrl"
-                                value={formData.imageUrl}
-                                onChange={handleChange}
-                                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                                placeholder="https://example.com/image.jpg"
-                                required
-                            />
-                            {errors.imageUrl && <p className="text-red-500 text-xs">{errors.imageUrl}</p>}
+                        
+                        {/* Upload Method Selection */}
+                        <div className="col-span-6">
+                            <label className="text-sm font-medium text-gray-900 block mb-2">Upload Method</label>
+                            <div className="flex gap-4">
+                                <label>
+                                    <input
+                                        type="radio"
+                                        checked={uploadMethod === 'file'}
+                                        onChange={() => handleUploadMethodChange('file')}
+                                    />
+                                    Upload File
+                                </label>
+                                <label>
+                                    <input
+                                        type="radio"
+                                        checked={uploadMethod === 'url'}
+                                        onChange={() => handleUploadMethodChange('url')}
+                                    />
+                                    Enter URL
+                                </label>
+                            </div>
                         </div>
+                        
+                        {/* Image Upload or URL Input */}
+                        {uploadMethod === 'file' && (
+                            <div className="col-span-6 sm:col-span-3">
+                                <label htmlFor="imageUpload" className="text-sm font-medium text-gray-900 block mb-2">Image Upload</label>
+                                <input
+                                    type="file"
+                                    onChange={handleFileChange}
+                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                                    required
+                                />
+                                {errors.imageUrl && <p className="text-red-500 text-xs">{errors.imageUrl}</p>}
+                            </div>
+                        )}
+                        
+                        {uploadMethod === 'url' && (
+                            <div className="col-span-6 sm:col-span-3">
+                                <label htmlFor="imageUrl" className="text-sm font-medium text-gray-900 block mb-2">Image URL</label>
+                                <input
+                                    type="text"
+                                    name="imageUrl"
+                                    id="imageUrl"
+                                    value={formData.imageUrl}
+                                    onChange={handleChange}
+                                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                                    placeholder="https://example.com/image.jpg"
+                                    required
+                                />
+                                {errors.imageUrl && <p className="text-red-500 text-xs">{errors.imageUrl}</p>}
+                            </div>
+                        )}
+                        
                         <div className="col-span-6 sm:col-span-3">
                             <label htmlFor="stock" className="text-sm font-medium text-gray-900 block mb-2">Stock</label>
                             <input

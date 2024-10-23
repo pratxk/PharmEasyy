@@ -43,7 +43,7 @@ function Home() {
                             ultricies elit in urna euismod, sit amet luctus felis commodo.
                         </p>
                         <button className="p-4 bg-secondary text-white font-semibold rounded-lg shadow-md hover:bg-red-500 transition duration-300 flex items-center gap-2">
-                            <Link to="/products">Let's Start Shopping </Link>
+                            <Link to="/medicines">Let's Start Shopping </Link>
                             <span>
                                 <FaShoppingBag />
                             </span>
@@ -59,7 +59,7 @@ function Home() {
                     </div>
                 </div>
 
-                <Heading textAlign='center' color='black'>
+                <Heading textAlign='center' fontFamily='monospace' color='black'>
                     Top Sellers
                 </Heading>
 

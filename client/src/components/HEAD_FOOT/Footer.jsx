@@ -2,9 +2,9 @@ import { Box, Text, Center } from '@chakra-ui/react';
 
 function Footer() {
   return (
-    <Box as="footer" bg="black" color="white" p={4} mt={4}>
+    <Box as="footer" id='userFooter' bg="black" color="white" fontSize='sm' p={4} mt={4}>
       <Center>
-        <Text fontSize="sm">
+        <Text id='footText' fontSize="sm">
           &copy; {new Date().getFullYear()}. All rights reserved.
         </Text>
       </Center>
