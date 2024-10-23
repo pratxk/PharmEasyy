@@ -32,25 +32,36 @@ app.use('/medicines', medicineRouter);
 
 let server; // Keep track of the server instance
 
-const startServer = async () => {
-    // Check if server is already running
-    if (server) {
-        return server; // Return the existing server if it's already running
-    }
+// const startServer = async () => {
+//     // Check if server is already running
+//     if (server) {
+//         return server; // Return the existing server if it's already running
+//     }
 
+//     try {
+//         await connection;
+//         server = app.listen(PORT, () => {
+//             console.log(`Server is running at ${PORT} & Database connected successfully`);
+//         });
+//     } catch (err) {
+//         console.log("Trouble connecting to the DB");
+//         console.log(err);
+//     }
+//     return server;
+// };
+
+// startServer()
+
+app.listen(PORT, async () => {
     try {
         await connection;
-        server = app.listen(PORT, () => {
-            console.log(`Server is running at ${PORT} & Database connected successfully`);
-        });
+        console.log(`Server is running at ${PORT} & Database connected successfully`);
     } catch (err) {
         console.log("Trouble connecting to the DB");
         console.log(err);
     }
-    return server;
-};
-
-startServer()
+    console.log(`Running at ${PORT} Port`);
+});
 
 const stopServer = () => {
     if (server) {
@@ -61,4 +72,4 @@ const stopServer = () => {
     }
 };
 
-module.exports = { startServer, stopServer, app };
+// module.exports = { startServer, stopServer, app };

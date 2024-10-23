@@ -74,7 +74,10 @@ const loginUser = [
                 res.status(201).json({
                     message: 'User logged in successfully',
                     token,
-                    user,
+                    user:{
+                        email: user.email,
+                        role: user.role
+                    },
                     role: user.role
                 });
             } else {
