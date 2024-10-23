@@ -15,7 +15,7 @@ app.use(express.json());
 
 const corsOptions = {
 
-    origin: 'http://localhost:5173', // Replace with your frontend's origin
+    origin: 'https://pharm-easyy.vercel.app/', // Replace with your frontend's origin
 
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allowed HTTP methods
     credentials: true, // Allow cookies and authentication headers
@@ -32,7 +32,7 @@ app.use("/orders", orderRouter);
 app.use('/cart', cartRouter);
 app.use('/medicines', medicineRouter);
 
-let server; // Keep track of the server instance
+ // Keep track of the server instance
 
 // const startServer = async () => {
 //     // Check if server is already running
@@ -65,13 +65,13 @@ app.listen(PORT, async () => {
     console.log(`Running at ${PORT} Port`);
 });
 
-const stopServer = () => {
-    if (server) {
-        server.close();
-        console.log(`Server stopped.`);
-    } else {
-        console.log('Server not found');
-    }
-};
+// const stopServer = () => {
+//     if (server) {
+//         server.close();
+//         console.log(`Server stopped.`);
+//     } else {
+//         console.log('Server not found');
+//     }
+// };
 
-// module.exports = { startServer, stopServer, app };
+module.exports =  app ;
