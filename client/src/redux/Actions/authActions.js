@@ -6,7 +6,7 @@ export const register = createAsyncThunk('auth/register',
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/auth/register`, credentials);
-      alert('Registered Successfully');
+      // alert('Registered Successfully');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);

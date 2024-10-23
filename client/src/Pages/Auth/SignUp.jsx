@@ -28,22 +28,60 @@ function SignUp() {
 
   const validateForm = () => {
     const newErrors = {};
+    
+    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    
+    // Password validation
+    const passwordMinLength = 8;
+    const hasUpperCase = /[A-Z]/;
+    const hasLowerCase = /[a-z]/;
+    const hasNumber = /\d/;
+    const hasSpecialChar = /[@$!%*?&]/;
 
+    // Phone number validation (Starts with 9, 8, 7, or 6 and exactly 10 digits)
+    const phoneRegex = /^[9876]\d{9}$/;
+
+    // First Name
     if (!formData.first_name) newErrors.first_name = 'First name is required.';
+    
+    // Last Name
     if (!formData.last_name) newErrors.last_name = 'Last name is required.';
+    
+    // Email
     if (!formData.email) {
       newErrors.email = 'Email is required.';
     } else if (!emailRegex.test(formData.email)) {
       newErrors.email = 'Invalid email format.';
     }
+
+    // Password validations
     if (!formData.password) {
       newErrors.password = 'Password is required.';
-    } else if (!passwordRegex.test(formData.password)) {
-      newErrors.password = 'Password must be at least 8 characters long and include at least one letter, one number, and one special character.';
+    } else {
+      if (formData.password.length < passwordMinLength) {
+        newErrors.password = `Password must be at least ${passwordMinLength} characters long.`;
+      }
+      if (!hasUpperCase.test(formData.password)) {
+        newErrors.password = 'Password must contain at least one uppercase letter.';
+      }
+      if (!hasLowerCase.test(formData.password)) {
+        newErrors.password = 'Password must contain at least one lowercase letter.';
+      }
+      if (!hasNumber.test(formData.password)) {
+        newErrors.password = 'Password must contain at least one number.';
+      }
+      if (!hasSpecialChar.test(formData.password)) {
+        newErrors.password = 'Password must contain at least one special character (@, $, !, %, *, ?, &).';
+      }
     }
-    if (!formData.ph_no) newErrors.ph_no = 'Phone number is required.';
+
+    // Phone number
+    if (!formData.ph_no) {
+      newErrors.ph_no = 'Phone number is required.';
+    } else if (!phoneRegex.test(formData.ph_no)) {
+      newErrors.ph_no = 'Phone number must start with 9, 8, 7, or 6 and be exactly 10 digits.';
+    }
 
     return newErrors;
   };
@@ -55,9 +93,16 @@ function SignUp() {
       setErrors(validationErrors);
       return;
     }
-    
-    setErrors({}); 
-    dispatch(register(formData));
+
+    setErrors({});
+    dispatch(register(formData))
+      .then((result) => {
+        if (result.meta.requestStatus === 'fulfilled') {
+          toast({ description: 'Registered successfully', status: 'success', duration: 2000 });
+        } else {
+          toast({ description: 'Registration failed', status: 'error', duration: 3500 });
+        }
+      });
   };
 
   if (isRegistered) {
@@ -80,7 +125,6 @@ function SignUp() {
               onChange={handleChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="First name"
-      
             />
             {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>}
           </div>
@@ -94,7 +138,6 @@ function SignUp() {
               onChange={handleChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="Last name"
-              
             />
             {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>}
           </div>
@@ -109,7 +152,6 @@ function SignUp() {
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             placeholder="email..."
-            
           />
           {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
         </div>
@@ -123,7 +165,6 @@ function SignUp() {
             onChange={handleChange}
             placeholder="••••••••"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-            
           />
           {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
         </div>
@@ -137,7 +178,6 @@ function SignUp() {
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             placeholder="9728XXXXXX"
-            
           />
           {errors.ph_no && <p className="text-red-500 text-xs mt-1">{errors.ph_no}</p>}
         </div>
