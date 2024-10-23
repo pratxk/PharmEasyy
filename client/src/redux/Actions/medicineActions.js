@@ -44,11 +44,13 @@ export const addMedicine = createAsyncThunk(
     async (medicineData, { rejectWithValue }) => {
         try {
 
+            const token = JSON.parse(localStorage.getItem('token'));
+
             const config = {
                 headers: {
-                    "Content-Type": "multipart/form-data"
-                },
-                withCredentials: true
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`,
+                }
             };
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/medicines/add-medicine`, medicineData, config);
             return response.data;
@@ -64,11 +66,13 @@ export const updateMedicine = createAsyncThunk(
     'medicine/updateMedicine',
     async ({ id, updates }, { rejectWithValue }) => {
         try {
+            const token = JSON.parse(localStorage.getItem('token'));
+
             const config = {
                 headers: {
-                    "Content-Type": "multipart/form-data"
-                },
-                withCredentials: true
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`,
+                }
             };
             const response = await axios.patch(`${import.meta.env.VITE_BACKEND_API}/medicines/update-medicine/${id}`, updates, config);
             return response.data;
