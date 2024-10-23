@@ -58,7 +58,7 @@ function generateOrderConfirmationEmail(orderDetails) {
         }
         .cta-button {
             background-color: #000000;
-            color: white;
+            color: #ffffff;
             padding: 12px 24px;
             border: none;
             border-radius: 5px;
@@ -100,7 +100,7 @@ function generateOrderConfirmationEmail(orderDetails) {
         <!-- Footer -->
         <div class="footer">
             <p>Thank you for shopping with us!</p>
-            <p>If you have any questions, feel free to <a href="mailto:support@shop.com">contact us</a>.</p>
+            <p>If you have any questions, feel free to <a href="mailto:simpleorders24x7@gmail.com">contact us</a>.</p>
         </div>
     </div>
 </body>
