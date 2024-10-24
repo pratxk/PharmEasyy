@@ -23,7 +23,7 @@ const AdminHeader = () => {
     return (
         <Box as="nav" bg="black" color="white" p={4}>
             <Flex justify="space-between" align="center" maxW="7xl" mx="auto">
-                <Heading size="lg" fontWeight={550}>
+                <Heading size="lg" fontWeight={550} fontFamily={'monospace'}>
                     <Link to="/admin">Admin  Panel
                     </Link>
                 </Heading>

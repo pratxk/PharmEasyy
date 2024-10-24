@@ -116,7 +116,7 @@ function Medicine() {
                     <MedicineCardSkeleton />
                 </div>
             ) : (
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 place-items-center">
+                <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 place-items-center">
                     {medicinesWithCartInfo.length > 0 ? (
                         medicinesWithCartInfo.map((ele) => (
                             <MedicineCard

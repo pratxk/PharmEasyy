@@ -71,7 +71,12 @@ function Admin() {
                 />
                 <div>
                     {isLoading ? (
-                        <MedicineCardSkeleton />
+
+                        <div className="flex justify-center items-center flex-wrap">
+                            <MedicineCardSkeleton />
+                            <MedicineCardSkeleton />
+                            <MedicineCardSkeleton />
+                        </div>
                     ) : (
                         <div className="grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-3 place-items-center">
                             {medicines.length > 0 ? (

@@ -13,10 +13,9 @@ function RoleBasedRoute({ allowedRoles, children }) {
     useEffect(() => {
         if (!allowedRoles.includes(role)) {
             toast({
-                title: "Unauthorized Access",
-                description: "You're unauthorized to access this page.",
+                title: "You're unauthorized to access this page.",
                 status: "error",
-                duration: 3000, // Show the toast for 3 seconds
+                duration: 2000, // Show the toast for 3 seconds
                 isClosable: true,
             });
         }
