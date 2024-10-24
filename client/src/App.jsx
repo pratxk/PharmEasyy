@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import AllRoutes from './Routes/AllRoutes'
-import { fetchCurrentUser } from './redux/Actions/authActions'
 import { useDispatch } from 'react-redux'
+import { fetchCurrentUser, logout } from './redux/Actions/authActions'
 
 function App() {
   const [count, setCount] = useState(0)
   const dispatch = useDispatch();
-
-    useEffect(() => {
-        // Fetch current user when the app loads
-        dispatch(fetchCurrentUser());
-    }, [dispatch]);
-
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    if (token) {
+      dispatch(fetchCurrentUser())
+        .unwrap()
+        .catch(() => {
+          dispatch(logout());
+        });
+    }
+  }, [dispatch]);
   return (
     <>
-      <AllRoutes/>
+      <AllRoutes />
     </>
   )
 }

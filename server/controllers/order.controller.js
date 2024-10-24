@@ -3,6 +3,9 @@
 const { body, param, validationResult } = require('express-validator');
 const orderModel = require('../models/order.model');
 const cartModel = require('../models/cart.model');
+const { sendOrderConfirmationEmail } = require('../utils/mailer');
+const userModel = require('../models/user.model');
+const generateOrderId = require('../utils/uuid');
 
 // GET: Fetch all orders (Admin only)
 const getAllOrders = async (req, res) => {
@@ -10,6 +13,9 @@ const getAllOrders = async (req, res) => {
         const orders = await orderModel.find().populate('items.medicineId').populate('userId');
         res.status(202).json({ orders });
     } catch (error) {
+
+
+        
         res.status(500).json({
             message: 'Error Fetching the orders',
             error: error.message
@@ -26,7 +32,7 @@ const getSingleOrder = async (req, res) => {
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
-        res.status(200).json({ order }); 
+        res.status(200).json({ order });
     } catch (error) {
         res.status(500).json({
             message: 'Error Fetching the order',
@@ -59,7 +65,8 @@ const addOrder = async (req, res) => {
     const userId = req.user._id;
     try {
         const cartItems = await cartModel.find({ userId });
-
+        const {email} = await userModel.findById(userId);
+        // console.log(email)
         if (!cartItems || cartItems.length === 0) {
             return res.status(400).json({ message: 'Cart is empty' });
         }
@@ -74,14 +81,16 @@ const addOrder = async (req, res) => {
 
         const newOrder = new orderModel({
             userId,
+            OrderId:generateOrderId(),
             items,
             totalPrice,
             status: 'Pending',
             paymentStatus: 'Paid'  // Assuming payment successful
         });
-
         await newOrder.save();
         await cartModel.deleteMany({ userId }); // Clear all items in the cart
+
+        sendOrderConfirmationEmail(email, newOrder);
         res.status(201).json({ message: 'Order placed successfully', order: newOrder });
     } catch (error) {
         res.status(500).json({
@@ -108,7 +117,7 @@ const updateOrderStatus = [
         }
 
         const { id } = req.params;
-        const { status } = req.body;  
+        const { status } = req.body;
         try {
             const order = await orderModel.findById(id);
             if (!order) {

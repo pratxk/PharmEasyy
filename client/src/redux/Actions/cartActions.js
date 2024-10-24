@@ -6,7 +6,13 @@ export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/cart`, { withCredentials: true });
+      const token = JSON.parse(localStorage.getItem('token'));
+      const config = {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      };
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/cart`,config);
       return response.data; // Return cart data
     } catch (error) {
       return rejectWithValue(error.message);
@@ -19,11 +25,16 @@ export const addMedicineToCart = createAsyncThunk(
   "cart/addMedicineToCart",
   async ({ medicineId, quantity, name, developedBy, maxMonthsExpiry, category, imageUrl, price }, { rejectWithValue }) => {
     try {
-
+      const token = JSON.parse(localStorage.getItem('token'));
+      const config = {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      };
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_API}/cart/add`,
         { medicineId, quantity, name, developedBy, maxMonthsExpiry, category, imageUrl, price },
-        { withCredentials: true }
+       config
       );
       return response.data; // Return updated cart data
     } catch (error) {

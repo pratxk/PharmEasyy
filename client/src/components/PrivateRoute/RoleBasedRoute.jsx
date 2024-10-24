@@ -2,15 +2,12 @@
 import { useToast } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { fetchCurrentUser } from '../../redux/Actions/authActions';
 
 function RoleBasedRoute({ allowedRoles, children }) {
 
-    const dispatch = useDispatch();
-    const role = useSelector((state) => state?.auth) ;
-    console.log(role)
+    const role = useSelector((state) => state?.auth?.user?.role);
     const toast = useToast();
     useEffect(() => {
         if (!allowedRoles.includes(role)) {
@@ -24,12 +21,7 @@ function RoleBasedRoute({ allowedRoles, children }) {
         }
     }, [role, allowedRoles, toast]);
 
-    useEffect(() => {
-        dispatch(fetchCurrentUser());
-    }, [dispatch]);
-
     return allowedRoles.includes(role) ? children : <Navigate to="/" />;
 }
 
 export default RoleBasedRoute;
-
