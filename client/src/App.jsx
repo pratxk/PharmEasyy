@@ -13,7 +13,7 @@ function App() {
       dispatch(fetchCurrentUser())
         .unwrap()
         .catch(() => {
-          // If token is invalid, log the user out
+
           dispatch(logout());
         });
     }
