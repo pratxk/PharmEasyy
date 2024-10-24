@@ -1,6 +1,6 @@
 const MedicineCardSkeleton = () => {
     return (
-      <div className="m-4 flex w-full max-w-xs sm:max-w-sm md:max-w-md flex-col rounded-xl border border-gray-100 bg-neutral shadow-md">
+      <div className="m-4 flex w-lg max-w-xs sm:max-w-sm md:max-w-md flex-col rounded-xl border border-gray-100 bg-neutral shadow-md">
         <div className="relative mx-3 mt-2 flex h-full overflow-hidden rounded-xl justify-center bg-gray-200 animate-pulse">
           <div className="w-[300px] h-[300px] bg-gray-300" />
           <span className="absolute top-0 left-0 m-2 rounded-full bg-primary px-2 text-center text-sm font-medium text-neutral opacity-50">

@@ -13,6 +13,9 @@ const getAllOrders = async (req, res) => {
         const orders = await orderModel.find().populate('items.medicineId').populate('userId');
         res.status(202).json({ orders });
     } catch (error) {
+
+
+        
         res.status(500).json({
             message: 'Error Fetching the orders',
             error: error.message

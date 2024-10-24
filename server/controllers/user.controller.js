@@ -98,14 +98,20 @@ const logoutUser = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     const BlackListed_Token = new blacklistModel({ token });
     await BlackListed_Token.save();
-    res.clearCookie('token');
     res.send('Logout Successful');
 };
 // GET: Fetch current user's data
 const getCurrentUser = async (req, res) => {
     try {
         const user = await userModel.findById(req.user._id);
-        res.json(user);
+        let obj = {
+            email: user.email,
+            first_name:user.first_name,
+            last_name:user.last_name,
+            role: user.role,
+            created_at: user.created_at
+        }
+        res.json(obj);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching user data' });
     }
