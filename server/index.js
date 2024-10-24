@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 4000 + Math.floor(Math.random() * 1000);
 app.use(express.json());
 
 const corsOptions = {
-    origin: 'http://localhost:5173', // Replace with your frontend's origin
+    origin: 'https://pharm-easyy.vercel.app', // Replace with your frontend's origin
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allowed HTTP methods
     credentials: true, // Allow cookies and authentication headers
 };
