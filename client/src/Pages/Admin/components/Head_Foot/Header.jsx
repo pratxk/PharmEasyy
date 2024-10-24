@@ -54,7 +54,7 @@ const AdminHeader = () => {
                         <>
                             <Avatar
                                 bg='green'
-                                name={user.email}
+                                name={user?.user?.email}
                                 cursor="pointer"
 
                                 onClick={() => navigate("/admin/profile")}
@@ -91,7 +91,7 @@ const AdminHeader = () => {
                         <>
                             <Avatar
                                 bg='green'
-                                name={user.email}
+                                name={user?.user?.email}
                                 cursor="pointer"
                                 onClick={() => navigate("/admin/profile")}
                             />

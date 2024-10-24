@@ -25,12 +25,7 @@ import User from '../Pages/Admin/Users/User'
 import AdminProfile from '../Pages/Admin/Profile/AdminProfile'
 import Orders_User from '../Pages/Orders(user)/Orders_User'
 import store from '../redux/store'
-import { fetchCurrentUser } from '../redux/Actions/authActions'
 
-export const adminLoader = async () => {
-    await store.dispatch(fetchCurrentUser());
-    return null
-};
 
 
 const router = createBrowserRouter([
@@ -125,7 +120,6 @@ const router = createBrowserRouter([
     {
         path: '/admin',
         element: <RoleBasedRoute allowedRoles={['admin']}><AdminWrapper /></RoleBasedRoute>,
-        loader:adminLoader,
         children: [
             {
                 index: true,

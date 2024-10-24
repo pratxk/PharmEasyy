@@ -1,18 +1,11 @@
 export const categoryList = [
-    { "name": "Pain Reliever" },
-    { "name": "Blood Thinner" },
-    { "name": "Cholesterol Management" },
-    { "name": "Acid Reflux" },
-    { "name": "Blood Pressure" },
-    { "name": "Heart Health" },
-    { "name": "Thyroid Hormone Replacement" },
-    { "name": "Cardiovascular" },
+    { "name": "Fever Medicine" },
+    { "name": "Diabetes Medicine" },
     { "name": "Antibiotic" },
-    { "name": "Allergy Relief" },
-    { "name": "Diuretic" },
-    { "name": "Acid Reducer" },
-    { "name": "Diabetes" },
-    { "name": "Steroid" },
-    { "name": "Prostate Health" },
-    { "name": "Sleep Aid" }
-]
+    { "name": "Cholesterol Medicine" },
+    { "name": "Blood Pressure Medicine" },
+    { "name": "Heart Medicine" },
+    { "name": "Mental Health Medicine" },
+    { "name": "Pain Relief" },
+    { "name": "Thyroid Medicine" }
+];

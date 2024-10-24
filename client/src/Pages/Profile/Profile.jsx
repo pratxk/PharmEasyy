@@ -14,27 +14,34 @@ const Profile = () => {
     }, [dispatch, isAuth]);
 
     if (error) {
-        return <div className="text-red-500">Error fetching user data: {error}</div>;
+        return <div className="text-red-500 text-center mt-10">Error fetching user data: {error}</div>;
+    }
+
+    if (!singleUser) {
+        return <div className="text-gray-500 text-center mt-10">Loading user data...</div>;
     }
 
     return (
-        <div className="h-[100vh] m-10 bg-white shadow-lg rounded-lg overflow-hidden flex  items-center">
-            <div className="relative w-full h-full">
-                <div className='ml-48 '>
+        <div className="flex justify-center items-center h-screen bg-gray-100">
+            <div className="relative bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
+                {/* Profile Image */}
+                <div className="relative w-full md:w-1/2 h-96 md:h-auto">
                     <img
                         src={userProfile}
                         alt="User Profile"
-                        className="absolute h-full w-full object-cover opacity-100"
+                        className="object-cover h-full w-full"
                     />
                 </div>
-                <div className="absolute z-10 top-2 p-10 flex flex-col items-center bg-transparent  rounded-lg ">
-                    <h2 className="text-4xl font-semibold text-white p-3 rounded-3xl bg-gray-800 mb-6">User Profile</h2>
-                    <div className="mt-4 text-left">
-                        <p className="text-xl text-gray-900"><strong>First Name:</strong> {singleUser.first_name}</p>
-                        <p className="text-xl text-gray-900"><strong>Last Name:</strong> {singleUser.last_name}</p>
-                        <p className="text-xl text-gray-900"><strong>Email:</strong> {singleUser.email}</p>
-                        <p className="text-xl text-gray-900">
-                            <strong>Joined on:</strong> {new Date(singleUser.created_at).toLocaleDateString()}
+                
+                {/* User Info */}
+                <div className="relative z-10 p-8 bg-gray-800 text-white w-full md:w-1/2 flex flex-col justify-center items-center">
+                    <h2 className="text-4xl font-bold mb-4">User Profile</h2>
+                    <div className="text-left w-full">
+                        <p className="text-xl mb-2"><strong>First Name:</strong> {singleUser.first_name || 'N/A'}</p>
+                        <p className="text-xl mb-2"><strong>Last Name:</strong> {singleUser.last_name || 'N/A'}</p>
+                        <p className="text-xl mb-2"><strong>Email:</strong> {singleUser.email || 'N/A'}</p>
+                        <p className="text-xl mb-2">
+                            <strong>Joined on:</strong> {singleUser.created_at ? new Date(singleUser.created_at).toLocaleDateString() : 'N/A'}
                         </p>
                     </div>
                 </div>
