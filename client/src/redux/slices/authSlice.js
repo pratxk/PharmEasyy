@@ -75,7 +75,9 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+
         storeUser(action.payload)
+
         state.role = action.payload.role;
         state.isAuth = true;
         state.user = action.payload;

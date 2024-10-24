@@ -13,6 +13,7 @@ function App() {
       dispatch(fetchCurrentUser())
         .unwrap()
         .catch(() => {
+
           dispatch(logout());
         });
     }
