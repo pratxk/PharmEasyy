@@ -59,7 +59,7 @@ describe('User Authentication Tests', () => {
                 password: adminUser.password,
             });
 
-        adminToken = res.cookies.token; // Store the admin token
+        adminToken = res.body.token; // Store the admin token
     });
 
     test('Register a new user', async () => {
@@ -154,7 +154,7 @@ describe('User Authentication Tests', () => {
         // Attempt to delete the user with the admin token
         const res = await request(server)
             .delete(`/auth/delete-user/${userToDelete._id}`)
-            .set('withCredentials', true);
+            .set('Authorization', `Bearer ${adminToken}`);
 
         expect(res.statusCode).toBe(200);
         expect(res.body.message).toBe('User deleted successfully');

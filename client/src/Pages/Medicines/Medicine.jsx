@@ -110,7 +110,11 @@ function Medicine() {
             </div>
 
             {isLoading ? (
-                <MedicineCardSkeleton />
+                <div className="flex justify-center items-center flex-wrap">
+                    <MedicineCardSkeleton />
+                    <MedicineCardSkeleton />
+                    <MedicineCardSkeleton />
+                </div>
             ) : (
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 place-items-center">
                     {medicinesWithCartInfo.length > 0 ? (
@@ -128,7 +132,7 @@ function Medicine() {
                 </div>
             )}
 
-            <Pagination 
+            <Pagination
                 currentPage={filters.page}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}

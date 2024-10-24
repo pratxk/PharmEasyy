@@ -9,16 +9,17 @@ function getStoredUser() {
   }
   return null;
 }
-
+function storeUser(user) {
+  localStorage.setItem("user", JSON.stringify(user));
+}
 
 function removeUser() {
   localStorage.removeItem("user");
-  localStorage.removeItem("role");
 }
 
 // Initial state
 const initialState = {
-  user: {},
+  user: getStoredUser(),
   singleUser: {},
   allUsers: [],
   isAuth: !!getStoredUser(),
@@ -51,6 +52,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.role = action.payload.role;
         state.isAuth = true;
+        storeUser(action.payload);
         // console.log(state.role)
 
       })
@@ -73,12 +75,10 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        console.log(state.user)
         state.role = action.payload.role;
         state.isAuth = true;
+        state.user = action.payload;
         state.singleUser = action.payload;
-        console.log(state.singleUser)
 
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
