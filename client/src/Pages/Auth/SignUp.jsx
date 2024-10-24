@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/Actions/authActions';
 import { Link, useNavigate } from 'react-router-dom';
+import { position } from '@chakra-ui/react';
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -98,9 +99,9 @@ function SignUp() {
     dispatch(register(formData))
       .then((result) => {
         if (result.meta.requestStatus === 'fulfilled') {
-          toast({ description: 'Registered successfully', status: 'success', duration: 2000 });
+          toast({ description: 'Registered successfully', status: 'success', duration: 2000, position:'top-right' });
         } else {
-          toast({ description: 'Registration failed', status: 'error', duration: 3500 });
+          toast({ description: 'Registration failed', status: 'error', duration: 2300 , position:'top-right'});
         }
       });
   };

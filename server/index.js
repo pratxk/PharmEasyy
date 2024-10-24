@@ -15,7 +15,7 @@ app.use(express.json());
 
 const corsOptions = {
 
-    origin: 'https://pharm-easyy.vercel.app/', // Replace with your frontend's origin
+    origin: process.env.FRONT_END_URL, // Replace with your frontend's origin
 
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allowed HTTP methods
     credentials: true, // Allow cookies and authentication headers

@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrders } from '../../../redux/Actions/orderActions';
 import Heading from '../../../components/Skeleton/Heading';
 import OrdersTable from './OrdersTable';
+import OrdersSkeleton from '../../../components/Skeleton/OrderSkeleton';
 
 function Orders() {
     const dispatch = useDispatch();
-    const { orders } = useSelector((state) => state.order);
+    const { orders, isLoading, error } = useSelector((state) => state.order); // Include isLoading from state
 
     useEffect(() => {
         dispatch(fetchOrders());
@@ -15,26 +16,24 @@ function Orders() {
     console.log(orders);
 
     return (
-        <>
+        <div className='overflow-hidden p-5 h-[100vh]'>
+            <Heading
+                text={"All Orders"}
+                textColor={"primary"}
+                fromGradient={"secondary"}
+                toGradient={"primary"}
+            />
 
-            <div className='overflow-hidden p-5 h-[100vh]'>
-
-                <Heading
-                    text={"All Orders"}
-                    textColor={"primary"}
-                    fromGradient={"secondary"}
-                    toGradient={"primary"}
-                />
-
-                {orders && orders?.length > 0 ? (
-               
-
-                    <OrdersTable data={orders} />
-                ) : (
-                    <p>No orders available.</p>
-                )}
-            </div>
-        </>
+            {isLoading ? (
+                <OrdersSkeleton /> // Show the skeleton while loading
+            ) : error ? (
+                <p>Error: {error}</p> // Display error message if any
+            ) : orders && orders.length > 0 ? (
+                <OrdersTable data={orders} />
+            ) : (
+                <p>No orders available.</p>
+            )}
+        </div>
     );
 }
 

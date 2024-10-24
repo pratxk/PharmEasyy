@@ -56,9 +56,9 @@ function Login() {
     dispatch(login(formData))
     .then((result) => {
       if (result.meta.requestStatus === 'fulfilled') {
-        toast({ description: 'Logged-in successfully', status: 'success' , duration:10000});
+        toast({ description: 'Logged-in successfully', status: 'success' , duration:1800,  position:'top-right', isClosable: true});
       } else {
-        toast({ description: 'Login failed', status: 'error' });
+        toast({ description: 'Login failed', status: 'error', duration:2000, position:'top-right', isClosable: true });
       }
     })
     .catch((err) => {

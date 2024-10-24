@@ -1,11 +1,12 @@
 import { Box, Heading } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import mobileMockup from '../../assets/mobile.png';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { FaShoppingBag } from "react-icons/fa";
 import MedicineCard from '../Medicines/MedicineCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMedicines } from '../../redux/Actions/medicineActions';
+import MedicineCardSkeleton from '../../components/Skeleton/MedicineCardSkeleton';
 
 
 function Home() {
@@ -15,7 +16,7 @@ function Home() {
 
     useEffect(() => {
         dispatch(fetchMedicines());
-      }, [dispatch]);
+    }, [dispatch]);
     return (
         <>
             <div className="overflow-hidden relative p-4">
@@ -64,10 +65,18 @@ function Home() {
                 </Heading>
 
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center mt-3'>
+
                     {
-                    medicines.slice(0,3).map((ele)=>(
-                        <MedicineCard item={ele}/>
-                    ))
+                        isLoading ? (<>
+                            <MedicineCardSkeleton />
+                            <MedicineCardSkeleton />
+                            <MedicineCardSkeleton />
+                        </>) :
+                            (
+                                medicines.slice(0, 3).map((ele) => (
+                                    <MedicineCard item={ele} key={ele.id} />
+                                ))
+                            )
                     }
                 </div>
             </div>

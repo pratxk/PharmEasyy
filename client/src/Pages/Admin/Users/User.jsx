@@ -1,21 +1,54 @@
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Heading from '../../../components/Skeleton/Heading';
 import { deleteUser, fetchAllUsers } from '../../../redux/Actions/authActions';
+import ConfirmationModal from '../../../components/ConfirmationModal';
+import { useToast } from '@chakra-ui/react';
+import OrdersSkeleton from '../../../components/Skeleton/OrderSkeleton';
 
 function User() {
+  const toast = useToast();
   const dispatch = useDispatch();
   const { allUsers, error, isLoading } = useSelector((state) => state.auth);
+  
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
+  const [userToDelete, setUserToDelete] = useState(null); // State to track the user to be deleted
 
   useEffect(() => {
     dispatch(fetchAllUsers());
   }, [dispatch]);
 
-  // console.log(allUsers)
-
   const handleDelete = (userId) => {
-    dispatch(deleteUser(userId)); 
+    setUserToDelete(userId); // Set the user ID to delete
+    setIsModalOpen(true); 
+  };
+
+  const confirmDelete = async () => {
+    if (userToDelete) {
+      try {
+        await dispatch(deleteUser(userToDelete)); // Await the deletion
+        toast({
+          title: "User deleted successfully.",
+          status: "success",
+          duration: 2800,
+          isClosable: true,
+          position: "top-right",
+        });
+      } catch (err) {
+        console.error(err); // Log the error if needed
+        toast({
+          title: "Error deleting user.",
+          description: "There was an issue while deleting the user. Please try again.",
+          status: "error",
+          duration: 2800,
+          isClosable: true,
+          position: "top-right",
+        });
+      } finally {
+        setUserToDelete(null); // Reset user ID after deletion
+        setIsModalOpen(false); 
+      }
+    }
   };
 
   return (
@@ -30,7 +63,7 @@ function User() {
       {error && <div className="text-red-500">{error}</div>}
       
       {isLoading ? (
-        <div>Loading...</div> // Replace with a loading spinner or skeleton if desired
+        <OrdersSkeleton/> // Replace with a loading spinner or skeleton if desired
       ) : (
         <div className="overflow-x-auto h-[100vh]">
           <table className="min-w-full bg-white border border-gray-200">
@@ -54,7 +87,7 @@ function User() {
                     <button
                       onClick={() => handleDelete(user._id)}
                       className="text-white font-mono p-4 bg-red-600 hover:bg-red-500"
-                      disabled={user.role ==='admin' ? true : false}
+                      disabled={user.role === 'admin'}
                     >
                       Delete
                     </button>
@@ -65,9 +98,17 @@ function User() {
           </table>
         </div>
       )}
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Delete Confirmation"
+        description={`Are you sure you want to delete this user? This action cannot be undone.`}
+      />
     </div>
   );
 }
 
 export default User;
-
