@@ -48,7 +48,7 @@ const getOrdersByUser = async (req, res) => {
         const orders = await orderModel.find({ userId }).populate('items.medicineId');
 
         if (!orders || orders.length === 0) {
-            return res.status(404).json({ message: 'No orders found ' });
+            return res.status(205).json({ message: 'No orders found ' });
         }
         res.status(200).json({ orders });
     } catch (error) {

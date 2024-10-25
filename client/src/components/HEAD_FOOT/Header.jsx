@@ -1,9 +1,10 @@
-import { Box, Flex, Heading, Text, Button, Avatar, Select, IconButton, Collapse, useToast } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Button, Avatar, Select, IconButton, Collapse, useToast, Image } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/Actions/authActions";
+import logo from "../../assets/logo.jpg";
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -49,12 +50,15 @@ const Header = () => {
             p={4}
             transition="0.3s ease-in-out"
         >
-            <Flex justify="space-between" align="center" maxW="7xl" mx="auto">
-                <Heading size="lg" fontWeight={550} letterSpacing="tight" fontFamily='mono' color={isSticky ? 'black' : 'white'}>
-                    <Link to="/" style={{ textDecoration: "none" }} >
-                        PharmEasy
-                    </Link>
-                </Heading>
+            <Flex justify="space-between" align="center" maxW="7xl" mx="auto" >
+                <Box display='flex'  alignItems='center' >
+                    <Image src={logo} alt="PharmEasy Logo" boxSize="40px" mr={2} rounded='full' />  {/* Adding the logo here */}
+                    <Heading size="lg" fontWeight={550} letterSpacing="tight" transition='0.3s ease-in-out' fontFamily='mono' color={isSticky ? 'white' : 'white'} _hover={{color:'red'}}>
+                        <Link to="/" style={{ textDecoration: "none" }} >
+                            PharmEasy
+                        </Link>
+                    </Heading>
+                </Box>
                 <IconButton
                     icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
                     onClick={() => setIsOpen(!isOpen)}
@@ -64,21 +68,21 @@ const Header = () => {
                     colorScheme={isSticky ? 'black' : 'whiteAlpha'}
                     display={{ lg: "none" }}
                 />
-                <Flex spacing={8} gap={4} alignItems="center" color={isSticky ? 'black' : 'white'} flexWrap="wrap" display={{ base: "none", lg: "flex" }}>
-                    <Link to="/medicines">
-                        <Text _hover={{ color: "red" }} >Medicines</Text>
+                <Flex spacing={8} gap={4} alignItems="center" color={isSticky ? 'black' : 'white'} flexWrap="wrap" display={{ base: "none", lg: "flex" }} >
+                    <Link  to="/medicines">
+                        <Text _hover={{ color: "red" }}  transition='0.3s ease-in-out'  >Medicines</Text>
                     </Link>
                     <Link to="/cart">
-                        <Text _hover={{ color: "red" }} >Cart</Text>
+                        <Text _hover={{ color: "red" }}  transition='0.3s ease-in-out'>Cart</Text>
                     </Link>
                     <Link to="/contact">
-                        <Text _hover={{ color: "red" }} >Contact</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>Contact</Text>
                     </Link>
                     <Link to="/orders">
-                        <Text _hover={{ color: "red" }} >Orders</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>Orders</Text>
                     </Link>
                     <Link to="/about">
-                        <Text _hover={{ color: "red" }} >About</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>About</Text>
                     </Link>
 
                     {isAuth ? (
@@ -94,7 +98,7 @@ const Header = () => {
                             />
                             <Button colorScheme="red" onClick={() => {
                                 dispatch(logout());
-                                navigate('/login'); 
+                                navigate('/login');
                             }}>Log Out</Button>
 
                         </>
@@ -110,19 +114,19 @@ const Header = () => {
             <Collapse in={isOpen} animateOpacity>
                 <Box alignItems="center" id="userHeader2" gap={4} display={{ base: 'flex', lg: "none" }} flexWrap='wrap' color={isSticky ? 'black' : 'white'} >
                     <Link to="/medicines">
-                        <Text _hover={{ color: "red" }} >Medicines</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>Medicines</Text>
                     </Link>
                     <Link to="/cart">
-                        <Text _hover={{ color: "red" }} >Cart</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>Cart</Text>
                     </Link>
                     <Link to="/contact">
-                        <Text _hover={{ color: "red" }} >Contact</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>Contact</Text>
                     </Link>
                     <Link to="/orders">
-                        <Text _hover={{ color: "red" }} >Orders</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>Orders</Text>
                     </Link>
                     <Link to="/about">
-                        <Text _hover={{ color: "red" }} >About</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>About</Text>
                     </Link>
                     {isAuth ? (
                         <>
@@ -135,12 +139,12 @@ const Header = () => {
                             />
                             <Button colorScheme="red" onClick={() => {
                                 dispatch(logout())
-                                .then((result)=>{
-                                    if (result.meta.requestStatus === 'fulfilled') {
-                                        toast({ description: 'Sucessfull LoggedOut', status: 'success' });
-                                        navigate('/');
-                                    }
-                                })
+                                    .then((result) => {
+                                        if (result.meta.requestStatus === 'fulfilled') {
+                                            toast({ description: 'Sucessfull LoggedOut', status: 'success' });
+                                            navigate('/');
+                                        }
+                                    })
                             }}>Log Out</Button>
                         </>
                     ) : (

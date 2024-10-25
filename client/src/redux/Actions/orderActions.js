@@ -70,10 +70,10 @@ export const fetchOrdersByUser = createAsyncThunk(
         },
       };
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/orders/my-orders`, config);
-      return response.data.orders; // Return orders data
+      return response.data.orders; 
     } catch (error) {
       console.log(error)
-      return rejectWithValue(error.response.data.message === "No orders found " ? "No orders found " : error.message);
+      return rejectWithValue(error.message);
     }
   }
 );

@@ -67,11 +67,8 @@ export const fetchCurrentUser = createAsyncThunk('auth/fetchCurrentUser', async 
     return response.data;
 
   } catch (error) {
-    // Remove invalid token
     localStorage.removeItem('token');
-
     localStorage.removeItem('user');
-
     return rejectWithValue('Token expired or invalid');
   }
 });
