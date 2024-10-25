@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { fetchOrdersByUser } from '../../redux/Actions/orderActions';
+import { fetchOrdersByUser  } from '../../redux/Actions/orderActions';
 import { useDispatch, useSelector } from 'react-redux';
 import OrdersSkeleton from '../../components/Skeleton/OrderSkeleton';
+import NoOrders from '../../assets/NoOrders.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const Orders_User = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { userOrders, isLoading, error } = useSelector((state) => state.order);
   const [expandedOrderId, setExpandedOrderId] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchOrdersByUser());
+    dispatch(fetchOrdersByUser ());
   }, [dispatch]);
 
   // Toggle order details
@@ -17,12 +20,11 @@ const Orders_User = () => {
     setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
   };
 
-
   // Render error message
   if (error) {
     return (
       <div className="h-[100vh] flex justify-center items-center">
-        {error === 'No orders found' ? 'Error : ' : ''} {error}
+        {error === 'No orders found' ? 'Error: ' : ''} {error}
       </div>
     );
   }
@@ -31,14 +33,12 @@ const Orders_User = () => {
   return (
     <>
       {
-        isLoading ?
-          (
-            <OrdersSkeleton />
-          )
-          :
-          (
+        isLoading ? (
+          <OrdersSkeleton />
+        ) : (
+          userOrders?.length > 0 ? (
             <div className="p-4 h-[100vh]">
-              <h1 className="text-2xl font-bold mb-4">Your Orders</h1 >
+              <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
               <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse border border-gray-200">
                   <thead>
@@ -88,12 +88,21 @@ const Orders_User = () => {
                   </tbody>
                 </table>
               </div>
-            </div >
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-[100vh] text-center">
+              <img src={NoOrders} alt="No Orders" className="w-[300px] h-[300px] object-cover mb-4" />
+              <h1 className="text-3xl font-bold mb-2">No Orders Yet</h1>
+              <p className="text-gray-600">Looks like you haven't placed any orders yet.</p>
+              <button onClick={()=>navigate('/medicines')} className="bg-gray-300 text-gray-900 hover:bg-green-500 hover:text-white font-bold py-2 px-4 mt-4 transition duration-200 rounded">
+                Start Shopping
+              </button>
+            </div>
           )
+        )
       }
     </>
   );
-
 };
 
 export default Orders_User;

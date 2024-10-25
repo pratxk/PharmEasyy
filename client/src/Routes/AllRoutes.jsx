@@ -25,6 +25,7 @@ import User from '../Pages/Admin/Users/User'
 import AdminProfile from '../Pages/Admin/Profile/AdminProfile'
 import Orders_User from '../Pages/Orders(user)/Orders_User'
 import store from '../redux/store'
+import NotFound from '../Pages/NotFound/NotFound'
 
 
 
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
                     {
                         path: ":id",
                         element: <SingleMedicine />
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/medicines"
+                        element: <NotFound />
                     }
                 ]
             },
@@ -62,6 +67,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <PrivateRoute><Checkout /></PrivateRoute>
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/checkout"
+                        element: <NotFound />
                     }
                 ]
             },
@@ -72,6 +81,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <About />
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/about"
+                        element: <NotFound />
                     }
                 ]
             },
@@ -82,6 +95,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <Login/>
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/login"
+                        element: <NotFound />
                     }
                 ]
             },
@@ -92,6 +109,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <SignUp />
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/register"
+                        element: <NotFound />
                     }
                 ]
             },
@@ -102,6 +123,10 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <PrivateRoute><Profile /></PrivateRoute>
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/profile"
+                        element: <NotFound />
                     }
                 ]
             },
@@ -112,9 +137,14 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <Contacts />
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/profile"
+                        element: <NotFound />
                     }
                 ]
             },
+
         ]
     },
     {
@@ -126,7 +156,7 @@ const router = createBrowserRouter([
                 element: <Admin />,
             },
             {
-                path: '/admin/:id',
+                path: '/admin/update/:id',  // Updated path to be more specific
                 element: <UpdateMedicine />,
             },
             {
@@ -135,23 +165,30 @@ const router = createBrowserRouter([
             },
             {
                 path: '/admin/users',
-                element:<User/>
+                element: <User />
             },
             {
-
                 path: '/admin/orders',
                 element: <Orders />,
             },
             {
-                path:'/admin/orders/:id',
-                element:<SingleOrder/>
+                path: '/admin/orders/:id',
+                element: <SingleOrder />
             },
             {
-                path:'/admin/add-medicine',
-                element:<AddMedicine/>
+                path: '/admin/add-medicine',
+                element: <AddMedicine />
+            },
+            {
+                path: '*',
+                element: <NotFound />
             }
         ]
     },
+    {
+        path: '*',
+        element:<NotFound/>
+    }
 ])
 
 const AllRoutes = () => {
