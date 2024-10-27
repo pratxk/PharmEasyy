@@ -125,7 +125,7 @@ function Login() {
             </div>
             <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
           </div>
-          <Link to="#" className="ms-auto text-sm text-black hover:underline dark:text-blue-500">Lost Password?</Link>
+          <Link to="/forgot-password" className="ms-auto text-sm text-black hover:underline dark:text-blue-500">Forgot Password?</Link>
         </div>
         <button
           type="submit"

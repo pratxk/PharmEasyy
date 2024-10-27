@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, register, fetchCurrentUser, fetchAllUsers, deleteUser } from "../Actions/authActions";
+import { login, logout, register, fetchCurrentUser, fetchAllUsers, deleteUser, forgotPassword, resetPassword } from "../Actions/authActions";
 
 // Helper functions for localStorage handling
 function getStoredUser() {
@@ -23,11 +23,11 @@ const initialState = {
   singleUser: {},
   allUsers: [],
   isAuth: !!getStoredUser(),
-
   role: '',
-
   error: null,
   isRegistered: false,
+  forgotPasswordStatus: null,
+  resetPasswordStatus: null,
 };
 
 const authSlice = createSlice({
@@ -71,6 +71,34 @@ const authSlice = createSlice({
       .addCase(logout.rejected, (state, action) => {
         state.error = action.payload;
       })
+
+      //forgotPassword Actions
+      .addCase(forgotPassword.pending, (state) => {
+        state.error = null;
+        state.forgotPasswordStatus = 'pending';
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.forgotPasswordStatus = 'success';
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.error = action.payload;
+        state.forgotPasswordStatus = 'failed';
+      })
+      
+      // Reset Password
+      .addCase(resetPassword.pending, (state) => {
+        state.error = null;
+        state.resetPasswordStatus = 'pending';
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.resetPasswordStatus = 'success';
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.error = action.payload;
+        state.resetPasswordStatus = 'failed';
+      })
+
+
       .addCase(fetchCurrentUser.pending, (state) => {
         state.error = null;
       })

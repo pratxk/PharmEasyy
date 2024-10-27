@@ -51,9 +51,11 @@ const Header = () => {
             transition="0.3s ease-in-out"
         >
             <Flex justify="space-between" align="center" maxW="7xl" mx="auto" >
-                <Box display='flex'  alignItems='center' >
+                <Box display='flex' alignItems='center' >
                     <Image src={logo} alt="PharmEasy Logo" boxSize="40px" mr={2} rounded='full' />  {/* Adding the logo here */}
-                    <Heading size="lg" fontWeight={550} letterSpacing="tight" transition='0.3s ease-in-out' fontFamily='mono' color={isSticky ? 'white' : 'white'} _hover={{color:'red'}}>
+                    <Heading size="lg" fontWeight={550} letterSpacing="tight" sx={{
+                        textShadow: isSticky ? '1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black' : 'none',
+                    }} transition='0.3s ease-in-out' fontFamily='mono' color={isSticky ? 'white' : 'white'} _hover={{ color: 'red' }}>
                         <Link to="/" style={{ textDecoration: "none" }} >
                             PharmEasy
                         </Link>
@@ -69,11 +71,11 @@ const Header = () => {
                     display={{ lg: "none" }}
                 />
                 <Flex spacing={8} gap={4} alignItems="center" color={isSticky ? 'black' : 'white'} flexWrap="wrap" display={{ base: "none", lg: "flex" }} >
-                    <Link  to="/medicines">
-                        <Text _hover={{ color: "red" }}  transition='0.3s ease-in-out'  >Medicines</Text>
+                    <Link to="/medicines">
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'  >Medicines</Text>
                     </Link>
                     <Link to="/cart">
-                        <Text _hover={{ color: "red" }}  transition='0.3s ease-in-out'>Cart</Text>
+                        <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>Cart</Text>
                     </Link>
                     <Link to="/contact">
                         <Text _hover={{ color: "red" }} transition='0.3s ease-in-out'>Contact</Text>

@@ -18,7 +18,7 @@ function Medicine() {
 
     const query = new URLSearchParams(location.search);
     const initialPage = parseInt(query.get('page')) || 1;
-    const initialLimit = parseInt(query.get('limit')) || 5;
+    const initialLimit = parseInt(query.get('limit')) || 6;
 
     const { medicines, isLoading, total, limit } = useSelector((state) => state.medicine);
     const cart = useSelector((state) => state.cart.cart);
@@ -111,6 +111,7 @@ function Medicine() {
 
             {isLoading ? (
                 <div className="flex justify-center items-center flex-wrap">
+                    <MedicineCardSkeleton />
                     <MedicineCardSkeleton />
                     <MedicineCardSkeleton />
                     <MedicineCardSkeleton />

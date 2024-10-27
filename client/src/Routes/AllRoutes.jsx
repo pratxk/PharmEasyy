@@ -26,6 +26,8 @@ import AdminProfile from '../Pages/Admin/Profile/AdminProfile'
 import Orders_User from '../Pages/Orders(user)/Orders_User'
 import store from '../redux/store'
 import NotFound from '../Pages/NotFound/NotFound'
+import Forgot_Pass from '../Pages/Auth/Forgot_Pass'
+import Reset_Pass from '../Pages/Auth/Reset_Pass'
 
 
 
@@ -112,6 +114,34 @@ const router = createBrowserRouter([
                     },
                     {
                         path: '*',  // Fallback for invalid paths under "/register"
+                        element: <NotFound />
+                    }
+                ]
+            },
+            {
+                path: '/forgot-password',
+                element: <HomeWrapper val={true} />,
+                children: [
+                    {
+                        index: true,
+                        element: <Forgot_Pass />
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/register"
+                        element: <NotFound />
+                    }
+                ]
+            },
+            {
+                path: '/reset-password/:userId/:token',  // New route for reset password
+                element: <HomeWrapper val={true} />,
+                children: [
+                    {
+                        index: true,
+                        element: <Reset_Pass />  // Reset password component
+                    },
+                    {
+                        path: '*',  // Fallback for invalid paths under "/reset-password"
                         element: <NotFound />
                     }
                 ]

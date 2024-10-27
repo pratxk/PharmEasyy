@@ -15,7 +15,7 @@ function Admin() {
 
     const query = new URLSearchParams(location.search);
     const initialPage = parseInt(query.get('page')) || 1;
-    const initialLimit = parseInt(query.get('limit')) || 5;
+    const initialLimit = parseInt(query.get('limit')) || 6;
 
     const [filters, setFilters] = useState({
         category: '',
@@ -76,9 +76,10 @@ function Admin() {
                             <MedicineCardSkeleton />
                             <MedicineCardSkeleton />
                             <MedicineCardSkeleton />
+                            <MedicineCardSkeleton />
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-3 place-items-center">
+                        <div className="grid grid-cols-2 gap-7 md:grid-cols-2 lg:grid-cols-3 place-items-center">
                             {medicines.length > 0 ? (
                                 medicines.map((ele) => (
                                     <PharmacyCard

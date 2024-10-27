@@ -10,6 +10,12 @@ userRouter.post('/register', userController.registerUser);
 // POST: Login a user
 userRouter.post('/login', userController.loginUser);
 
+//POST: Forgot Password User
+userRouter.post('/forgot-password', userController.forgotPassword);
+
+//POST: Reset Password User
+userRouter.post('/reset-password/:userId/:token', userController.resetPassword);
+
 // GET: Logout a user
 userRouter.get('/logout', auth, userController.logoutUser);
 

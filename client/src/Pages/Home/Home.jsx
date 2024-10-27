@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import mobileMockup from '../../assets/mobile.png';
 import { Link } from 'react-router-dom'
@@ -7,6 +7,8 @@ import MedicineCard from '../Medicines/MedicineCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMedicines } from '../../redux/Actions/medicineActions';
 import MedicineCardSkeleton from '../../components/Skeleton/MedicineCardSkeleton';
+import Promotion, { PlanSection, Promotion2 } from './Promotion';
+import Heading from '../../components/Skeleton/Heading';
 
 
 function Home() {
@@ -59,15 +61,33 @@ function Home() {
                         />
                     </div>
                 </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <Promotion />
+                <br />
+                <br />
+                <br />
+                <br />
+                <Promotion2 />
+                <br />
+                <br />
+                <br />
+                <br />
 
-                <Heading textAlign='center' fontFamily='monospace' color='black'>
-                    Top Sellers
-                </Heading>
+                <Heading
+                    text={"Top Sellers"}
+                    textColor={"primary"}
+                    fromGradient={"secondary"}
+                    toGradient={"primary"}
+                />
 
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center mt-3'>
 
                     {
                         isLoading ? (<>
+                            <MedicineCardSkeleton />
                             <MedicineCardSkeleton />
                             <MedicineCardSkeleton />
                             <MedicineCardSkeleton />
@@ -79,6 +99,20 @@ function Home() {
                             )
                     }
                 </div>
+
+                <br />
+                <br />
+                <br />
+                <br />
+                <Heading
+                    text={"Subscriptions"}
+                    textColor={"primary"}
+                    fromGradient={"secondary"}
+                    toGradient={"primary"}
+                />
+                <br />
+                <br />
+                <PlanSection />
             </div>
         </>
     )

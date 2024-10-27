@@ -5,21 +5,22 @@ import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 export default function Contacts() {
   const toast = useToast();
-  const [errors, setErrors] = useState({}); // State for validation errors
+  const [errors, setErrors] = useState({});
+  const [formValues, setFormValues] = useState({ name: '', email: '', subject: '', message: '' });
 
   const onSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     formData.append("access_key", import.meta.env.VITE_WEB3_ACCESSKey);
 
-    const validationErrors = validateForm(formData);
+    const validationErrors = validateForm(formValues);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch(import.meta.env.VITE_WEB3_FORM, {
         method: "POST",
         body: formData,
       });
@@ -31,11 +32,13 @@ export default function Contacts() {
           title: "Success!",
           description: "Form Submitted Successfully!",
           status: "success",
-          duration: 5000,
+          duration: 1400,
           isClosable: true,
+          position: 'bottom-right'
         });
         event.target.reset();
-        setErrors({}); // Clear errors on successful submission
+        setFormValues({ name: '', email: '', subject: '', message: '' });
+        setErrors({});
       } else {
         toast({
           title: "Error!",
@@ -57,31 +60,43 @@ export default function Contacts() {
     }
   };
 
-  const validateForm = (formData) => {
+  const validateField = (name, value) => {
     const newErrors = {};
-    const message = formData.get('message');
-    
-    if (!formData.get('name')) {
-      newErrors.name = 'Name is required.';
+    const namePattern = /^[a-zA-Z\s]*$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const subjectPattern = /^[a-zA-Z0-9\s]*$/;
+    const messagePattern = /^[a-zA-Z0-9\s]*$/;
+
+    if (name === 'name') {
+      if (!value) newErrors.name = 'Name is required.';
+      else if (!namePattern.test(value)) newErrors.name = 'Name should not contain special characters.';
     }
 
-    if (!formData.get('email')) {
-      newErrors.email = 'Email is required.';
-    } else if (!/\S+@\S+\.\S+/.test(formData.get('email'))) {
-      newErrors.email = 'Invalid email format.';
+    if (name === 'email') {
+      if (!value) newErrors.email = 'Email is required.';
+      else if (!emailPattern.test(value)) newErrors.email = 'Invalid email format.';
     }
 
-    if (!formData.get('subject')) {
-      newErrors.subject = 'Subject is required.';
+    if (name === 'subject') {
+      if (!value) newErrors.subject = 'Subject is required.';
+      else if (!subjectPattern.test(value)) newErrors.subject = 'Subject should not contain special characters.';
     }
 
-    if (!message) {
-      newErrors.message = 'Message is required.';
-    } else if (message.split(' ').length > 100) {
-      newErrors.message = 'Message must be 100 words or less.';
+    if (name === 'message') {
+      if (!value) newErrors.message = 'Message is required.';
+      else if (value.split(' ').length > 100) newErrors.message = 'Message must be 100 words or less.';
+      else if (!messagePattern.test(value)) newErrors.message = 'Message should not contain special characters.';
     }
 
     return newErrors;
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
+
+    const fieldErrors = validateField(name, value);
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: fieldErrors[name] }));
   };
 
   return (
@@ -93,8 +108,8 @@ export default function Contacts() {
         toGradient={"primary"}
       />
       <div className="mt-6">
-        <div className="grid sm:grid-cols-2 items-start gap-14 p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md font-[sans-serif]">
-          <div>
+        <div className="grid sm:grid-cols-2 items-start gap-10 p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md font-[monospace]">
+          <div >
             <h1 className="text-gray-800 text-3xl font-extrabold">Let's Talk</h1>
             <p className="text-sm text-gray-500 mt-4">
               Have some big idea or brand to develop and need help? Then reach out—we'd love to hear about your project and provide help.
@@ -133,48 +148,71 @@ export default function Contacts() {
             </div>
           </div>
 
-          <form onSubmit={onSubmit} className="ml-auto space-y-4">
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              required
-              className="w-full text-gray-800 rounded-md py-2.5 px-4 border text-sm outline-black"
-            />
-            {errors.name && <p className="text-red-500 text-xs">{errors.name}</p>}
-            
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-              className="w-full text-gray-800 rounded-md py-2.5 px-4 border text-sm outline-black"
-            />
-            {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
-            
-            <input
-              type="text"
-              name="subject"
-              placeholder="Subject"
-              required
-              className="w-full text-gray-800 rounded-md py-2.5 px-4 border text-sm outline-black"
-            />
-            {errors.subject && <p className="text-red-500 text-xs">{errors.subject}</p>}
-            
-            <textarea
-              name="message"
-              placeholder="Message"
-              rows="6"
-              required
-              className="w-full text-gray-800 rounded-md px-4 border text-sm pt-2.5 outline-black"
-            ></textarea>
-            {errors.message && <p className="text-red-500 text-xs">{errors.message}</p>}
-            
+          <form onSubmit={onSubmit} className="ml-3 space-y-4">
+            <div>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formValues.name}
+                onChange={handleChange}
+                required
+                className="w-full text-gray-800 rounded-md py-2.5 px-4 border text-sm outline-black"
+              />
+              <p className="text-red-500 text-xs" style={{ minHeight: '20px' }}>
+                {errors.name}
+              </p>
+            </div>
+
+            <div>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formValues.email}
+                onChange={handleChange}
+                required
+                className="w-full text-gray-800 rounded-md py-2.5 px-4 border text-sm outline-black"
+              />
+              <p className="text-red-500 text-xs" style={{ minHeight: '20px' }}>
+                {errors.email}
+              </p>
+            </div>
+
+            <div>
+              <input
+                type="text"
+                name="subject"
+                placeholder="Subject"
+                value={formValues.subject}
+                onChange={handleChange}
+                required
+                className="w-full text-gray-800 rounded-md py-2.5 px-4 border text-sm outline-black"
+              />
+              <p className="text-red-500 text-xs" style={{ minHeight: '20px' }}>
+                {errors.subject}
+              </p>
+            </div>
+
+            <div>
+              <textarea
+                name="message"
+                placeholder="Message"
+                value={formValues.message}
+                onChange={handleChange}
+                required
+                className="w-full text-gray-800 rounded-md py-2.5 px-4 border text-sm outline-black"
+              />
+              <p className="text-red-500 text-xs" style={{ minHeight: '20px' }}>
+                {errors.message}
+              </p>
+            </div>
+
             <button
               type="submit"
-              className="text-white bg-black hover:bg-gray-800 rounded-md text-sm px-4 py-3 w-full !mt-6"
+              className="bg-black w-full hover:bg-primary duration-200 text-white py-2 px-6 rounded-md"
             >
-              Send
+              Submit
             </button>
           </form>
         </div>

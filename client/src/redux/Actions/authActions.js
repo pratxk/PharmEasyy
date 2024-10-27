@@ -17,9 +17,7 @@ export const login = createAsyncThunk('auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/auth/login`, credentials, { withCredentials: true });
-      // alert('Login Successfully');
       localStorage.setItem('token', JSON.stringify(response.data.token));
-      // localStorage.setItem('role', JSON.stringify(response.data.role));
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -45,6 +43,36 @@ export const logout = createAsyncThunk(
       return true;
     } catch (error) {
       return rejectWithValue(error.message);
+    }
+  }
+);
+
+
+export const forgotPassword = createAsyncThunk(
+  'auth/forgotPassword',
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/auth/forgot-password`, { email });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+// Reset password
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ userId, token, password }, { rejectWithValue }) => {
+    try {
+      // Make sure to include the userId and token in the URL path
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_API}/auth/reset-password/${userId}/${token}`,
+        { newPassword: password } // Sending the new password in the body
+      );
+      return response.data; // Return the response data upon success
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );

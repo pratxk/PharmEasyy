@@ -5,6 +5,7 @@ const userModel = require('../models/user.model');
 const blacklistModel = require('../models/blacklist.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sendResetPasswordEmail = require('../utils/email/resetPassMailer');
 
 
 // POST: Register a new user
@@ -26,6 +27,13 @@ const registerUser = [
             const existingUser = await userModel.findOne({ email });
             if (existingUser) {
                 return res.status(401).json({ message: 'User already registered' });
+            }
+
+            if (role === 'admin') {
+                const existingAdmin = await userModel.findOne({ role: 'admin' });
+                if (existingAdmin) {
+                    return res.status(401).json({ message: 'Admin already exists, Registration not allowed!' });
+                }
             }
 
             const hash = await bcrypt.hash(password, 10); // Increased salt rounds for better security
@@ -74,7 +82,7 @@ const loginUser = [
                 res.status(201).json({
                     message: 'User logged in successfully',
                     token,
-                    user:{
+                    user: {
                         email: user.email,
                         role: user.role
                     },
@@ -92,6 +100,68 @@ const loginUser = [
     }
 ];
 
+const forgotPassword = [
+    body('email').isEmail().withMessage('Invalid email format').normalizeEmail(),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { email } = req.body;
+        try {
+            const user = await userModel.findOne({ email });
+            if (!user) {
+                return res.status(404).json({ message: 'User does not exist' });
+            }
+            const token = jwt.sign({ email: user.email, _id: user._id }, process.env.JWT_SecretKEY, { expiresIn: '20m' });
+            const resetLink = `${process.env.FRONT_END_URL}/reset-password/${user._id}/${token}`;
+
+            await sendResetPasswordEmail(user.email, resetLink);
+            res.json({ message: 'Password reset link sent to your email address' });
+        } catch (error) {
+            console.error('Error in forgotPassword:', error);
+            res.status(500).json({ message: 'Error sending reset email' });
+        }
+    },
+];
+
+
+
+const resetPassword = [
+    body('newPassword').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { userId, token } = req.params;
+        const { newPassword } = req.body;
+
+        try {
+            
+            const decoded = jwt.verify(token, process.env.JWT_SecretKEY);
+            if (decoded._id !== userId) {
+                return res.status(400).json({ message: 'Invalid token or user ID' });
+            }
+
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+            await userModel.findByIdAndUpdate(userId, { password: hashedPassword });
+
+            res.json({ message: 'Password reset successful' });
+        } catch (error) {
+            console.error('Error in resetPassword:', error);
+            if (error.name === 'TokenExpiredError') {
+                return res.status(400).json({ message: 'Password reset link has expired' });
+            }
+            res.status(500).json({ message: 'Error resetting password' });
+        }
+    }
+];
+
+
 // GET: Logout a user
 const logoutUser = async (req, res) => {
     // const token = req.cookies.token;
@@ -100,14 +170,16 @@ const logoutUser = async (req, res) => {
     await BlackListed_Token.save();
     res.send('Logout Successful');
 };
+
+
 // GET: Fetch current user's data
 const getCurrentUser = async (req, res) => {
     try {
         const user = await userModel.findById(req.user._id);
         let obj = {
             email: user.email,
-            first_name:user.first_name,
-            last_name:user.last_name,
+            first_name: user.first_name,
+            last_name: user.last_name,
             role: user.role,
             created_at: user.created_at
         }
@@ -140,6 +212,8 @@ const getAllUsers = async (req, res) => {
 
 module.exports = {
     registerUser,
+    forgotPassword,
+    resetPassword,
     loginUser,
     logoutUser,
     getCurrentUser,

@@ -26,7 +26,7 @@ const MedicineCard = ({ item, inCart, quantity }) => {
                     price: item.price,
                 })).then((result) => {
                     if (result.meta.requestStatus === 'fulfilled') {
-                        toast({ description: 'Item added to cart', status: 'success' ,  position:'top-right', duration:2000});
+                        toast({ description: 'Item added to cart', status: 'success' , isClosable:true, position:'top-right', duration:1000});
                     }
                 });
             }
