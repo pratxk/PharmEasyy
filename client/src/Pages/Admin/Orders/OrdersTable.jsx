@@ -10,14 +10,11 @@ const OrdersTable = ({ data }) => {
     };
 
     const handleUpdateClick = (orderId) => {
-
-
-        navigate(`/admin/orders/${orderId}`); // Adjust the path to match your routing
+        navigate(`/admin/orders/${orderId}`);
     };
 
     return (
-
-        <div className="overflow-scroll h-[100vh]">
+        <div className="overflow-x-auto">
             <table className="min-w-full border-collapse border border-gray-200">
                 <thead>
                     <tr className="bg-gray-100">
@@ -31,7 +28,7 @@ const OrdersTable = ({ data }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.map(order => (
+                    {data.map(order => (
                         <React.Fragment key={order._id}>
                             <tr onClick={() => toggleOrderDetails(order._id)} className="hover:bg-gray-50 cursor-pointer">
                                 <td className="border text-black border-gray-300 px-4 py-2">{order._id}</td>
@@ -45,7 +42,7 @@ const OrdersTable = ({ data }) => {
                                     <button
                                         className="hover:underline bg-green-600 rounded-lg text-white font-bold p-2"
                                         onClick={(e) => {
-                                            e.stopPropagation(); // Prevent row click
+                                            e.stopPropagation();
                                             handleUpdateClick(order._id);
                                         }}
                                     >
@@ -85,7 +82,6 @@ const OrdersTable = ({ data }) => {
                 </tbody>
             </table>
         </div>
-
     );
 };
 

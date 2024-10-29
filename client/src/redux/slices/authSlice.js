@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, register, fetchCurrentUser, fetchAllUsers, deleteUser, forgotPassword, resetPassword } from "../Actions/authActions";
+import { login, logout, register, fetchCurrentUser, fetchAllUsers, deleteUser, forgotPassword, resetPassword, validateToken } from "../Actions/authActions";
 
 // Helper functions for localStorage handling
 function getStoredUser() {
@@ -27,6 +27,7 @@ const initialState = {
   error: null,
   isRegistered: false,
   forgotPasswordStatus: null,
+  validToken :false,
   resetPasswordStatus: null,
 };
 
@@ -83,6 +84,15 @@ const authSlice = createSlice({
       .addCase(forgotPassword.rejected, (state, action) => {
         state.error = action.payload;
         state.forgotPasswordStatus = 'failed';
+      })
+      .addCase(validateToken.pending,(state)=>{
+        state.validToken = false
+      })
+      .addCase(validateToken.fulfilled,(state, action)=>{
+        state.validToken = action.payload.status === true
+      })
+      .addCase(validateToken.rejected,(state)=>{
+        state.validToken = false
       })
       
       // Reset Password

@@ -114,7 +114,7 @@ const forgotPassword = [
             if (!user) {
                 return res.status(404).json({ message: 'User does not exist' });
             }
-            const token = jwt.sign({ email: user.email, _id: user._id }, process.env.JWT_SecretKEY, { expiresIn: '20m' });
+            const token = jwt.sign({ email: user.email, _id: user._id }, process.env.JWT_SecretKEY, { expiresIn: '10m' });
             const resetLink = `${process.env.FRONT_END_URL}/reset-password/${user._id}/${token}`;
 
             await sendResetPasswordEmail(user.email, resetLink);
@@ -126,6 +126,19 @@ const forgotPassword = [
     },
 ];
 
+
+const validateToken = async (req, res) => {
+    const { token } = req.params;
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SecretKEY);
+        res.status(202).json({ message: 'Link is Active', status: true, decoded })
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(404).json({ message: 'Token has expired' , status:false});
+        }
+        return res.status(404).json({ message: 'Invalid token' , status:false});
+    }
+}
 
 
 const resetPassword = [
@@ -140,7 +153,7 @@ const resetPassword = [
         const { newPassword } = req.body;
 
         try {
-            
+
             const decoded = jwt.verify(token, process.env.JWT_SecretKEY);
             if (decoded._id !== userId) {
                 return res.status(400).json({ message: 'Invalid token or user ID' });
@@ -219,4 +232,5 @@ module.exports = {
     getCurrentUser,
     deleteUser,
     getAllUsers,
+    validateToken,
 };

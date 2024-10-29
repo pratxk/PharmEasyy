@@ -100,7 +100,7 @@ export default function Contacts() {
   };
 
   return (
-    <div className='overflow-hidden p-4'>
+    <div className='overflow-hidden p-4 h-[100vh]'>
       <Heading
         text={"Contact Us"}
         textColor={"primary"}
