@@ -1,16 +1,17 @@
 import { useToast } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { resetPassword } from '../../redux/Actions/authActions';
+import { resetPassword, validateToken } from '../../redux/Actions/authActions';
 
 function Reset_Pass() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const toast = useToast();
+    const [isLoading, setIsLoading] = useState(true);
     const { userId, token } = useParams(); // Extracts userId and token from the URL path
 
-    const { resetPasswordStatus, error } = useSelector((state) => state.auth);
+    const { resetPasswordStatus, error, validToken } = useSelector((state) => state.auth);
     const [password, setPassword] = useState('');
 
     const handleChange = (e) => setPassword(e.target.value);
@@ -51,6 +52,19 @@ function Reset_Pass() {
             }
         });
     };
+    useEffect(() => {
+        const validateTokenAsync = async () => {
+            await dispatch(validateToken(token));
+            setIsLoading(false); 
+        };
+        validateTokenAsync();
+    }, [dispatch, token]);
+
+    useEffect(() => {
+        if (!isLoading && !validToken) {
+            navigate('*'); 
+        }
+    }, [isLoading, validToken, navigate]);
 
     return (
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">

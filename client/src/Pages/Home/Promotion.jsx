@@ -70,7 +70,7 @@ export function Promotion2() {
                 className={`absolute inset-0 bg-center bg-no-repeat bg-cover transition-opacity duration-300 ${fade ? 'opacity-100' : 'opacity-0'}`}
                 style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
             ></div>
-            <div className="absolute inset-0 bg-gray-900 bg-opacity-90"></div> {/* Dark overlay */}
+            <div className="absolute inset-0 bg-gray-900 bg-opacity-70"></div> {/* Dark overlay */}
 
             {/* Content */}
             <div className="relative px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56 z-10">

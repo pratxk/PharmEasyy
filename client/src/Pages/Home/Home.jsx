@@ -61,20 +61,7 @@ function Home() {
                         />
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <br />
-                <Promotion />
-                <br />
-                <br />
-                <br />
-                <br />
-                <Promotion2 />
-                <br />
-                <br />
-                <br />
-                <br />
+               
 
                 <Heading
                     text={"Top Sellers"}
@@ -104,6 +91,12 @@ function Home() {
                 <br />
                 <br />
                 <br />
+                <Promotion2 />
+                <br />
+                <br />
+                <br />
+                <br />
+                
                 <Heading
                     text={"Subscriptions"}
                     textColor={"primary"}
@@ -113,6 +106,15 @@ function Home() {
                 <br />
                 <br />
                 <PlanSection />
+
+                <br />
+                <br />
+                <br />
+                <br />
+                <Promotion />
+                <br />
+                <br />
+                <br />
             </div>
         </>
     )

@@ -96,7 +96,7 @@ function Forgot_Pass() {
                     >
                         Send
                     </button>
-                    <p className='pl-1'>Note: We'll send an email to reset your password...</p>
+                    <p className='pl-1 text-black dark:text-white'>Note: We'll send an email to reset your password...</p>
                 </form>
             </div>
         </div>

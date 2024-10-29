@@ -60,6 +60,20 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 
+export const validateToken = createAsyncThunk(
+  'auth/validateToken',
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}/auth/validate-token/${token}`);
+    
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+
 // Reset password
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',

@@ -85,7 +85,7 @@ const addOrder = async (req, res) => {
             items,
             totalPrice,
             status: 'Pending',
-            paymentStatus: 'Paid'  // Assuming payment successful
+            paymentStatus: 'Paid' 
         });
         await newOrder.save();
         await cartModel.deleteMany({ userId }); // Clear all items in the cart
@@ -105,11 +105,11 @@ const addOrder = async (req, res) => {
 
 // PATCH: Update order status (Admin only)
 const updateOrderStatus = [
-    // Validation middleware
+ 
     param('id').isMongoId().withMessage('Valid order ID is required'),
     body('status').isIn(['Accepted', 'Dispatched', 'Canceled', 'Pending']).withMessage('Invalid status'),
 
-    // Handler
+   
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

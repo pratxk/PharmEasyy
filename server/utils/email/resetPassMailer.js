@@ -4,7 +4,7 @@ const resetPassGenerator = require('./resetPassGenerator'); // Ensure correct im
 const sendResetPasswordEmail = async (userEmail, resetPasswordLink) => {
     try {
         const transporter = nodemailer.createTransport({
-            service: 'Gmail', // Ensure correct service name
+            service: 'Gmail', 
             auth: {
                 user: process.env.EMAIL,
                 pass: process.env.APP_PASS,
